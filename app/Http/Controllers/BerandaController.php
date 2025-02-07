@@ -6,6 +6,7 @@ use App\Models\Visitor;
 use App\Models\Popup; // Tambahkan model Popup
 use Inertia\Inertia;
 use Carbon\Carbon;
+use App\Models\Media; 
 use App\Http\Controllers\NewsHomeController;
 
 class BerandaController extends Controller
@@ -35,6 +36,8 @@ class BerandaController extends Controller
         $popup = [
             'image_popup' => $popupImages  // Kirim array, bukan string yang dipisahkan koma
         ];   
+        $media = Media::latest()->get();
+
 
                 // Kirim data ke halaman Beranda melalui Inertia
                 return Inertia::render('Beranda/Beranda', [
@@ -45,6 +48,7 @@ class BerandaController extends Controller
                     'mainNews' => $data['mainNews'],
                     'newsCards' => $data['newsCards'],
                     'popup' => $popup, // Data popup
+                    'media' => $media, 
                 ]);        
             }
         }

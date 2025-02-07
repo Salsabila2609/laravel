@@ -22,7 +22,12 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DocumentController;
 
 use App\Http\Controllers\PopupController;
+use App\Http\Controllers\MediaController;
 
+Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+Route::post('/media', [MediaController::class, 'store'])->name('media.store');
+Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
 
 Route::get('/dashboard', function () {
