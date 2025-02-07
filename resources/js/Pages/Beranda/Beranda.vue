@@ -58,10 +58,10 @@ export default {
     Layanan,
     VideoGallery,
     Popup,
-    Media, // Perbaikan: Tidak perlu "Array"
+    Media,
   },
   props: {
-    media: Array, // Perbaikan: "media", bukan "Media"
+    media: Array,
     visitorCount: Number,
     todayVisitorCount: Number,
     monthlyVisitorCount: Number,
@@ -73,8 +73,15 @@ export default {
   data() {
     return {
       videoSource,
-      showPopup: true, // Default popup muncul saat pertama kali dimuat
+      showPopup: true,
     };
   },
+  mounted() {
+    // Tambahkan script widget Sienna ke dalam DOM
+    const script = document.createElement("script");
+    script.src = "https://website-widgets.pages.dev/dist/sienna.min.js";
+    script.defer = true;
+    document.body.appendChild(script);
+  }
 };
 </script>
