@@ -7,7 +7,10 @@
 
     <!-- Profile Section -->
     <ProfileSection />
-    
+
+    <!-- Media Section -->
+    <Media :media="media" />
+
     <!-- Berita Section -->
     <Berita
       :mainNews="mainNews"
@@ -18,16 +21,16 @@
     <Popup v-if="showPopup" :popup="popup" />
 
     <!-- Visitor Section -->
-    <Layanan/>
-    <VideoGallery/>
+    <Layanan />
+    <VideoGallery />
     <Visitor
       :visitorCount="visitorCount"
       :todayVisitorCount="todayVisitorCount"
       :monthlyVisitorCount="monthlyVisitorCount"
       :yearlyVisitorCount="yearlyVisitorCount"
     />
-    
-    <Footer/>
+
+    <Footer />
   </div>
 </template>
 
@@ -41,6 +44,7 @@ import Berita from "@/Components/Berita.vue";
 import Layanan from "@/Components/Layanan.vue";
 import VideoGallery from "@/Components/VideoGallery.vue";
 import Popup from "@/Components/Popup.vue";
+import Media from '@/Components/Media.vue';
 import videoSource from '../../../../public/vid/VideoBeranda.mp4';
 
 export default {
@@ -54,8 +58,10 @@ export default {
     Layanan,
     VideoGallery,
     Popup,
+    Media, // Perbaikan: Tidak perlu "Array"
   },
   props: {
+    media: Array, // Perbaikan: "media", bukan "Media"
     visitorCount: Number,
     todayVisitorCount: Number,
     monthlyVisitorCount: Number,
@@ -67,7 +73,7 @@ export default {
   data() {
     return {
       videoSource,
-      showPopup: true, // Default to true if you want it to show on initial load
+      showPopup: true, // Default popup muncul saat pertama kali dimuat
     };
   },
 };

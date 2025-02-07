@@ -3,77 +3,71 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 
 class BeritaController extends Controller
 {
     public function index()
     {
-        // Cache the news data for better performance
-        $news = Cache::remember('public_news', 3600, function () {
-            return News::latest()
-                ->get()
-                ->map(function ($item) {
-                    // Process kategori
-                    if (!is_array($item->kategori)) {
-                        $decodedKategori = json_decode($item->kategori, true);
-                        if (is_string($decodedKategori)) {
-                            $decodedKategori = json_decode($decodedKategori, true);
-                        }
-                        $item->kategori = $decodedKategori;
-                    }
-                    
-                    // Format date
-                    $item->tanggal_terbit = $item->created_at->format('d M Y');
-                    
-                    // Process attachments
-                    $item->gambar_lampiran = is_string($item->gambar_lampiran)
-                        ? json_decode($item->gambar_lampiran, true)
-                        : $item->gambar_lampiran;
-                    
-                    return $item;
-                });
+        $news = News::all()->map(function ($item) {
+            if (!is_array($item->kategori)) {
+                $decodedKategori = json_decode($item->kategori, true);
+                if (is_string($decodedKategori)) {
+                    $decodedKategori = json_decode($decodedKategori, true);
+                }
+                $item->kategori = $decodedKategori;
+            }
+            $item->tanggal_terbit = $item->created_at->format('d M Y'); 
+            $item->gambar_lampiran = is_string($item->gambar_lampiran)
+                ? json_decode($item->gambar_lampiran, true)
+                : $item->gambar_lampiran;
+    
+            return $item;
         });
-
-        // Get categories with count
-        $categoriesWithCount = Cache::remember('public_categories_count', 3600, function () {
-            return News::all()
-                ->flatMap(function ($news) {
-                    $kategori = json_decode($news->kategori, true);
-                    return is_array($kategori) ? $kategori : [];
-                })
-                ->countBy()
-                ->map(function ($count, $category) {
-                    return [
-                        'category' => $category,
-                        'count' => $count,
-                    ];
-                })
-                ->values();
-        });
-
-        // Get total news count
-        $totalNewsCount = Cache::remember('public_total_news', 3600, function () {
-            return News::count();
-        });
-
-        return inertia('Berita/Index', [
+    
+        // Hitung jumlah berita per kategori
+        $categoriesWithCount = News::all()
+            ->flatMap(function ($news) {
+                $kategori = json_decode($news->kategori, true);
+                return is_array($kategori) ? $kategori : [];
+            })
+            ->countBy()
+            ->map(function ($count, $category) {
+                return [
+                    'category' => $category,
+                    'count' => $count,
+                ];
+            })
+            ->values();
+    
+        // Tambahkan jumlah total berita
+        $totalNewsCount = News::count();
+    
+        return inertia('Admin/News/Index', [
             'newsItems' => $news,
             'categoriesWithCount' => $categoriesWithCount,
             'totalNewsCount' => $totalNewsCount,
         ]);
-    }
+    }    
 
     public function showByCategory($kategori)
     {
-        $kategori = urldecode($kategori);
-        
-        $news = News::whereJsonContains('kategori', $kategori)
-            ->latest()
-            ->get()
-            ->map(function ($item) {
-                // Process kategori
+        // Cek apakah pengguna sudah login
+        if (auth()->check()) {
+            // Decode kategori jika diperlukan
+            $kategori = urldecode($kategori); // Decode URL-encoded string
+    
+            // Debug: Log kategori yang diterima
+            \Log::info('Kategori yang diterima:', ['kategori' => $kategori]);
+    
+            // Ambil berita berdasarkan kategori
+            $news = News::whereJsonContains('kategori', $kategori)->get()->map(function ($item) {
+                // Proses kategori jika diperlukan (misalnya kategori disimpan dalam format JSON)
                 if (!is_array($item->kategori)) {
                     $decodedKategori = json_decode($item->kategori, true);
                     if (is_string($decodedKategori)) {
@@ -81,21 +75,22 @@ class BeritaController extends Controller
                     }
                     $item->kategori = $decodedKategori;
                 }
-                
-                // Format date
+    
+                // Format tanggal
                 $item->tanggal_terbit = $item->created_at->format('d M Y');
-                
-                // Process attachments
+                // Periksa dan decode gambar_lampiran jika ada
                 $item->gambar_lampiran = is_string($item->gambar_lampiran)
                     ? json_decode($item->gambar_lampiran, true)
                     : $item->gambar_lampiran;
-                
+    
                 return $item;
             });
-
-        // Get categories with count
-        $categoriesWithCount = Cache::remember('public_categories_count', 3600, function () {
-            return News::all()
+    
+            // Debug: Log berita yang ditemukan
+            \Log::info('Berita yang ditemukan:', ['news' => $news]);
+    
+            // Hitung jumlah berita per kategori
+            $categoriesWithCount = News::all()
                 ->flatMap(function ($news) {
                     $kategori = json_decode($news->kategori, true);
                     return is_array($kategori) ? $kategori : [];
@@ -108,44 +103,153 @@ class BeritaController extends Controller
                     ];
                 })
                 ->values();
-        });
+    
+            // Tambahkan jumlah total berita
+            $totalNewsCount = News::count();
+    
+            return inertia('News/Index', [
+                'newsItems' => $news,
+                'categoriesWithCount' => $categoriesWithCount,
+                'totalNewsCount' => $totalNewsCount,
+                'activeCategory' => $kategori, // Tambahkan kategori aktif
+            ]);
+        } else {
+            // Jika pengguna tidak login, redirect ke halaman login
+            return redirect()->route('login');
+        }
+    }    
 
-        $totalNewsCount = Cache::remember('public_total_news', 3600, function () {
-            return News::count();
-        });
+    public function create()
+    {
+        return Inertia::render('Admin/News/Create');
+    }
 
-        return inertia('Berita/Index', [
-            'newsItems' => $news,
-            'categoriesWithCount' => $categoriesWithCount,
-            'totalNewsCount' => $totalNewsCount,
-            'activeCategory' => $kategori,
+    public function uploadImage(Request $request)
+    {
+        // Validasi gambar
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        // Simpan gambar ke storage
+        $image = $request->file('image');
+        $imagePath = $image->store('images', 'public'); // Simpan ke storage/app/public/images
+
+        // Kembalikan URL gambar yang disimpan
+        return response()->json([
+            'url' => asset('storage/' . $imagePath), // URL yang dinamis sesuai dengan domain aplikasi
+        ]);
+        
+    }
+
+    public function store(Request $request)
+    {
+     
+        $config = HTMLPurifier_Config::createDefault();
+
+        // Mengizinkan tag iframe dan img dengan atribut src, width, height, frameborder, allowfullscreen, alt, title
+        $config->set('HTML.Allowed', 'p, b, i, u, a[href|target], iframe[src|width|height|frameborder|allowfullscreen], img[src|alt|title|width|height]');
+        
+        // Mengaktifkan konfigurasi HTML.Trusted untuk memperbolehkan atribut tambahan
+        $config->set('HTML.Trusted', true);
+        
+        // Membuat objek HTMLPurifier dengan konfigurasi
+        $purifier = new HTMLPurifier($config);
+        
+        // Memurnikan konten yang dimasukkan
+        $cleanContent = $purifier->purify($request->input('isi_berita'));
+        
+        // Validasi input form
+        $request->validate([
+            'penulis' => 'required|string',
+            'judul' => 'required|string',
+            'isi_berita' => 'required|string',
+            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'gambar_lampiran.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            'gambar_utama_keterangan' => 'nullable|string|max:255',
+            'gambar_lampiran_keterangan.*' => 'nullable|string|max:255',
+        ]);
+    
+        $kategori = is_array($request->kategori) ? $request->kategori : json_decode($request->kategori, true);
+    
+        $news = new News();
+        $news->penulis = $request->penulis;
+        $news->judul = $request->judul;
+        $news->isi_berita = $cleanContent;
+        $news->kategori = json_encode($kategori);
+    
+        // Proses upload gambar utama
+        if ($request->hasFile('gambar_utama') && $request->file('gambar_utama')->isValid()) {
+            $path = $request->file('gambar_utama')->store('images');
+            $news->gambar_utama = $path;
+        }
+    
+        $news->gambar_utama_keterangan = $request->gambar_utama_keterangan;
+    
+        // Proses upload multiple gambar lampiran
+        $gambarLampiranPaths = [];
+        $gambarLampiranKeterangan = [];
+        if ($request->hasFile('gambar_lampiran')) {
+            foreach ($request->file('gambar_lampiran') as $index => $lampiran) {
+                if ($lampiran->isValid()) {
+                    $path = $lampiran->store('images');
+                    $gambarLampiranPaths[] = $path;
+                    $gambarLampiranKeterangan[] = $request->input('gambar_lampiran_keterangan.' . $index);
+                }
+            }
+        }
+    
+        // Ekstraksi gambar dari isi berita
+        $isiBerita = $request->input('isi_berita');
+        preg_match_all('/<img[^>]+src=["\'](.*?)["\']/i', $isiBerita, $matches);
+        $imagePaths = [];
+    
+        foreach ($matches[1] as $imageUrl) {
+            if (strpos($imageUrl, 'data:image') === false) {
+                $relativePath = str_replace(asset('storage') . '/', '', $imageUrl);
+                $imagePaths[] = $relativePath;
+            } else {
+                $imageData = base64_decode(preg_replace('/^data:image\/\w+;base64,/', '', $imageUrl));
+                $imageName = uniqid() . '.png';
+                $imagePath = 'images/' . $imageName;
+                Storage::put('public/' . $imagePath, $imageData);
+                $imagePaths[] = $imagePath;
+            }
+        }
+    
+        $allImagePaths = array_merge($gambarLampiranPaths, $imagePaths);
+    
+        $news->gambar_lampiran = json_encode($allImagePaths);
+        $news->gambar_lampiran_keterangan = json_encode($gambarLampiranKeterangan);
+    
+        $news->save();
+    
+        return redirect()->route('news.index')->with('success', 'News created successfully!');
     }
 
     public function show($id)
     {
         $news = News::findOrFail($id);
 
-        // Increment view count
         $news->increment('views');
-
-        // Process kategori
+    
+        // Decode kategori berita utama
         $decodedKategori = json_decode($news->kategori, true);
         if (is_string($decodedKategori)) {
             $decodedKategori = json_decode($decodedKategori, true);
         }
         $news->kategori = $decodedKategori;
         $news->tanggal_terbit = $news->created_at->format('d M Y');
-
-        // Process attachments
+    
+        // Decode gambar lampiran dan keterangan gambar lampiran menjadi array
         if (is_string($news->gambar_lampiran)) {
             $news->gambar_lampiran = json_decode($news->gambar_lampiran, true);
         }
         if (is_string($news->gambar_lampiran_keterangan)) {
             $news->gambar_lampiran_keterangan = json_decode($news->gambar_lampiran_keterangan, true);
         }
-
-        // Get related news based on categories
+    
+        // Ambil berita terkait berdasarkan kategori
         $relatedNews = News::where(function ($query) use ($decodedKategori) {
                 if (!empty($decodedKategori)) {
                     $query->where(function ($q) use ($decodedKategori) {
@@ -155,9 +259,8 @@ class BeritaController extends Controller
                     });
                 }
             })
-            ->where('id', '!=', $id)
-            ->latest()
-            ->limit(5)
+            ->where('id', '!=', $id) // Jangan tampilkan berita yang sedang dibuka
+            ->limit(5) // Batasi jumlah berita terkait
             ->get()
             ->map(function ($related) {
                 $related->kategori = json_decode($related->kategori, true);
@@ -167,28 +270,28 @@ class BeritaController extends Controller
                     : $related->gambar_lampiran;
                 return $related;
             });
-
-        // Get categories with count
-        $categoriesWithCount = Cache::remember('public_categories_count', 3600, function () {
-            return News::all()
-                ->flatMap(function ($news) {
-                    $kategori = json_decode($news->kategori, true);
-                    return is_array($kategori) ? $kategori : [];
-                })
-                ->countBy()
-                ->map(function ($count, $category) {
-                    return [
-                        'category' => $category,
-                        'count' => $count,
-                    ];
-                })
-                ->values();
-        });
-
-        return Inertia::render('Berita/Detail', [
+    
+        // Hitung jumlah berita per kategori
+        $uniqueCategoriesWithCount = News::all()
+            ->flatMap(function ($news) {
+                $kategori = json_decode($news->kategori, true);
+                return is_array($kategori) ? $kategori : [];
+            })
+            ->countBy() // Hitung jumlah berita per kategori
+            ->map(function ($count, $category) {
+                return [
+                    'category' => $category,
+                    'count' => $count,
+                ];
+            })
+            ->values();
+    
+        // Kirim data ke frontend
+        return Inertia::render('Admin/News/Show', [
             'news' => $news,
             'related' => $relatedNews,
-            'categoriesWithCount' => $categoriesWithCount,
+            'categoriesWithCount' => $uniqueCategoriesWithCount,
         ]);
     }
+
 }
