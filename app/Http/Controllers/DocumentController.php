@@ -26,7 +26,7 @@ class DocumentController extends Controller
     {
         $request->validate([
             'document_name' => 'required|string|max:255',
-            'file' => 'required|file|mimes:pdf,doc,docx',
+            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx',
             'category' => 'required|string|max:100', // Validasi kategori wajib diisi
         ]);
     

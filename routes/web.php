@@ -24,11 +24,6 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PopupController;
 use App\Http\Controllers\MediaController;
 
-Route::get('/media', [MediaController::class, 'index'])->name('media.index');
-Route::post('/media', [MediaController::class, 'store'])->name('media.store');
-Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
-Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
-
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -37,6 +32,10 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+    Route::post('/media', [MediaController::class, 'store'])->name('media.store');
+    Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+    Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
     Route::get('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}', [NewsController::class, 'update'])->name('news.update');
