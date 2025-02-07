@@ -105,7 +105,7 @@
   
       // Fungsi untuk mengambil video terbaru dan statistik
       const fetchVideos = async () => {
-        const apiKey = "AIzaSyD8bOo02onNGciV1K50Vpr5cWDgIf3Hr7Q";
+        const apiKey = "";
         const channelId = "UCv2HWvm0mF1gHJ327SMhn1Q";
         const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&order=date&part=snippet&type=video&maxResults=6`;
   
