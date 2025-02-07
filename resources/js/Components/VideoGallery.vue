@@ -1,9 +1,11 @@
 <template>
-    <div class="p-4">
-      <div class="flex items-center">
-        <h1 class="text-2xl font-bold mb-2 text-teal-700 flex-grow">Berita Video</h1>
-        <div class="w-5/6 h-1 bg-yellow-500 ml-2"></div>
-      </div>
+<div class="p-4">
+  <div class="flex items-center space-x-2">
+    <h1 class="text-2xl font-bold text-teal-700 ml-5 whitespace-nowrap">Berita Video</h1>
+      <div class="flex-grow">
+      <div class="h-1 bg-[#D4A017] ml-5 mr-5 rounded"></div>
+    </div>
+  </div>
   
       <!-- Video Slider Container -->
       <div class="overflow-hidden relative">

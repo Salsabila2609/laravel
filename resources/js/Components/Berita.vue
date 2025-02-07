@@ -1,25 +1,23 @@
 <template>
-  <div class="bg-[#268B79] p-8">
-    <!-- Judul Berita Terkini dengan Garis Kuning -->
-    <div class="flex items-center mx-4 sm:mx-15 mb-4">
-      <div class="text-white text-4xl font-bold">Berita Terkini</div>
-      <div class="border-t-4 border-yellow-500 flex-1 ml-4 sm:ml-16"></div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mx-4 sm:mx-15 my-4 sm:my-15">
-      <div v-if="mainNews" class="bg-white p-4 rounded-lg shadow-md col-span-1 sm:col-span-2">
-        <div>
-          <h3 
-            class="text-xl font-semibold mb-2 cursor-pointer hover:underline" 
-            @click="goToNewsDetail(mainNews.id)"
-          >
-            {{ mainNews.judul }}
-          </h3>
-
-          <!-- Penulis, Tanggal, dan Kategori -->
-          <div class="flex flex-wrap items-center justify-between mb-4">
-            <!-- Penulis dan Tanggal -->
-            <div class="flex items-center text-sm text-gray-500 mr-4 sm:mr-8">
+    <div class="bg-[#396C6D] p-8">
+      <!-- Judul Berita Terkini dengan Garis Kuning -->
+      <div class="flex items-center mx-15 mb-4">
+        <div class="text-white text-4xl font-bold">Berita Terkini</div>
+        <div class="w-[82%] h-1 bg-[#D4A017] ml-5 rounded"></div>
+ 
+      </div>
+  
+      <div class="grid grid-cols-3 gap-4 mx-15 my-15">
+        <div v-if="mainNews" class="bg-white p-4 rounded-lg shadow-md col-span-2">
+          <div>
+            <h3 
+              class="text-xl font-semibold mb-2 cursor-pointer hover:underline" 
+              @click="goToNewsDetail(mainNews.id)"
+            >
+              {{ mainNews.judul }}
+            </h3>
+  
+            <div class="flex items-center text-sm text-gray-500 mb-4">
               <div class="flex items-center mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#268B79" class="size-4 mr-1">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
@@ -129,7 +127,6 @@
       <!-- Widget Kominfo -->
       <div id="gpr-kominfo-widget-container" class="bg-white p-4 rounded-lg shadow-md"></div>
     </div>
-  </div>
 </template>
 
 
