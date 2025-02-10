@@ -1,6 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import Navbar from '@/Components/Navbar.vue';
+import Background from '@/Components/Background.vue';
+import AddButton from '@/Components/AddButton.vue'; 
+import Card from '@/Components/Card.vue'; 
+import { Link } from '@inertiajs/vue3'; 
 
 defineProps({ media: Array });
 
@@ -15,6 +20,26 @@ const editForm = ref({
   url: '',
 });
 
+const isModalOpen = ref(false);
+const isEditMode = ref(false);
+
+const openModal = (isEdit, item = null) => {
+  isModalOpen.value = true;
+  isEditMode.value = isEdit;
+  if (isEdit && item) {
+    editForm.value = { ...item };
+  } else {
+    form.value = { image: null, url: '' };
+  }
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+  isEditMode.value = false;
+  editForm.value = { id: null, image: null, url: '' };
+  form.value = { image: null, url: '' };
+};
+
 const uploadMedia = () => {
   const formData = new FormData();
   formData.append('image', form.value.image);
@@ -23,15 +48,9 @@ const uploadMedia = () => {
   router.post('/media', formData, {
     onSuccess: () => {
       alert('File berhasil diupload!');
-      form.value.image = null;
-      form.value.url = '';
-    }
+      closeModal();
+    },
   });
-};
-
-const startEdit = (item) => {
-  editForm.value.id = item.id;
-  editForm.value.url = item.url;
 };
 
 const updateMedia = () => {
@@ -43,57 +62,142 @@ const updateMedia = () => {
 
   router.post(`/media/${editForm.value.id}`, formData, {
     method: 'post',
-    headers: { 'X-HTTP-Method-Override': 'PUT' }, // Override untuk PUT request
+    headers: { 'X-HTTP-Method-Override': 'PUT' },
     onSuccess: () => {
       alert('Media berhasil diperbarui!');
-      editForm.value.id = null;
-      editForm.value.image = null;
-      editForm.value.url = '';
-    }
+      closeModal();
+    },
   });
 };
 
 const deleteMedia = (id) => {
   if (confirm('Yakin ingin menghapus media ini?')) {
     router.delete(`/media/${id}`, {
-      onSuccess: () => alert('Media berhasil dihapus!')
+      onSuccess: () => alert('Media berhasil dihapus!'),
     });
   }
+};
+
+
+const getForm = () => {
+  return isEditMode.value ? editForm.value : form.value;
 };
 </script>
 
 <template>
-  <div class="p-4">
-    <h2 class="text-lg font-bold mb-4">Upload Media</h2>
-
-    <form @submit.prevent="uploadMedia" class="space-y-4">
-      <input type="file" @change="(e) => form.image = e.target.files[0]" required />
-      <input type="text" v-model="form.url" placeholder="Masukkan URL" required class="border p-2 w-full" />
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2">Upload</button>
-    </form>
-
-    <h2 class="text-lg font-bold mt-6">Uploaded Media</h2>
-    <div class="grid grid-cols-3 gap-4">
-      <div v-for="item in media" :key="item.id" class="border p-2">
-        <a :href="item.url" target="_blank">
-          <img :src="`/storage/${item.image}`" class="w-full h-32 object-cover" />
-        </a>
-        <div class="mt-2">
-          <button @click="startEdit(item)" class="bg-yellow-500 text-white px-2 py-1">Edit</button>
-          <button @click="deleteMedia(item.id)" class="bg-red-500 text-white px-2 py-1 ml-2">Delete</button>
-        </div>
-      </div>
+  <div>
+    <Navbar />
+    <Background />
+    <div class="text-sm text-[#99cbc0] font-bold p-5">
+      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Upload Media
     </div>
 
-    <!-- FORM EDIT -->
-    <div v-if="editForm.id" class="mt-6 border p-4 rounded-lg bg-gray-100">
-      <h2 class="text-lg font-bold mb-4">Edit Media</h2>
-      <form @submit.prevent="updateMedia" class="space-y-4">
-        <input type="file" @change="(e) => editForm.image = e.target.files[0]" class="border p-2 w-full" />
-        <input type="text" v-model="editForm.url" required class="border p-2 w-full" />
-        <button type="submit" class="bg-green-500 text-white px-4 py-2">Update</button>
-        <button @click="editForm.id = null" type="button" class="bg-gray-500 text-white px-4 py-2 ml-2">Cancel</button>
-      </form>
+    <div class="content relative z-10 p-5 text-gray-800">
+      <h1 class="text-center text-4xl text-[#D4A017] font-bold mt-12">UPLOAD MEDIA</h1>
+      <AddButton @click="openModal(false)" buttonText="Upload New Media" />
+
+      <Card>
+        <table class="w-11/12 mx-auto table-auto border-collapse">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b text-center">Media Image</th>
+              <th class="py-2 px-4 border-b text-center">URL</th>
+              <th class="py-2 px-4 border-b text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in media" :key="item.id">
+              <td class="py-2 px-4 border-t border-b text-center">
+                <img :src="`/storage/${item.image}`" alt="Media Image" class="w-24 h-24 object-cover mx-auto" />
+              </td>
+              <td class="py-2 px-4 border-t border-b text-center">
+                <a :href="item.url" target="_blank" class="text-blue-500 hover:underline">{{ item.url }}</a>
+              </td>
+              <td class="py-2 px-4 border-t border-b text-center">
+                <div class="space-x-2">
+                  <button
+                    class="edit bg-teal-700 text-white font-bold py-2 px-4 rounded"
+                    @click="openModal(true, item)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="delete bg-red-600 text-white font-bold py-2 px-4 rounded"
+                    @click="deleteMedia(item.id)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Card>
+    </div>
+
+    <!-- MODAL -->
+    <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-center text-2xl font-bold text-yellow-500 mb-4">
+          {{ isEditMode ? 'Edit Media' : 'Upload Media' }}
+        </h2>
+
+        <form @submit.prevent="isEditMode ? updateMedia() : uploadMedia()">
+          <div class="mb-4">
+            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+            <input
+              type="file"
+              @change="(e) => (isEditMode ? (editForm.image = e.target.files[0]) : (form.image = e.target.files[0]))"
+              id="image"
+              class="mt-2 w-full text-sm border rounded-md"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
+            <input
+              type="text"
+              :value="getForm().url"
+              @input="getForm().url = $event.target.value"
+              id="url"
+              class="mt-2 w-full text-sm border rounded-md p-2"
+              placeholder="Masukkan URL"
+              required
+            />
+          </div>
+
+          <div class="flex justify-end gap-4">
+            <button
+              type="button"
+              @click="closeModal"
+              class="bg-gray-300 text-black py-2 px-4 rounded"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="w-full py-2 px-4 text-white font-bold bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-150 ease-in-out"
+            >
+              {{ isEditMode ? 'Save' : 'Upload' }}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.flex {
+  display: flex;
+  align-items: center; /* Pastikan elemen sejajar vertikal */
+}
+
+td {
+  height: 100px; /* Sesuaikan tinggi sesuai kebutuhan */
+}
+
+td {
+  vertical-align: middle;
+}
+</style>
