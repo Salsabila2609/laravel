@@ -305,7 +305,7 @@ onMounted(() => {
               <!-- Main content -->
               <div>
                 <h4 class="text-2xl font-bold text-gray-900 mb-2">{{ news.judul }}</h4>
-                <div class="text-gray-600 mb-3 line-clamp-3" v-html="news.isi_berita"></div>
+                <div class="text-gray-600 mb-3 line-clamp-3 md:line-clamp-3 lg:line-clamp-3" v-html="news.isi_berita"></div>
                 <p class="text-gray-600 mb-4 line-clamp-2">{{ news.excerpt }}</p>
 
                 <!-- Author and date info -->
