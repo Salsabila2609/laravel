@@ -48,8 +48,15 @@ const menuItems = ref([
     ]
   },
   {
+    title: 'Media Management',
+    icon: 'M2 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3 2a1 1 0 110-2 1 1 0 010 2zm12 0a1 1 0 110-2 1 1 0 010 2zM6 12a1 1 0 110-2 1 1 0 010 2zm9 0a1 1 0 110-2 1 1 0 010 2zm-9 4a1 1 0 110-2 1 1 0 010 2zm9 0a1 1 0 110-2 1 1 0 010 2z',
+    actions: [
+      { label: 'Media Documents', route: 'media.index' }
+    ]
+  },
+  {
     title: 'Document Management',
-    icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+    icon: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
     actions: [
       { label: 'View Documents', route: 'documents.upload' }
     ]
@@ -79,7 +86,7 @@ const menuItems = ref([
                     </div>
 
                     <!-- Stats Grid -->
-                    <div class="grid gap-6 mb-8 md:grid-cols-3">
+                    <div class="grid gap-6 mb-8 md:grid-cols-4">
                         <div v-for="stat in stats" :key="stat.label" 
                             class="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
                             <div class="flex items-center">
@@ -97,7 +104,7 @@ const menuItems = ref([
                     </div>
 
                     <!-- Main Menu Grid -->
-                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                         <div v-for="(item, index) in menuItems" :key="item.title" 
                             class="overflow-hidden bg-white rounded-lg shadow-sm hover:shadow-md transition-all">
                             <div class="p-6">
