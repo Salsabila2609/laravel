@@ -14,7 +14,7 @@
       <!-- New section for the image and yellow lines -->
       <div class="flex items-center justify-center mt-3 w-full px-4">
         <div class="h-[2px] bg-[#D4A017] flex-1"></div>
-        <img src="/public/img/silat.jpg" alt="Gambar Lambang Daerah" class="mx-4 h-10 w-auto">
+        <img src="../../../../public/image/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-10 w-auto">
         <div class="h-[2px] bg-[#D4A017] flex-1"></div>
       </div>
 
@@ -27,7 +27,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
           <!-- Kolom kiri -->
           <div class="flex justify-center items-center">
-            <img src="/public/image/logo.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] h-auto md:ml-[-20px]">
+            <img src="../../../../public/image/logo.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] h-auto md:ml-[-20px]">
           </div>
 
           <!-- Kolom kanan -->
