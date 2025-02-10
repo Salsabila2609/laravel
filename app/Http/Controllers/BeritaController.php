@@ -14,7 +14,7 @@ class BeritaController extends Controller
 {
     public function index()
     {
-        $news = News::all()->map(function ($item) {
+        $news = News::orderBy('created_at', 'desc')->get()->map(function ($item) {
             if (!is_array($item->kategori)) {
                 $decodedKategori = json_decode($item->kategori, true);
                 if (is_string($decodedKategori)) {
