@@ -48,7 +48,7 @@ class BeritaController extends Controller
         // Tambahkan jumlah total berita
         $totalNewsCount = News::count();
     
-        return inertia('Admin/News/Index', [
+        return inertia('Berita/Index', [
             'newsItems' => $news,
             'categoriesWithCount' => $categoriesWithCount,
             'totalNewsCount' => $totalNewsCount,
@@ -107,7 +107,7 @@ class BeritaController extends Controller
             // Tambahkan jumlah total berita
             $totalNewsCount = News::count();
     
-            return inertia('News/Index', [
+            return inertia('Berita/Index', [
                 'newsItems' => $news,
                 'categoriesWithCount' => $categoriesWithCount,
                 'totalNewsCount' => $totalNewsCount,
@@ -117,116 +117,7 @@ class BeritaController extends Controller
             // Jika pengguna tidak login, redirect ke halaman login
             return redirect()->route('login');
         }
-    }    
-
-    public function create()
-    {
-        return Inertia::render('Admin/News/Create');
-    }
-
-    public function uploadImage(Request $request)
-    {
-        // Validasi gambar
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        // Simpan gambar ke storage
-        $image = $request->file('image');
-        $imagePath = $image->store('images', 'public'); // Simpan ke storage/app/public/images
-
-        // Kembalikan URL gambar yang disimpan
-        return response()->json([
-            'url' => asset('storage/' . $imagePath), // URL yang dinamis sesuai dengan domain aplikasi
-        ]);
-        
-    }
-
-    public function store(Request $request)
-    {
-     
-        $config = HTMLPurifier_Config::createDefault();
-
-        // Mengizinkan tag iframe dan img dengan atribut src, width, height, frameborder, allowfullscreen, alt, title
-        $config->set('HTML.Allowed', 'p, b, i, u, a[href|target], iframe[src|width|height|frameborder|allowfullscreen], img[src|alt|title|width|height]');
-        
-        // Mengaktifkan konfigurasi HTML.Trusted untuk memperbolehkan atribut tambahan
-        $config->set('HTML.Trusted', true);
-        
-        // Membuat objek HTMLPurifier dengan konfigurasi
-        $purifier = new HTMLPurifier($config);
-        
-        // Memurnikan konten yang dimasukkan
-        $cleanContent = $purifier->purify($request->input('isi_berita'));
-        
-        // Validasi input form
-        $request->validate([
-            'penulis' => 'required|string',
-            'judul' => 'required|string',
-            'isi_berita' => 'required|string',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'gambar_lampiran.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
-            'gambar_utama_keterangan' => 'nullable|string|max:255',
-            'gambar_lampiran_keterangan.*' => 'nullable|string|max:255',
-        ]);
-    
-        $kategori = is_array($request->kategori) ? $request->kategori : json_decode($request->kategori, true);
-    
-        $news = new News();
-        $news->penulis = $request->penulis;
-        $news->judul = $request->judul;
-        $news->isi_berita = $cleanContent;
-        $news->kategori = json_encode($kategori);
-    
-        // Proses upload gambar utama
-        if ($request->hasFile('gambar_utama') && $request->file('gambar_utama')->isValid()) {
-            $path = $request->file('gambar_utama')->store('images');
-            $news->gambar_utama = $path;
-        }
-    
-        $news->gambar_utama_keterangan = $request->gambar_utama_keterangan;
-    
-        // Proses upload multiple gambar lampiran
-        $gambarLampiranPaths = [];
-        $gambarLampiranKeterangan = [];
-        if ($request->hasFile('gambar_lampiran')) {
-            foreach ($request->file('gambar_lampiran') as $index => $lampiran) {
-                if ($lampiran->isValid()) {
-                    $path = $lampiran->store('images');
-                    $gambarLampiranPaths[] = $path;
-                    $gambarLampiranKeterangan[] = $request->input('gambar_lampiran_keterangan.' . $index);
-                }
-            }
-        }
-    
-        // Ekstraksi gambar dari isi berita
-        $isiBerita = $request->input('isi_berita');
-        preg_match_all('/<img[^>]+src=["\'](.*?)["\']/i', $isiBerita, $matches);
-        $imagePaths = [];
-    
-        foreach ($matches[1] as $imageUrl) {
-            if (strpos($imageUrl, 'data:image') === false) {
-                $relativePath = str_replace(asset('storage') . '/', '', $imageUrl);
-                $imagePaths[] = $relativePath;
-            } else {
-                $imageData = base64_decode(preg_replace('/^data:image\/\w+;base64,/', '', $imageUrl));
-                $imageName = uniqid() . '.png';
-                $imagePath = 'images/' . $imageName;
-                Storage::put('public/' . $imagePath, $imageData);
-                $imagePaths[] = $imagePath;
-            }
-        }
-    
-        $allImagePaths = array_merge($gambarLampiranPaths, $imagePaths);
-    
-        $news->gambar_lampiran = json_encode($allImagePaths);
-        $news->gambar_lampiran_keterangan = json_encode($gambarLampiranKeterangan);
-    
-        $news->save();
-    
-        return redirect()->route('news.index')->with('success', 'News created successfully!');
-    }
-
+    } 
     public function show($id)
     {
         $news = News::findOrFail($id);
@@ -287,11 +178,10 @@ class BeritaController extends Controller
             ->values();
     
         // Kirim data ke frontend
-        return Inertia::render('Admin/News/Show', [
+        return Inertia::render('Berita/Detail', [
             'news' => $news,
             'related' => $relatedNews,
             'categoriesWithCount' => $uniqueCategoriesWithCount,
         ]);
-    }
-
+    }   
 }
