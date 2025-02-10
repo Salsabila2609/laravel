@@ -14,7 +14,7 @@
       <!-- New section for the image and yellow lines -->
       <div class="flex items-center justify-center mt-3 w-full px-4">
         <div class="h-[2px] bg-[#D4A017] flex-1"></div>
-        <img src="/public/image/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-14 w-auto">
+        <img src="..\..\..\..\public\image\madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-14 w-auto">
         <div class="h-[2px] bg-[#D4A017] flex-1"></div>
       </div>
 
@@ -26,8 +26,8 @@
     <div class="p-6">
         <!-- Bagian atas dengan dua gambar yang berada di tengah -->
         <div class="flex justify-center items-center mb-4" style="gap: 200px;">
-            <img src="/public/image/bupati.png" alt="Gambar Lambang 1" class="w-54 h-auto ml-60">
-            <img src="/public/image/bupati.png" alt="Gambar Lambang 2" class="w-54 h-auto mr-60">
+            <img src="..\..\..\..\public\image\bupati.png" alt="Gambar Lambang 1" class="w-54 h-auto ml-60">
+            <img src="..\..\..\..\public\image\bupati.png" alt="Gambar Lambang 2" class="w-54 h-auto mr-60">
         </div>
 
         <!-- Tabel di bawah foto -->
