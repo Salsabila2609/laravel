@@ -1,20 +1,21 @@
 <template>
-  <div class="bg-[#268B79] p-8">
+  <div class="bg-[#396C6D] p-8">
     <!-- Judul Berita Terkini dengan Garis Kuning -->
-    <div class="flex items-center mx-4 sm:mx-15 mb-4">
-      <div class="text-white text-4xl font-bold">Berita Terkini</div>
-      <div class="border-t-4 border-yellow-500 flex-1 ml-4 sm:ml-16"></div>
+    <div class="flex items-center space-x-2">
+    <h1 class="text-3xl font-bold text-white ml-5 whitespace-nowrap">Berita Video</h1>
+      <div class="flex-grow">
+      <div class="h-1 bg-[#D4A017] ml-5 mr-5 rounded"></div>
     </div>
+  </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mx-4 sm:mx-15 my-4 sm:my-15">
       <div v-if="mainNews" class="bg-white p-4 rounded-lg shadow-md col-span-1 sm:col-span-2">
         <div>
-          <h3 
-            class="text-xl font-semibold mb-2 cursor-pointer hover:underline" 
-            @click="goToNewsDetail(mainNews.id)"
-          >
-            {{ mainNews.judul }}
-          </h3>
+          <h3 v-if="mainNews?.id" class="text-xl font-semibold mb-2 cursor-pointer hover:underline" 
+          @click="goToNewsDetail(mainNews.id)">
+  {{ mainNews.judul }}
+</h3>
+
 
           <!-- Penulis, Tanggal, dan Kategori -->
           <div class="flex flex-wrap items-center justify-between mb-4">
@@ -37,7 +38,7 @@
             <!-- Kategori (pindah ke kanan pada tampilan mobile) -->
             <div class="flex items-center mb-2 sm:mb-0 sm:order-3 order-2">
               <div class="bg-[#EBE3D8] px-2 py-1 rounded-full text-black flex items-center">
-                <span class="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-500 rounded-full mr-2 flex-shrink-0"></span>
+                <span class="w-3 h-3 sm:w-4 sm:h-4 bg-[#D4A017] rounded-full mr-2 flex-shrink-0"></span>
                 {{ mainNews.kategori.join(', ') }}
               </div>
             </div>
@@ -49,7 +50,7 @@
                 v-if="mainNews.gambar_utama" 
                 :src="mainNews.gambar_utama" 
                 class="w-full h-60 object-cover rounded-md cursor-pointer" 
-                @click="goToNewsDetail(mainNews.id)" 
+                @click="goToNewsDetail(mainNews.id)"
                 alt="Gambar Berita Utama" 
               />
             </div>
@@ -62,7 +63,7 @@
           <div v-if="newsCards.length" class="mt-6 relative col-span-3">
             <div class="overflow-hidden">
               <div class="flex transition-transform duration-500" :style="carouselStyle">
-                <div v-for="news in newsCards" :key="news.id" class="bg-[#F9F6EE] rounded-lg shadow-md w-full sm:w-1/2 min-w-[49.4%] cursor-pointer mr-1.5 mb-1 overflow-hidden">
+                <div v-for="news in newsCards" :key="news.id" class="bg-[#F9F6EE] rounded-lg shadow-md w-full sm:w-1/2 min-w-[49.4%] cursor-pointer mr-1.5 mb-1 overflow-hidden" @click="goToNewsDetail(news.id)">
                   <img 
                     v-if="news.gambar_utama" 
                     :src="news.gambar_utama" 
@@ -71,7 +72,7 @@
                   />
                   <!-- Kategori dengan responsivitas mobile -->
                   <div class="bg-[#EBE3D8] px-2 py-1 rounded-full text-black flex items-center mb-2"> 
-                    <span class="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-500 rounded-full mr-2 flex-shrink-0"></span>
+                    <span class="w-3 h-3 sm:w-4 sm:h-4 bg-[#D4A017] rounded-full mr-2 flex-shrink-0"></span>
                     <span class="block sm:hidden">
                       {{ Array.isArray(news.kategori) ? news.kategori[0] + (news.kategori.length > 1 ? "..." : "") : news.kategori }}
                     </span>
@@ -132,8 +133,10 @@
   </div>
 </template>
 
-
 <script>
+import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
+
 export default {
   props: {
     mainNews: Object,
@@ -147,21 +150,23 @@ export default {
     };
   },
   computed: {
-  maxIndex() {
-    return Math.max(0, this.newsCards.length - 2);
+    maxIndex() {
+      return Math.max(0, this.newsCards.length - 2);
+    },
+    carouselStyle() {
+      return `transform: translateX(-${this.currentIndex * 50}%)`;
+    },
   },
-  carouselStyle() {
-    return `transform: translateX(-${this.currentIndex * 50}%)`;
+  methods: {
+    goToNewsDetail(newsId) {
+    console.log("Navigating to berita with ID:", newsId);
+    if (!newsId) return;
+    router.visit(`/berita/${newsId}`); // Menggunakan router dari @inertiajs/vue3
   },
-},
-methods: {
-  getShortDescription(isiBerita) {
-    const maxLength = 550; // Jumlah karakter yang akan ditampilkan
-    if (isiBerita.length > maxLength) {
-      return isiBerita.substring(0, maxLength) + '...'; // Potong dan tambahkan '...'
-    }
-    return isiBerita;
-  },
+    getShortDescription(isiBerita) {
+      const maxLength = 550; // Jumlah karakter yang akan ditampilkan
+      return isiBerita.length > maxLength ? isiBerita.substring(0, maxLength) + '...' : isiBerita;
+    },
     prevSlide() {
       if (this.currentIndex > 0) {
         this.currentIndex--;

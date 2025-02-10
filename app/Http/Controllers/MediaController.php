@@ -19,9 +19,10 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
-            'url' => 'required|url',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120',
+            'url' => 'nullable|url',
         ]);
+        
 
         $path = $request->file('image')->store('uploads', 'public');
 
@@ -37,9 +38,10 @@ class MediaController extends Controller
     public function update(Request $request, Media $media)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
-            'url' => 'required|url',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120',
+            'url' => 'nullable|url',
         ]);
+        
     
         // Jika ada gambar baru, hapus gambar lama dan simpan yang baru
         if ($request->hasFile('image')) {

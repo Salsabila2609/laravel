@@ -21,12 +21,12 @@
         </div>
 
         <!-- Card Cream -->
-        <Card class="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
+        <Card customClass="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
           <div class="flex gap-14">
             <!-- Kolom Kiri (2/10) -->
             <div class="w-3/10 ml-5">
               <!-- Card Hijau -->
-              <Card class="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(1518 – 1568)</p>
               </Card>
@@ -44,12 +44,12 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card class="bg-white rounded-lg p-[0.2rem] border-none shadow-none">
+        <Card customClass="bg-white rounded-lg p-[0.2rem] border-none shadow-none">
           <div class="flex gap-14">
             <!-- Kolom Kiri (2/10) -->
             <div class="w-3/10 ml-5">
               <!-- Card Hijau -->
-              <Card class="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(18 Juli 1568)</p>
               </Card>
@@ -66,12 +66,12 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card class="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
+        <Card customClass="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
           <div class="flex gap-14">
             <!-- Kolom Kiri (2/10) -->
             <div class="w-3/10 ml-5">
               <!-- Card Hijau -->
-              <Card class="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(1575 – 1590)</p>
               </Card>
@@ -88,12 +88,12 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card class="bg-white rounded-lg p-[0.2rem] border-none shadow-none">
+        <Card customClass="bg-white rounded-lg p-[0.2rem] border-none shadow-none">
           <div class="flex gap-14">
             <!-- Kolom Kiri (2/10) -->
             <div class="w-3/10 ml-5">
               <!-- Card Hijau -->
-              <Card class="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(1590)</p>
               </Card>
@@ -111,12 +111,12 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card class="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
+        <Card customClass="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
           <div class="flex gap-14">
             <!-- Kolom Kiri (2/10) -->
             <div class="w-3/10 ml-5">
               <!-- Card Hijau -->
-              <Card class="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-17</p>
                 <p class="text-white font-semibold">(1686)</p>
               </Card>

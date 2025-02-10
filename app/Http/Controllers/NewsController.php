@@ -14,7 +14,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::all()->map(function ($item) {
+        $news = News::orderBy('created_at', 'desc')->get()->map(function ($item) {
             if (!is_array($item->kategori)) {
                 $decodedKategori = json_decode($item->kategori, true);
                 if (is_string($decodedKategori)) {
@@ -107,7 +107,7 @@ class NewsController extends Controller
             // Tambahkan jumlah total berita
             $totalNewsCount = News::count();
     
-            return inertia('News/Index', [
+            return inertia('Admin/News/Index', [
                 'newsItems' => $news,
                 'categoriesWithCount' => $categoriesWithCount,
                 'totalNewsCount' => $totalNewsCount,

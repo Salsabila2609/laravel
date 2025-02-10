@@ -8,6 +8,7 @@ use App\Models\OPD;
 use App\Models\Kecamatan;
 use App\Models\Popup;
 use App\Models\Document;
+use App\Models\Media;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -41,9 +42,14 @@ class DashboardController extends Controller
                 'icon' => 'M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9'
             ],
             [
+                'label' => 'Total Media',
+                'value' => Media::count(),
+                'icon' => 'M2 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3 2a1 1 0 110-2 1 1 0 010 2zm12 0a1 1 0 110-2 1 1 0 010 2zM6 12a1 1 0 110-2 1 1 0 010 2zm9 0a1 1 0 110-2 1 1 0 010 2zm-9 4a1 1 0 110-2 1 1 0 010 2zm9 0a1 1 0 110-2 1 1 0 010 2z'
+            ],
+            [
                 'label' => 'Total Documents',
                 'value' => Document::count(),
-                'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
+                'icon' => 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z'
             ]
         ];
 
