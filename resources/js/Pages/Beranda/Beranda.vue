@@ -5,8 +5,7 @@
     <!-- Video Section -->
     <VideoSection :videoSource="videoSource" />
 
-    <!-- Profile Section -->
-    <ProfileSection />
+
 
     <!-- Media Section -->
     <Media :media="media" />
@@ -77,7 +76,6 @@ export default {
     };
   },
   mounted() {
-    // Tambahkan script widget Sienna ke dalam DOM
     const script = document.createElement("script");
     script.src = "https://website-widgets.pages.dev/dist/sienna.min.js";
     script.defer = true;

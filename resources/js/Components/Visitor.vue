@@ -6,21 +6,21 @@
       <div class="flex flex-col items-start space-y-2 w-1/4">
         <button
           @click="changeView('harian')"
-          :class="{ 'text-white border-b-4 border-white': currentView === 'harian' }"
+          :class="{ 'text-white border-b-4 border-white rounded': currentView === 'harian' }"
           class="text-xs sm:text-sm md:text-base font-semibold text-gray-300 py-2 px-2 md:px-4 hover:text-white focus:outline-none"
         >
           Harian
         </button>
         <button
           @click="changeView('bulanan')"
-          :class="{ 'text-white border-b-4 border-white': currentView === 'bulanan' }"
+          :class="{ 'text-white border-b-4 border-white rounded': currentView === 'bulanan' }"
           class="text-xs sm:text-sm md:text-base font-semibold text-gray-300 py-2 px-2 md:px-4 hover:text-white focus:outline-none"
         >
           Bulanan
         </button>
         <button
           @click="changeView('tahunan')"
-          :class="{ 'text-white border-b-4 border-white': currentView === 'tahunan' }"
+          :class="{ 'text-white border-b-4 border-white rounded': currentView === 'tahunan' }"
           class="text-xs sm:text-sm md:text-base font-semibold text-gray-300 py-2 px-2 md:px-4 hover:text-white focus:outline-none"
         >
           Tahunan
