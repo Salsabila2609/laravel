@@ -28,13 +28,13 @@
           </thead>
           <tbody>
             <tr v-for="kecamatan in kecamatans" :key="kecamatan.id">
-              <td class="py-3 px-4 border-t border-b text-left">
+              <td class="py-3 px-4 border-t border-b text-center">
                 <a :href="kecamatan.link" class="text-blue-500 hover:underline" target="_blank">
                   {{ kecamatan.name }}
                 </a>
               </td>
-              <td class="py-3 px-4 border-t border-b text-left">{{ kecamatan.address }}</td>
-              <td class="py- px-4 border-t border-b text-left">{{ kecamatan.contact }}</td>
+              <td class="py-3 px-4 border-t border-b text-center">{{ kecamatan.address }}</td>
+              <td class="py- px-4 border-t border-b text-center">{{ kecamatan.contact }}</td>
             </tr>
           </tbody>
         </table>
