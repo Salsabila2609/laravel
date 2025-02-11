@@ -2,9 +2,6 @@
     <div class="absolute w-full h-screen z-[-1]">
       <!-- Background Hijau -->
       <div :style="{ backgroundImage: 'url(' + greenBgUrl + ')' }" class="h-2/5 bg-cover bg-center"></div>
-  
-      <!-- Background Putih -->
-      <div class="h-3/5 bg-white"></div>
     </div>
   </template>
   

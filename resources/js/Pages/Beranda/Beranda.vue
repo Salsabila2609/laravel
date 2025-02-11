@@ -1,21 +1,15 @@
 <template>
   <div>
     <Navbar />
-
     <!-- Video Section -->
     <VideoSection :videoSource="videoSource" />
-
-
-
     <!-- Media Section -->
     <Media :media="media" />
-
     <!-- Berita Section -->
     <Berita
       :mainNews="mainNews"
       :newsCards="newsCards"
     />
-
     <!-- Popup Section -->
     <Popup v-if="showPopup" :popup="popup" />
 
