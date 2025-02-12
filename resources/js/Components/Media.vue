@@ -1,15 +1,21 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({
   media: {
     type: Array,
     required: true,
     default: () => []
+  },
+  autoplayInterval: {
+    type: Number,
+    default: 3000 // 3 seconds per slide
   }
 });
 
 const currentIndex = ref(0);
+const autoplayTimer = ref(null);
+const isHovered = ref(false);
 
 const currentCount = computed(() => {
   return `${currentIndex.value + 1} / ${props.media.length}`;
@@ -19,6 +25,31 @@ const hasMultipleSlides = computed(() => {
   return props.media.length > 1;
 });
 
+const startAutoplay = () => {
+  if (hasMultipleSlides.value && !isHovered.value) {
+    autoplayTimer.value = setInterval(() => {
+      nextSlide();
+    }, props.autoplayInterval);
+  }
+};
+
+const stopAutoplay = () => {
+  if (autoplayTimer.value) {
+    clearInterval(autoplayTimer.value);
+    autoplayTimer.value = null;
+  }
+};
+
+const handleMouseEnter = () => {
+  isHovered.value = true;
+  stopAutoplay();
+};
+
+const handleMouseLeave = () => {
+  isHovered.value = false;
+  startAutoplay();
+};
+
 const nextSlide = () => {
   currentIndex.value = currentIndex.value === props.media.length - 1 ? 0 : currentIndex.value + 1;
 };
@@ -26,10 +57,24 @@ const nextSlide = () => {
 const prevSlide = () => {
   currentIndex.value = currentIndex.value === 0 ? props.media.length - 1 : currentIndex.value - 1;
 };
+
+onMounted(() => {
+  startAutoplay();
+});
+
+onUnmounted(() => {
+  stopAutoplay();
+});
 </script>
 
 <template>
-  <div class="relative w-full max-w-[1920px] mx-auto px-4 mb-5 mt-5">
+  <div 
+    class="relative w-full max-w-[1920px] mx-auto px-4 mb-5 mt-5"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @touchstart="handleMouseEnter"
+    @touchend="handleMouseLeave"
+  >
     <!-- Slide container dengan tinggi responsif -->
     <div class="relative w-full h-[150px] sm:h-[200px] md:h-[250px] lg:h-[450px] xl:h-[400px] overflow-hidden rounded-lg bg-white">
       <template v-for="(item, index) in media" :key="item.id || index">
