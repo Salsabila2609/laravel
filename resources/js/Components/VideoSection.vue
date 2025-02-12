@@ -65,5 +65,12 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
+  .video-section {
+  position: relative;
+  overflow: hidden;
+  margin-top: 60px; /* Sesuaikan dengan tinggi navbar */
+  z-index: 10; /* Pastikan tetap di bawah navbar */
+}
+
   </style>
   

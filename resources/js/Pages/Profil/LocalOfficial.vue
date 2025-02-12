@@ -4,7 +4,7 @@
     <Background />
 
     <!-- Breadcrumb -->
-    <div class="text-sm text-[#99cbc0] font-bold p-5">
+    <div class="text-sm text-[#99cbc0] font-bold p-5" style="margin-left: 75px;">
       <Link href="/" class="text-yellow-500 no-underline">Beranda</Link> > Local Official
     </div>
 
