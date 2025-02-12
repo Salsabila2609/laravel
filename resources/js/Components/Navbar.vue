@@ -68,14 +68,7 @@
                 </svg>
               </button> 
               <div class="absolute left-0 hidden mt-1 w-48 bg-white shadow-lg rounded-md group-hover:block">
-                <div @mouseover="showDropdown('dropdown1')" @mouseleave="hideDropdown('dropdown1')" class="relative">
-                  <button class="group text-left flex items-center justify-between block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1"> Laporan Keuangan
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 22 22" fill="currentColor" stroke="currentColor" stroke-width="1">
-                      <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L12 14.586l5.293-5.293a1 1 0 111.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  
-                </div>
+                <Link href="/laporan-keuangan" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">Laporan Keuangan</Link>
                 <Link href="/PeraturanBupati" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">Peraturan Bupati</Link>
                 <Link href="/DataStatistik" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">Data Statistik</Link>
               </div>
