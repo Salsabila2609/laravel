@@ -6,7 +6,7 @@
         <div class="w-full flex justify-center mb-7">
           <div class="w-[450px] text-center">
             <h2 class="text-2xl font-bold">Kontak Kami</h2>
-            <div class="border-t-4 border-[#EDBC3B] mt-3 w-75 mx-auto"></div> 
+            <div class="border-t-4 border-[#D4A017] mt-3 w-75 mx-auto rounded"></div> 
           </div>
         </div>
   
@@ -81,7 +81,7 @@
         </div>
   
         <!-- Footer Copyright -->
-        <div class="mt-8 border-t border-[#EDBC3B] pt-4 text-center">
+        <div class="mt-8 border-t border-[#D4A017] pt-4 text-center">
           <p class="text-sm text-gray-400">&copy; 2025 Pemerintah Kabupaten Madiun. All Rights Reserved.</p>
         </div>
       </div>

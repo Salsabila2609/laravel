@@ -3,7 +3,7 @@
     <Navbar />
     <Background />
 
-    <div class="text-sm md:text-base text-[#99cbc0] font-bold px-5 py-3 flex flex-wrap items-center gap-2 text-center md:text-left">
+  <div class="text-sm text-[#99CBC0] font-bold py-4 px-6" style="margin-left: 75px;">
   <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link>
   <span class="hidden md:inline">></span>
   <span>Laporan Keuangan 2025</span>
