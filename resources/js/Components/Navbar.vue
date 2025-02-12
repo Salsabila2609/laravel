@@ -147,7 +147,7 @@
             <Link href="/PPID" class="block text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017] hover:rounded-md hover:shadow w-full px-2 py-1">PPID</Link>
   
             <!-- Berita -->
-            <Link href="/berita" class="block text-lg font-light text-gray-700 hover:text-[#ffffff] hover:bg-[#D4A017] hover:rounded-md hover:shadow w-full px-2 py-1">Berita</Link>
+            <Link href="/berita" class="text-lg font-light text-gray-700 hover:text-[#D4A017]">Berita</Link>
   
             <!-- Informasi Publik -->
             <div>
