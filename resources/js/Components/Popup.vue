@@ -42,9 +42,12 @@ const prevImage = () => {
       <!-- Slide Show Gambar -->
       <div class="relative w-full">
         <!-- Tombol Close -->
-        <button @click="showPopup = false" class="absolute top-[-25px] right-[-25px] bg-red-500 text-white px-3 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-200 z-10">
-          X
-        </button>
+<button @click="showPopup = false" class="absolute top-2 right-2 z-50 custom-close-button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 close-button">
+    <circle cx="12" cy="12" r="10" fill="#DB1B1B"/>
+    <path d="M10.28 9.22a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" fill="white"/>
+  </svg>
+</button>
         <img
         v-if="images.length > 0"
         :src="`/storage/${images[currentIndex]}`"
@@ -78,4 +81,15 @@ button {
 button:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+  .custom-close-button {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .custom-close-button:hover, .custom-close-button:focus {
+    background-color: transparent !important;
+    outline: none !important;
+  }
 </style>
