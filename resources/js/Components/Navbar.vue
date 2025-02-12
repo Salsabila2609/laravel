@@ -18,6 +18,7 @@
           <!-- Nav Link (Webview) -->
           <div class="hidden lg:flex items-center space-x-7">
             <!-- Beranda -->
+
             <Link href="/" class="text-lg font-light text-gray-700 hover:text-[#D4A017]">Beranda</Link>
   
             <!-- Profil -->

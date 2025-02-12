@@ -3,6 +3,7 @@
     <Navbar />
     <Background />
 
+
     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link>
       <span class="md:inline"> > </span>
@@ -113,6 +114,7 @@
           class="scale-90 sm:scale-100"
         />
       </div>
+
     </div>
 
     <Footer />
@@ -147,6 +149,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 10,
       pageSizeOptions: [10, 20, 25, 50, 100],
+
     };
   },
   computed: {
@@ -172,8 +175,10 @@ export default {
       }
     },
     handlePageSizeChange() {
+
       this.currentPage = 1;
     },
   },
 };
 </script>
+
