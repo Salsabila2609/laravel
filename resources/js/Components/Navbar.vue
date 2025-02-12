@@ -15,7 +15,7 @@
             </svg>
           </button>
         </div>
-  
+
         <!-- Desktop Nav Links (unchanged) -->
         <div class="hidden lg:flex items-center space-x-7">
             <!-- Beranda -->
@@ -98,7 +98,8 @@
   
       <!-- Mobile Menu with Updated Positioning -->
       <div v-if="isMenuOpen" class="mobile-menu lg:hidden">
-        <div class="flex flex-col space-y-4 py-4 px-4 bg-white shadow-lg rounded-md mt-2">
+        <div class="flex flex-col space-y-4 py-4 px-4 bg-white shadow-lg rounded-md">
+
             <!-- Beranda -->
             <Link href="/" class="text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017] hover:rounded-md hover:shadow w-full px-2 py-1 ">Beranda</Link>
   
@@ -193,118 +194,118 @@
     </nav>
   </template>
   
-  <script>
-  import { Link } from '@inertiajs/vue3';
-  
-  export default {
-    components: {
-      Link,
+<script>
+import { Link } from '@inertiajs/vue3';
+
+export default {
+  components: {
+    Link,
+  },
+  data() {
+    return {
+      isMenuOpen: false,
+      dropdowns: {
+        dropdown1: false,
+        dropdown2: false,
+        profil: false,
+        linkWebsite: false,
+        profilKabupaten: false,
+        berita: false,
+        informasiPublik: false,
+        laporanKeuangan: false,
+      },
+      isMobileView: false,
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
     },
-    data() {
-      return {
-        isMenuOpen: false,
-        dropdowns: {
-          dropdown1: false,
-          dropdown2: false,
-          profil: false,
-          linkWebsite: false,
-          profilKabupaten: false,
-          berita: false,
-          informasiPublik: false,
-          laporanKeuangan: false,
-        },
-        isMobileView: false,
-      };
+    showDropdown(dropdownKey) {
+      this.dropdowns[dropdownKey] = true;
     },
-    methods: {
-      toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
-        // Add body class to prevent scrolling when menu is open
-        if (this.isMenuOpen) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-        }
-      },
-      showDropdown(dropdownKey) {
-        this.dropdowns[dropdownKey] = true;
-      },
-      hideDropdown(dropdownKey) {
-        this.dropdowns[dropdownKey] = false;
-      },
-      toggleDropdown(dropdownKey) {
-        this.dropdowns[dropdownKey] = !this.dropdowns[dropdownKey];
-      },
-      isDropdownOpen(dropdownKey) {
-        return this.dropdowns[dropdownKey];
-      },
-      checkScreenSize() {
-        this.isMobileView = window.innerWidth <= 1024;
-        if (!this.isMobileView) {
-          this.isMenuOpen = false;
-          this.dropdowns = {};
-          document.body.style.overflow = '';
-        }
+    hideDropdown(dropdownKey) {
+      this.dropdowns[dropdownKey] = false;
+    },
+    toggleDropdown(dropdownKey) {
+      this.dropdowns[dropdownKey] = !this.dropdowns[dropdownKey];
+    },
+    isDropdownOpen(dropdownKey) {
+      return this.dropdowns[dropdownKey];
+    },
+    checkScreenSize() {
+      this.isMobileView = window.innerWidth <= 1024;
+      if (!this.isMobileView) {
+        this.isMenuOpen = false;
+        this.dropdowns = {};
       }
-    },
-    mounted() {
-      this.checkScreenSize();
-      window.addEventListener('resize', this.checkScreenSize);
-    },
-    beforeDestroy() {
-      window.removeEventListener('resize', this.checkScreenSize);
-      document.body.style.overflow = '';
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .navbar {
-    position: relative;
-    width: 100%;
-    z-index: 50;
-    background-color: white;
-  }
-  
-  .navbar-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .mobile-menu {
-    position: fixed;
-    top: 76px; /* Adjust based on your navbar height */
-    left: 0;
-    right: 0;
-    max-height: calc(100vh - 76px);
-    overflow-y: auto;
-    background-color: white;
-    z-index: 49;
-  }
-  
-  /* Dropdown styles */
-  .absolute {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    margin-top: 0;
-    left: 0;
-    transition: opacity 0.3s ease, visibility 0s 0.3s;
-  }
-  
-  .relative:hover .absolute {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-  }
-  
-  .relative .absolute.left-full {
-    top: 0;
-    left: 100%;
-    margin-left: 0rem;
-  }
-  </style>
+    }
+  },
+  mounted() {
+    this.checkScreenSize();
+    window.addEventListener('resize', this.checkScreenSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkScreenSize);
+  },
+};
+</script>
+
+<style scoped>
+.navbar {
+  position: relative;
+  width: 100%;
+  z-index: 50;
+  background-color: white;
+}
+
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.navbar-fixed .container {
+  position: relative;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 49;
+  width: 100%;
+}
+
+.navbar-fixed .mobile-menu {
+  position: fixed;
+  top: 80px; /* Adjust based on your navbar height */
+}
+
+/* Dropdown styles */
+.absolute {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  margin-top: 0;
+  left: 0;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.relative:hover .absolute {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.relative .absolute.left-full {
+  top: 0;
+  left: 100%;
+  margin-left: 0rem;
+}
+</style>
