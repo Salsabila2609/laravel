@@ -1,24 +1,24 @@
 <template>
-    <nav class="navbar bg-white shadow-md font-medium" style="font-size: 15px;">
-      <div class="container mx-auto px-4">
-        <div class="flex justify-between items-center py-4">
-          <!-- Logo -->
-          <a href="/" class="block">
-            <img src="/img/Logo.png" alt="Logo" class="h-12 w-auto">
-          </a>
-          <!-- Hamburger Menu -->
-          <div class="lg:hidden flex items-center">
-            <button @click="toggleMenu" class="text-gray-700 hover:text-[#D4A017]">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-          </div>
+  <nav :class="['navbar', { 'navbar-fixed': isMenuOpen }]" style="font-size: 15px;">
+    <div class="container mx-auto px-4">
+      <!-- Rest of the navbar content remains the same -->
+      <div class="flex justify-between items-center py-4">
+        <!-- Logo -->
+        <a href="/" class="block">
+          <img src="/img/Logo.png" alt="Logo" class="h-12 w-auto">
+        </a>
+        <!-- Hamburger Menu -->
+        <div class="lg:hidden flex items-center">
+          <button @click="toggleMenu" class="text-gray-700 hover:text-[#D4A017]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
   
-          <!-- Nav Link (Webview) -->
-          <div class="hidden lg:flex items-center space-x-7">
+        <!-- Desktop Nav Links (unchanged) -->
+        <div class="hidden lg:flex items-center space-x-7">
             <!-- Beranda -->
-
             <Link href="/" class="text-lg font-light text-gray-700 hover:text-[#D4A017]">Beranda</Link>
   
             <!-- Profil -->
@@ -96,9 +96,9 @@
           </div>
         </div>
   
-        <!-- Navlink (Mobile) -->
-        <div v-if="isMenuOpen" class="lg:hidden bg-white shadow-lg rounded-md mt-2">
-          <div class="flex flex-col space-y-4 py-4 px-4">
+      <!-- Mobile Menu with Updated Positioning -->
+      <div v-if="isMenuOpen" class="mobile-menu lg:hidden">
+        <div class="flex flex-col space-y-4 py-4 px-4 bg-white shadow-lg rounded-md mt-2">
             <!-- Beranda -->
             <Link href="/" class="text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017] hover:rounded-md hover:shadow w-full px-2 py-1 ">Beranda</Link>
   
@@ -193,72 +193,98 @@
     </nav>
   </template>
   
-<script>
-import { Link } from '@inertiajs/vue3';
-export default {
+  <script>
+  import { Link } from '@inertiajs/vue3';
+  
+  export default {
     components: {
       Link,
     },
-    
-  data() {
-    return {
-      isMenuOpen: false,  
-      dropdowns: {        
-        dropdown1: false,
-        dropdown2: false,
-        profil: false,
-        linkWebsite: false,
-        profilKabupaten: false,
-        berita: false,
-        informasiPublik: false,
-        laporanKeuangan: false,
+    data() {
+      return {
+        isMenuOpen: false,
+        dropdowns: {
+          dropdown1: false,
+          dropdown2: false,
+          profil: false,
+          linkWebsite: false,
+          profilKabupaten: false,
+          berita: false,
+          informasiPublik: false,
+          laporanKeuangan: false,
+        },
+        isMobileView: false,
+      };
+    },
+    methods: {
+      toggleMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+        // Add body class to prevent scrolling when menu is open
+        if (this.isMenuOpen) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
       },
-    };
-  },
-  methods: {
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-    },
-    showDropdown(dropdownKey) {
-      this.dropdowns[dropdownKey] = true;
-    },
-    hideDropdown(dropdownKey) {
-      this.dropdowns[dropdownKey] = false;
-    },
-    toggleDropdown(dropdownKey) {
-      this.dropdowns[dropdownKey] = !this.dropdowns[dropdownKey];
-    },
-    isDropdownOpen(dropdownKey) {
-      return this.dropdowns[dropdownKey];
-    },
-    checkScreenSize() {
-      this.isMobileView = window.innerWidth <= 1024; 
-      if (!this.isMobileView) {
-        this.isMenuOpen = false;
-        this.dropdowns = {}; 
+      showDropdown(dropdownKey) {
+        this.dropdowns[dropdownKey] = true;
+      },
+      hideDropdown(dropdownKey) {
+        this.dropdowns[dropdownKey] = false;
+      },
+      toggleDropdown(dropdownKey) {
+        this.dropdowns[dropdownKey] = !this.dropdowns[dropdownKey];
+      },
+      isDropdownOpen(dropdownKey) {
+        return this.dropdowns[dropdownKey];
+      },
+      checkScreenSize() {
+        this.isMobileView = window.innerWidth <= 1024;
+        if (!this.isMobileView) {
+          this.isMenuOpen = false;
+          this.dropdowns = {};
+          document.body.style.overflow = '';
+        }
       }
-    }
-  },
-  mounted() {
-    this.checkScreenSize();
-    window.addEventListener('resize', this.checkScreenSize);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.checkScreenSize);
-  },
-  
-};
-</script>
+    },
+    mounted() {
+      this.checkScreenSize();
+      window.addEventListener('resize', this.checkScreenSize);
+    },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.checkScreenSize);
+      document.body.style.overflow = '';
+    },
+  };
+  </script>
   
   <style scoped>
- .navbar {
-  position: fixed; /* Pastikan navbar selalu fixed */
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 50; /* Pastikan navbar ada di atas elemen lain */
-  background-color: white; /* Sesuaikan dengan desain */
-}
+  .navbar {
+    position: relative;
+    width: 100%;
+    z-index: 50;
+    background-color: white;
+  }
+  
+  .navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .mobile-menu {
+    position: fixed;
+    top: 76px; /* Adjust based on your navbar height */
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 76px);
+    overflow-y: auto;
+    background-color: white;
+    z-index: 49;
+  }
+  
+  /* Dropdown styles */
   .absolute {
     display: none;
     visibility: hidden;
@@ -268,32 +294,17 @@ export default {
     left: 0;
     transition: opacity 0.3s ease, visibility 0s 0.3s;
   }
+  
   .relative:hover .absolute {
     display: block;
     visibility: visible;
     opacity: 1;
     transition: opacity 0.3s ease;
   }
-    .relative .absolute.left-full {
-    top: 0;          
-    left: 100%;      
-    margin-left: 0rem; 
-  }
-  /* Mobile menu (hamburger) agar tidak mendorong video */
-.mobile-menu {
-  position: fixed; /* Gunakan fixed agar tidak menggeser konten lain */
-  top: 60px; /* Sesuaikan dengan tinggi navbar */
-  left: 0;
-  width: 100%;
-  height: auto;
-  background-color: white;
-  z-index: 40;
-  transition: transform 0.3s ease-in-out;
-  transform: translateY(-100%); /* Sembunyikan saat tidak aktif */
-}
-
-.mobile-menu.active {
-  transform: translateY(0); /* Tampilkan saat aktif */
-}
-  </style>
   
+  .relative .absolute.left-full {
+    top: 0;
+    left: 100%;
+    margin-left: 0rem;
+  }
+  </style>
