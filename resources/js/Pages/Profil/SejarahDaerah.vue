@@ -1,12 +1,10 @@
 <template>
   <Navbar />
-  <div class="container mx-auto px-4">
-    <!-- Gunakan komponen Background di sini -->
+  <div>
     <Background />
-
     <!-- Breadcrumb -->
-    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6">
-      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Sejarah Kabupaten Madiun
+    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
+      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Sejarah Daerah
     </div>
 
     <div class="relative z-10 px-5 py-10 text-gray-800">
@@ -169,4 +167,5 @@ export default {
 .card-hijau p {
   margin: 0;
 }
+
 </style>
