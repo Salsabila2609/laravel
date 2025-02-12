@@ -4,8 +4,8 @@
     <Background />
 
     <!-- Breadcrumb -->
-    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6" style="margin-left: 75px;">
-      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Daftar Nama Pejabat Daerah
+    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
+      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Daftar Nama Kecamatan Se-kabupaten
     </div>
 
     <div class="relative z-10 px-3 sm:px-5 py-6 sm:py-10 text-gray-800 max-w-7xl mx-auto">
