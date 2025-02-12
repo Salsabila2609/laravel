@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import NewsButton from '@/Components/NewsButton.vue';
 import Navbar from '@/Components/Navbar.vue';
+import PaginationComponent from '@/Components/Pagination.vue';
 
 
 // Get news data from props
@@ -81,7 +82,6 @@ const changePage = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
-
 // Carousel auto-rotation
 const startCarousel = () => {
   setInterval(() => {
@@ -305,7 +305,7 @@ onMounted(() => {
               <!-- Main content -->
               <div>
                 <h4 class="text-2xl font-bold text-gray-900 mb-2">{{ news.judul }}</h4>
-                <div class="text-gray-600 mb-3 line-clamp-3" v-html="news.isi_berita"></div>
+                <div class="text-gray-600 mb-3 line-clamp-3 md:line-clamp-3 lg:line-clamp-3" v-html="news.isi_berita"></div>
                 <p class="text-gray-600 mb-4 line-clamp-2">{{ news.excerpt }}</p>
 
                 <!-- Author and date info -->
@@ -346,76 +346,11 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <!-- Pagination Controls -->
-    <div class="flex justify-center items-center gap-2 mt-8">
-      <!-- First Page -->
-      <button
-        @click="changePage(1)"
-        :disabled="currentPage === 1"
-        class="p-2 rounded-md transition-all duration-200"
-        :class="currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-[#268B79] hover:bg-gray-100'"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
-
-      <!-- Previous Page -->
-      <button
-        @click="changePage(currentPage - 1)"
-        :disabled="currentPage === 1"
-        class="p-2 rounded-md transition-all duration-200"
-        :class="currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-[#268B79] hover:bg-gray-100'"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
-
-      <!-- Page Numbers -->
-      <div class="flex gap-1">
-        <button
-          v-for="page in pageNumbers"
-          :key="page"
-          @click="changePage(page)"
-          class="min-w-[2.5rem] h-10 rounded-md transition-all duration-200 text-sm font-medium"
-          :class="currentPage === page ? 
-            'bg-[#268B79] text-white' : 
-            'bg-gray-100 text-gray-600 hover:bg-gray-200'"
-        >
-          {{ page }}
-        </button>
-      </div>
-
-      <!-- Next Page -->
-      <button
-        @click="changePage(currentPage + 1)"
-        :disabled="currentPage === totalPages"
-        class="p-2 rounded-md transition-all duration-200"
-        :class="currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-[#268B79] hover:bg-gray-100'"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M7.293 15.707a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L11.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
-
-      <!-- Last Page -->
-      <button
-        @click="changePage(totalPages)"
-        :disabled="currentPage === totalPages"
-        class="p-2 rounded-md transition-all duration-200"
-        :class="currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-[#268B79] hover:bg-gray-100'"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L8.586 10l-4.293 4.293a1 1 0 000 1.414zm6 0a1 1 0 001.414 0l5-5a1 1 0 000-1.414l-5-5a1 1 0 00-1.414 1.414L14.586 10l-4.293 4.293a1 1 0 000 1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Page Information -->
-    <div class="text-center mt-4 text-gray-600">
-      Showing {{ ((currentPage - 1) * pageSize) + 1 }} to {{ Math.min(currentPage * pageSize, newsItems.length) }} of {{ newsItems.length }} items
-    </div>
+    <PaginationComponent
+    :current-page="currentPage"
+    :total-pages="totalPages"
+    :on-page-change="changePage"
+  />
   </div>
 </div>
 </template>

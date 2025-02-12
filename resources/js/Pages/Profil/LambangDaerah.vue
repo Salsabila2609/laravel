@@ -3,7 +3,7 @@
   <div class="w-full min-h-screen bg-cover bg-center bg-no-repeat relative flex flex-col justify-center items-center text-white" >
 
     <!-- Breadcrumb -->
-    <div class="absolute top-4 left-6 text-sm text-[#99CBC0] font-bold">
+    <div class="absolute top-4 left-6 text-sm text-[#99CBC0] font-bold" style="margin-left: 75px;">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Lambang Daerah
     </div>
 
@@ -13,9 +13,9 @@
 
       <!-- New section for the image and yellow lines -->
       <div class="flex items-center justify-center mt-3 w-full px-4">
-        <div class="h-[2px] bg-[#D4A017] flex-1"></div>
-        <img src="/public/img/silat.jpg" alt="Gambar Lambang Daerah" class="mx-4 h-10 w-auto">
-        <div class="h-[2px] bg-[#D4A017] flex-1"></div>
+        <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
+        <img src="../../../../public/image/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-10 w-auto">
+        <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
       </div>
 
       <p class="text-xl text-center mb-5 max-w-[85%] mx-auto">
@@ -27,7 +27,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
           <!-- Kolom kiri -->
           <div class="flex justify-center items-center">
-            <img src="/public/image/logo.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] h-auto md:ml-[-20px]">
+            <img src="../../../../public/image/logo.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] h-auto md:ml-[-20px]">
           </div>
 
           <!-- Kolom kanan -->

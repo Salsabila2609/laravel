@@ -5,7 +5,7 @@
     <Background />
 
     <!-- Breadcrumb -->
-    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6">
+    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6" style="margin-left: 75px;">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Daftar Nama Pejabat Daerah
     </div>
 
@@ -19,15 +19,13 @@
         <table class="w-[95%] mx-auto border-collapse">
           <thead>
             <tr>
-              <th class="py-3 px-4 border-b text-center">ID</th>
               <th class="py-3 px-4 border-b text-center">Nama</th>
               <th class="py-3 px-4 border-b text-center">Jabatan</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="pejabat in pejabats" :key="pejabat.id">
-              <td class="py-3 px-4 border-t border-b text-left">{{ pejabat.id }}</td>
-              <td class="py-3 px-4 border-t border-b text-left">{{ pejabat.name }}</td>
+             <td class="py-3 px-4 border-t border-b text-left">{{ pejabat.name }}</td>
               <td class="py-3 px-4 border-t border-b text-left">{{ pejabat.position }}</td>
             </tr>
           </tbody>

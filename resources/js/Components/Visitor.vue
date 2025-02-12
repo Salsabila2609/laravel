@@ -32,19 +32,19 @@
         <h2 class="text-lg md:text-xl lg:text-2xl font-bold">Jumlah Pengunjung</h2>
         <p
           v-if="currentView === 'harian' && isVisible"
-          class="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-400 mt-4"
+          class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#D4A017] mt-4"
         >
           <count-up :end-val="todayVisitorCount" :duration="2.5"></count-up>
         </p>
         <p
           v-if="currentView === 'bulanan' && isVisible"
-          class="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-400 mt-4"
+          class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#D4A017] mt-4"
         >
           <count-up :end-val="monthlyVisitorCount" :duration="2.5"></count-up>
         </p>
         <p
           v-if="currentView === 'tahunan' && isVisible"
-          class="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-400 mt-4"
+          class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#D4A017] mt-4"
         >
           <count-up :end-val="yearlyVisitorCount" :duration="2.5"></count-up>
         </p>

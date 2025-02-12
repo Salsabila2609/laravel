@@ -6,7 +6,7 @@
 
 
     <!-- Breadcrumb -->
-    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6">
+    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6" style="margin-left: 75px;">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Daftar Nama Kecamatan Se-kabupaten
     </div>
 
@@ -28,13 +28,13 @@
           </thead>
           <tbody>
             <tr v-for="kecamatan in kecamatans" :key="kecamatan.id">
-              <td class="py-3 px-4 border-t border-b text-left">
+              <td class="py-3 px-4 border-t border-b text-center">
                 <a :href="kecamatan.link" class="text-blue-500 hover:underline" target="_blank">
                   {{ kecamatan.name }}
                 </a>
               </td>
-              <td class="py-3 px-4 border-t border-b text-left">{{ kecamatan.address }}</td>
-              <td class="py- px-4 border-t border-b text-left">{{ kecamatan.contact }}</td>
+              <td class="py-3 px-4 border-t border-b text-center">{{ kecamatan.address }}</td>
+              <td class="py- px-4 border-t border-b text-center">{{ kecamatan.contact }}</td>
             </tr>
           </tbody>
         </table>
