@@ -74,14 +74,7 @@
                       <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L12 14.586l5.293-5.293a1 1 0 111.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
                   </button>
-                  <div v-if="dropdowns.dropdown1" class="absolute top-0 left-full ml-2 w-48 bg-white shadow-lg rounded-md">
-                    <Link href="/LapKeu2025" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">2025</Link>
-                    <Link href="/LapKeu2024" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">2024</Link>
-                    <Link href="/LapKeu2023" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">2023</Link>
-                    <Link href="/LapKeu2022" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">2022</Link>
-                    <Link href="/LapKeu2021" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">2021</Link>
-                    <Link href="/LapKeu2020" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">2018-2020</Link>
-                  </div>
+                  
                 </div>
                 <Link href="/PeraturanBupati" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">Peraturan Bupati</Link>
                 <Link href="/DataStatistik" class="block px-4 py-2 text-lg font-light text-gray-700 hover:text-[#ffffff]  hover:bg-[#D4A017]  hover:rounded-md hover:shadow w-full px-2 py-1">Data Statistik</Link>

@@ -115,12 +115,7 @@ Route::get('/BeritaDaerah', [PageController::class, 'BeritaDaerah'])->name('Beri
 Route::get('/DataStatistik', [DocumentController::class, 'DataStatistik'])->name('DataStatistik');
 Route::get('/PeraturanBupati', [DocumentController::class, 'PeraturanBupati'])->name('PeraturanBupati');
 
-Route::get('/LapKeu2020', [DocumentController::class, 'LaporanKeuangan2020'])->name('LapKeu2020');
-Route::get('/LapKeu2021', [DocumentController::class, 'LaporanKeuangan2021'])->name('LapKeu2021');
-Route::get('/LapKeu2022', [DocumentController::class, 'LaporanKeuangan2022'])->name('LapKeu2022');
-Route::get('/LapKeu2023', [DocumentController::class, 'LaporanKeuangan2023'])->name('LapKeu2023');
-Route::get('/LapKeu2024', [DocumentController::class, 'LaporanKeuangan2024'])->name('LapKeu2024');
-Route::get('/LapKeu2025', [DocumentController::class, 'LaporanKeuangan2025'])->name('LapKeu2025');
+Route::get('/laporan-keuangan', [DocumentController::class, 'LaporanKeuangan'])->name('documents.laporanKeuangan');
 
 Route::get('/PPID', [PageController::class, 'PPID'])->name('PPID');
 Route::get('/Kontak', [PageController::class, 'Kontak'])->name('Kontak');
