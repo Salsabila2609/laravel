@@ -18,7 +18,7 @@
           <!-- Nav Link (Webview) -->
           <div class="hidden lg:flex items-center space-x-7">
             <!-- Beranda -->
-            <Link href="/" class="text-gray-700 hover:text-[#D4A017]">Beranda</Link>
+            <Link href="/" class="text-gray-700  hover:text-[#D4A017]">Beranda</Link>
   
             <!-- Profil -->
             <div class="relative group">

@@ -2,7 +2,7 @@
   <div
     class="visitor-card flex flex-col items-center text-white rounded-full p-5 mx-auto relative mb-10"
   >
-    <div class="flex items-center justify-between space-x-4  ">
+    <div class="flex items-center justify-between space-x-4">
       <div class="flex flex-col items-start space-y-2 w-1/4">
         <button
           @click="changeView('harian')"
@@ -29,10 +29,17 @@
 
       <!-- Judul dan Data -->
       <div class="text-center flex-1" ref="countContainer">
-        <h2 class="text-lg md:text-xl lg:text-2xl font-bold">Jumlah Pengunjung</h2>
+        <h2 class="text-xl md:text-xl lg:text-2xl font-bold whitespace-nowrap">
+  Jumlah Pengunjung
+</h2>
+<p class="test-xs mb-3 mt-2">
+  {{ formattedDate }}
+</p>
+
+
         <p
           v-if="currentView === 'harian' && isVisible"
-          class="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-400 mt-4"
+          class="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-400 "
         >
           <count-up :end-val="todayVisitorCount" :duration="2.5"></count-up>
         </p>
@@ -54,54 +61,45 @@
   </div>
 </template>
 
-
 <script>
-import CountUp from 'vue-countup-v3'; // Import the CountUp component
-import peopleImage from "../../../public/img/people.png"; // Path gambar
+import CountUp from 'vue-countup-v3';
+import peopleImage from "../../../public/img/people.png";
 
 export default {
   components: {
-    CountUp, // Register the CountUp component
+    CountUp,
   },
   props: {
-    todayVisitorCount: {
-      type: Number,
-      required: true,
-    },
-    monthlyVisitorCount: {
-      type: Number,
-      required: true,
-    },
-    yearlyVisitorCount: {
-      type: Number,
-      required: true,
-    },
+    todayVisitorCount: Number,
+    monthlyVisitorCount: Number,
+    yearlyVisitorCount: Number,
   },
   data() {
     return {
-      currentDate: new Date().toLocaleDateString("id-ID"), // Current date
-      currentView: "harian", // Default view is 'harian'
-      peopleImage, // Example image path
-      isVisible: false, // Track visibility state
+      currentView: "harian",
+      peopleImage,
+      isVisible: false,
+      formattedDate: new Date().toLocaleDateString("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
     };
   },
   mounted() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Check if the element is in view
           if (entry.isIntersecting) {
-            this.isVisible = true; // Set visibility to true
+            this.isVisible = true;
             observer.unobserve(entry.target);
           }
         });
       },
-      {
-        threshold: 0.5, // Trigger when 50% of the element is in view
-      }
+      { threshold: 0.5 }
     );
 
-    // Start observing the visitor count container
     observer.observe(this.$refs.countContainer);
   },
   methods: {
@@ -113,10 +111,9 @@ export default {
 </script>
 
 
-
 <style scoped>
 .visitor-card {
-  height: 165px; /* Tinggi spesifik */
+  height: 185px; /* Tinggi spesifik */
   background-color: #064e3b;
   background-image: url('/img/Visitor.png');
   background-size: cover;
