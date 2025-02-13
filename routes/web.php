@@ -53,15 +53,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/popup', [PopupController::class, 'store'])->name('popup.store');
     Route::put('/popup/{id}', [PopupController::class, 'update'])->name('popup.update');
     Route::delete('/popup/{id}', [PopupController::class, 'destroy'])->name('popup.destroy');
+    Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
+    Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
+    Route::put('/videos/{id}', [VideoController::class, 'update'])->name('videos.update');
+    Route::delete('/videos/{id}', [VideoController::class, 'destroy'])->name('videos.destroy');
+    Route::get('/upload-document', [DocumentController::class, 'uploadPage'])->name('documents.upload');
+    Route::post('/upload-document', [DocumentController::class, 'store'])->name('documents.store');
+    Route::put('/upload-document/{id}', [DocumentController::class, 'update'])->name('documents.update');
+    Route::delete('/upload-document/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+
 });
 
-Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
-Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
-Route::put('/videos/{id}', [VideoController::class, 'update'])->name('videos.update');
-Route::delete('/videos/{id}', [VideoController::class, 'destroy'])->name('videos.destroy');
-
-// API untuk mengambil video terbaru
-Route::get('/latest-video', [VideoController::class, 'latestVideo']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
@@ -70,11 +72,6 @@ Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
 Route::get('/laporan_keuangan', [DocumentController::class, 'index'])->name('Laporan_Keuangan.index');
 Route::get('/unduh/{id}', [DocumentController::class, 'download'])->name('Laporan_Keuangan.download'); 
-
-Route::get('/upload-document', [DocumentController::class, 'uploadPage'])->name('documents.upload');
-Route::post('/upload-document', [DocumentController::class, 'store'])->name('documents.store');
-Route::put('/upload-document/{id}', [DocumentController::class, 'update'])->name('documents.update');
-Route::delete('/upload-document/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 
 // Halaman daftar pejabat daerah
 Route::get('/PejabatDaerah', [PejabatController::class, 'index'])->name('PejabatDaerah.index');
