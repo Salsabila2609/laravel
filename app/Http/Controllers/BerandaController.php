@@ -1,12 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Visitor;
-use App\Models\Popup; // Tambahkan model Popup
+use App\Models\Popup;
+use App\Models\Media;
+use App\Models\Video; // ✅ Tambahkan model Video
 use Inertia\Inertia;
 use Carbon\Carbon;
-use App\Models\Media; 
 use App\Http\Controllers\NewsHomeController;
 
 class BerandaController extends Controller
@@ -31,24 +31,29 @@ class BerandaController extends Controller
         $newsHomeController = new NewsHomeController();
         $data = $newsHomeController->getBerita();
 
-        // Ambil semua gambar popup dan gabungkan menjadi satu string
-        $popupImages = Popup::pluck('image_popup')->toArray();
+        // Ambil semua gambar popup
         $popup = [
-            'image_popup' => $popupImages  // Kirim array, bukan string yang dipisahkan koma
+            'image_popup' => Popup::pluck('image_popup')->toArray()
         ];   
+
+        // Ambil data media
         $media = Media::latest()->get();
 
+        // ✅ Ambil video terbaru dari database
+        $latestVideo = Video::latest()->first();
+        $videoPath = $latestVideo ? asset('storage/' . $latestVideo->video_path) : null;
 
-                // Kirim data ke halaman Beranda melalui Inertia
-                return Inertia::render('Beranda/Beranda', [
-                    'visitorCount' => $visitorCount,
-                    'todayVisitorCount' => $todayVisitorCount,
-                    'monthlyVisitorCount' => $monthlyVisitorCount,
-                    'yearlyVisitorCount' => $yearlyVisitorCount,
-                    'mainNews' => $data['mainNews'],
-                    'newsCards' => $data['newsCards'],
-                    'popup' => $popup, // Data popup
-                    'media' => $media, 
-                ]);        
-            }
-        }
+        // Kirim data ke halaman Beranda melalui Inertia
+        return Inertia::render('Beranda/Beranda', [
+            'visitorCount' => $visitorCount,
+            'todayVisitorCount' => $todayVisitorCount,
+            'monthlyVisitorCount' => $monthlyVisitorCount,
+            'yearlyVisitorCount' => $yearlyVisitorCount,
+            'mainNews' => $data['mainNews'],
+            'newsCards' => $data['newsCards'],
+            'popup' => $popup,
+            'media' => $media,
+            'latestVideo' => $videoPath, // ✅ Kirim video terbaru ke frontend
+        ]);        
+    }
+}

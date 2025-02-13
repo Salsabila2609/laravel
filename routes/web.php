@@ -20,6 +20,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LambangController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\VideoController;
 
 use App\Http\Controllers\PopupController;
 use App\Http\Controllers\MediaController;
@@ -54,6 +55,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/popup/{id}', [PopupController::class, 'destroy'])->name('popup.destroy');
 });
 
+Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
+Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
+Route::put('/videos/{id}', [VideoController::class, 'update'])->name('videos.update');
+Route::delete('/videos/{id}', [VideoController::class, 'destroy'])->name('videos.destroy');
+
+// API untuk mengambil video terbaru
+Route::get('/latest-video', [VideoController::class, 'latestVideo']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 

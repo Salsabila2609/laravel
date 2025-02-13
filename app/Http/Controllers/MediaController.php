@@ -12,7 +12,7 @@ class MediaController extends Controller
     public function index()
     {
         $media = Media::latest()->get();
-        return Inertia::render('Media/Index', ['media' => $media]);
+        return Inertia::render('Admin/Media/Index', ['media' => $media]);
     }
 
     // CREATE: Upload media baru
