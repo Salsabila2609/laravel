@@ -9,6 +9,7 @@ use App\Models\Kecamatan;
 use App\Models\Popup;
 use App\Models\Document;
 use App\Models\Media;
+use App\Models\Video;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -50,6 +51,11 @@ class DashboardController extends Controller
                 'label' => 'Jumlah Dokumen',
                 'value' => Document::count(),
                 'icon' => 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z'
+            ],
+            [
+                'label' => 'Jumlah Video',
+                'value' => Video::count(),
+                'icon' => 'M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
             ]
         ];
 
