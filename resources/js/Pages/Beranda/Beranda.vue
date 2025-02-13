@@ -19,14 +19,14 @@
 
 <script>
 import Navbar from '@/Components/Navbar.vue';
-import Video from '@/Components/VideoSection.vue'; // Import Video.vue
-import Visitor from "@/Components/Visitor.vue";
+import Video from '@/Components/Beranda/VideoSection.vue'; // Import Video.vue
+import Visitor from "@/Components/Beranda/Visitor.vue";
 import Footer from "@/Components/Footer.vue";
-import Berita from "@/Components/Berita.vue";
-import Layanan from "@/Components/Layanan.vue";
-import VideoGallery from "@/Components/VideoGallery.vue";
-import Popup from "@/Components/Popup.vue";
-import Media from '@/Components/Media.vue';
+import Berita from "@/Components/Beranda/Berita.vue";
+import Layanan from "@/Components/Beranda/Layanan.vue";
+import VideoGallery from "@/Components/Beranda/VideoGallery.vue";
+import Popup from "@/Components/Beranda/Popup.vue";
+import Media from '@/Components/Beranda/Media.vue';
 
 export default {
   components: {
