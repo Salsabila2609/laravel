@@ -59,7 +59,7 @@ class DashboardController extends Controller
             ]
         ];
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Admin/Dashboard/Dashboard', [
             'stats' => $stats
         ]);
     }

@@ -43,7 +43,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
     
         // Redirect to /news after successful login
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/Admin/Dashboard/Dashboard');
     }
     /**
      * Destroy an authenticated session.
