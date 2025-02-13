@@ -92,13 +92,11 @@ const previewImage = (file) => {
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <nav class="bg-green-700 text-white shadow">
-      <div class="container mx-auto px-4 py-2 flex justify-between items-center">
-        <Link href="/news" class="text-xl font-bold hover:underline">
-          Back to News
-        </Link>
-      </div>
-    </nav>
+    <div class="text-sm text-[#99cbc0] font-bold p-5">
+  <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda > </Link>
+  <Link href="/news" class="text-[#D4A017] no-underline">Berita</Link> > 
+  Edit Berita
+</div>
 
     <div class="container mx-auto p-3">
       <div class="bg-white shadow-lg rounded-lg p-6">

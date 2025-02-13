@@ -5,7 +5,7 @@
   
       <!-- Breadcrumb -->
       <div class="text-sm text-[#99cbc0] font-bold p-5">
-        <Link href="/" class="text-yellow-500 no-underline">Beranda</Link> > Local Official
+        <Link href="/dashboard" class="text-yellow-500 no-underline">Beranda</Link> > Local Official
       </div>
   
       <div class="relative z-1 p-5 text-gray-800">

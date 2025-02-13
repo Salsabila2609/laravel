@@ -26,10 +26,6 @@ use App\Http\Controllers\PopupController;
 use App\Http\Controllers\MediaController;
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -53,15 +49,38 @@ Route::middleware('auth')->group(function () {
     Route::post('/popup', [PopupController::class, 'store'])->name('popup.store');
     Route::put('/popup/{id}', [PopupController::class, 'update'])->name('popup.update');
     Route::delete('/popup/{id}', [PopupController::class, 'destroy'])->name('popup.destroy');
+    Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
+    Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
+    Route::put('/videos/{id}', [VideoController::class, 'update'])->name('videos.update');
+    Route::delete('/videos/{id}', [VideoController::class, 'destroy'])->name('videos.destroy');
+    Route::get('/upload-document', [DocumentController::class, 'uploadPage'])->name('documents.upload');
+    Route::post('/upload-document', [DocumentController::class, 'store'])->name('documents.store');
+    Route::put('/upload-document/{id}', [DocumentController::class, 'update'])->name('documents.update');
+    Route::delete('/upload-document/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+    // Halaman daftar pejabat (local-official)
+    Route::get('/local_official', [PejabatController::class, 'localOfficial'])->name('pejabat.localOfficial');
+    Route::get('/local_official/create', [PejabatController::class, 'create'])->name('pejabat.create');
+    Route::post('/local_official', [PejabatController::class, 'store'])->name('pejabat.store');
+    Route::get('/local_official/edit/{id}', [PejabatController::class, 'edit'])->name('pejabat.edit');
+    Route::put('/local_official/{id}', [PejabatController::class, 'update'])->name('pejabat.update');
+    Route::delete('/local_official/{id}', [PejabatController::class, 'destroy'])->name('pejabat.destroy');
+    // Halaman daftar OPD (lgo)
+    Route::get('/lgo', [OPDController::class, 'lgo'])->name('opd.lgo');
+    Route::get('/lgo/create', [OPDController::class, 'create'])->name('opd.create');
+    Route::post('/lgo', [OPDController::class, 'store'])->name('opd.store');
+    Route::get('/lgo/edit/{id}', [OPDController::class, 'edit'])->name('opd.edit');
+    Route::put('/lgo/{id}', [OPDController::class, 'update'])->name('opd.update');
+    Route::delete('/lgo/{id}', [OPDController::class, 'destroy'])->name('opd.destroy');
+    // Halaman daftar Kecamatan (subdistrict)
+    Route::get('/subdistrict', [KecamatanController::class, 'subdistrict'])->name('kecamatan.subdistrict');
+    Route::get('/subdistrict/create', [KecamatanController::class, 'create'])->name('kecamatan.create');
+    Route::post('/subdistrict', [KecamatanController::class, 'store'])->name('kecamatan.store');
+    Route::get('/subdistrict/edit/{id}', [KecamatanController::class, 'edit'])->name('kecamatan.edit');
+    Route::put('/subdistrict/{id}', [KecamatanController::class, 'update'])->name('kecamatan.update');
+    Route::delete('/subdistrict/{id}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
+
 });
 
-Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
-Route::post('/videos', [VideoController::class, 'store'])->name('videos.store');
-Route::put('/videos/{id}', [VideoController::class, 'update'])->name('videos.update');
-Route::delete('/videos/{id}', [VideoController::class, 'destroy'])->name('videos.destroy');
-
-// API untuk mengambil video terbaru
-Route::get('/latest-video', [VideoController::class, 'latestVideo']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
@@ -71,43 +90,15 @@ Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 Route::get('/laporan_keuangan', [DocumentController::class, 'index'])->name('Laporan_Keuangan.index');
 Route::get('/unduh/{id}', [DocumentController::class, 'download'])->name('Laporan_Keuangan.download'); 
 
-Route::get('/upload-document', [DocumentController::class, 'uploadPage'])->name('documents.upload');
-Route::post('/upload-document', [DocumentController::class, 'store'])->name('documents.store');
-Route::put('/upload-document/{id}', [DocumentController::class, 'update'])->name('documents.update');
-Route::delete('/upload-document/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
-
 // Halaman daftar pejabat daerah
 Route::get('/PejabatDaerah', [PejabatController::class, 'index'])->name('PejabatDaerah.index');
 
-// Halaman daftar pejabat (local-official)
-Route::get('/local_official', [PejabatController::class, 'localOfficial'])->name('pejabat.localOfficial');
-Route::get('/local_official/create', [PejabatController::class, 'create'])->name('pejabat.create');
-Route::post('/local_official', [PejabatController::class, 'store'])->name('pejabat.store');
-Route::get('/local_official/edit/{id}', [PejabatController::class, 'edit'])->name('pejabat.edit');
-Route::put('/local_official/edit/{id}', [PejabatController::class, 'update'])->name('pejabat.update');
-Route::delete('/local_official/{id}', [PejabatController::class, 'destroy'])->name('pejabat.destroy');
 
 // Halaman daftar OPD
 Route::get('/OPD', [OPDController::class, 'index'])->name('OPD.index');
 
-// Halaman daftar OPD (lgo)
-Route::get('/lgo', [OPDController::class, 'lgo'])->name('opd.lgo');
-Route::get('/lgo/create', [OPDController::class, 'create'])->name('opd.create');
-Route::post('/lgo', [OPDController::class, 'store'])->name('opd.store');
-Route::get('/lgo/edit/{id}', [OPDController::class, 'edit'])->name('opd.edit');
-Route::put('/lgo/{id}', [OPDController::class, 'update'])->name('opd.update');
-Route::delete('/lgo/{id}', [OPDController::class, 'destroy'])->name('opd.destroy');
-
 // Halaman daftar kecamatan
 Route::get('/Kecamatan', [KecamatanController::class, 'index'])->name('Kecamatan.index');
-
-// Halaman daftar Kecamatan (subdistrict)
-Route::get('/subdistrict', [KecamatanController::class, 'subdistrict'])->name('kecamatan.subdistrict');
-Route::get('/subdistrict/create', [KecamatanController::class, 'create'])->name('kecamatan.create');
-Route::post('/subdistrict', [KecamatanController::class, 'store'])->name('kecamatan.store');
-Route::get('/subdistrict/edit/{id}', [KecamatanController::class, 'edit'])->name('kecamatan.edit');
-Route::put('/subdistrict/{id}', [KecamatanController::class, 'update'])->name('kecamatan.update');
-Route::delete('/subdistrict/{id}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 Route::get('/LambangDaerah', [PageController::class, 'LambangDaerah'])->name('LambangDaerah');
 

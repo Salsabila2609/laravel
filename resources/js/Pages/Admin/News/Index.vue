@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import Navbar from '@/Components/Navbar.vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import NewsButton from '@/Components/NewsButton.vue';
 
@@ -140,9 +139,9 @@ onMounted(() => {
 </script>
 
 <template>
-
-  <Navbar />
-
+      <div class="text-sm text-[#99cbc0] font-bold p-5">
+      <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda</Link> > Berita
+    </div>
   <div class="min-h-screen white">
     <div class="container mx-auto px-6 py-8">
       <div class="flex justify-between items-center mb-5 relative">
