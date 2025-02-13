@@ -1,6 +1,11 @@
 <template>
   <div class="flex justify-end mb-5 pr-5 w-full max-w-6xl mx-auto">
-    <button @click="openModal" class="add-button">{{ buttonText }}</button>
+    <button 
+      @click="openModal" 
+      class="add-button whitespace-nowrap text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-4 w-auto"
+    >
+      {{ buttonText }}
+    </button>
   </div>
 </template>
 
@@ -22,7 +27,7 @@ export default {
 
 <style scoped>
 .add-button {
-  @apply inline-block bg-yellow-600 text-white py-2 px-5 text-sm font-bold border-none rounded-md cursor-pointer shadow-md transition-all duration-300 ease-in-out;
+  @apply inline-block bg-yellow-600 text-white font-bold border-none rounded-md cursor-pointer shadow-md transition-all duration-300 ease-in-out;
 }
 
 .add-button:hover {
