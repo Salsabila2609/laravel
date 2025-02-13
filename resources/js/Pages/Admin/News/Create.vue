@@ -82,11 +82,12 @@ const previewImage = (file) => {
 <template>
   <div class="min-h-screen bg-gray-100">
     <!-- Navbar -->
-    <nav class="bg-green-700 text-white shadow">
-      <div class="container mx-auto px-7 py-4 flex justify-between items-center">
-        <Link href="/dashboard" class="text-1xl font-bold hover:underline">Back to Dashboard</Link>
-      </div>
-    </nav>
+    <div class="text-sm text-[#99cbc0] font-bold p-5">
+  <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda > </Link>
+  <Link href="/news" class="text-[#D4A017] no-underline">Berita</Link> > 
+  Tambah Berita
+</div>
+
 
     <div class="container mx-auto p-3">
       <!-- Form dalam satu card -->
