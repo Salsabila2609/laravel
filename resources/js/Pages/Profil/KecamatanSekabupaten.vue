@@ -58,8 +58,8 @@
 // Import komponen Background dan Card dari folder Components
 import Background from '@/Components/Background.vue';
 import Card from '@/Components/Card.vue';
-import Navbar from '@/Components/Navbar.vue';
-import Footer from '@/Components/Footer.vue';
+import Navbar from '@/Components/Layout/Navbar.vue';
+import Footer from '@/Components/Layout/Footer.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {

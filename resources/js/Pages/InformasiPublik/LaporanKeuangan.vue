@@ -110,8 +110,8 @@
 </template>
 
 <script>
-import Navbar from '@/Components/Navbar.vue';
-import Footer from '@/Components/Footer.vue';
+import Navbar from '@/Components/Layout/Navbar.vue';
+import Footer from '@/Components/Layout/Footer.vue';
 import NewsButton from '@/Components/NewsButton.vue';
 import Background from '@/Components/Background.vue';
 import Card from '@/Components/Card.vue';
