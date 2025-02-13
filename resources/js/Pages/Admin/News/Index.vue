@@ -150,7 +150,7 @@ onMounted(() => {
         </h1>
       </div>
       <p class="text-lg md:text-xl text-center text-black mb-5 max-w-[85%] mx-auto">Temukan informasi menarik seputar pemerintah kabupaten madiun</p>
-      <div class="h-[3px] bg-[#268B79] w-1/5 mx-auto"></div>
+      <div class="h-[3px] bg-[#268B79] w-1/5 mx-auto rounded"></div>
 
       <div class="flex justify-end mt-4">
         <NewsButton href="/news/create" class="flex items-center gap-2 bg-[#268B79] text-white px-4 py-2 rounded">
