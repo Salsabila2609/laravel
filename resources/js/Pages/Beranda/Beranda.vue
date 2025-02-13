@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import Navbar from '@/Components/Navbar.vue';
-import Video from '@/Components/Beranda/VideoSection.vue'; // Import Video.vue
-import Visitor from "@/Components/Beranda/Visitor.vue";
-import Footer from "@/Components/Footer.vue";
-import Berita from "@/Components/Beranda/Berita.vue";
-import Layanan from "@/Components/Beranda/Layanan.vue";
-import VideoGallery from "@/Components/Beranda/VideoGallery.vue";
-import Popup from "@/Components/Beranda/Popup.vue";
-import Media from '@/Components/Beranda/Media.vue';
+import Navbar from '@/Components/Layout/Navbar.vue';
+import Footer from "@/Components/Layout/Footer.vue";
+import Video from '@/Components/Layout/Beranda/VideoSection.vue'; // Import Video.vue
+import Visitor from "@/Components/Layout/Beranda/Visitor.vue";
+import Berita from "@/Components/Layout/Beranda/Berita.vue";
+import Layanan from "@/Components/Layout/Beranda/Layanan.vue";
+import VideoGallery from "@/Components/Layout/Beranda/VideoGallery.vue";
+import Popup from "@/Components/Layout/Beranda/Popup.vue";
+import Media from '@/Components/Layout/Beranda/Media.vue';
 
 export default {
   components: {

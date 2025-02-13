@@ -90,11 +90,11 @@
 
   
   <script>
-  import diskominfoImage from '../../../public/images/diskominfo.png';
-  import youtubeImage from '../../../public/images/youtube.png';
-  import instagramImage from '../../../public/images/instagram.png';
-  import twitterImage from '../../../public/images/twitter.png';
-  import facebookImage from '../../../public/images/facebook.png';
+  import diskominfoImage from '../../../../public/images/diskominfo.png';
+  import youtubeImage from '../../../../public/images/youtube.png';
+  import instagramImage from '../../../../public/images/instagram.png';
+  import twitterImage from '../../../../public/images/twitter.png';
+  import facebookImage from '../../../../public/images/facebook.png';
   
   export default {
     data() {
