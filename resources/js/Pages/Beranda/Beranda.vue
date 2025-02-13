@@ -1,36 +1,25 @@
 <template>
   <div>
     <Navbar />
-    <!-- Video Section -->
-    <VideoSection :videoSource="videoSource" />
-    <!-- Media Section -->
+    <Video :videoSource="latestVideo" /> <!-- Tambahkan ini -->
     <Media :media="media" />
-    <!-- Berita Section -->
-    <Berita
-      :mainNews="mainNews"
-      :newsCards="newsCards"
-    />
-    <!-- Popup Section -->
+    <Berita :mainNews="mainNews" :newsCards="newsCards" />
     <Popup v-if="showPopup" :popup="popup" />
-
-    <!-- Visitor Section -->
     <Layanan />
     <VideoGallery />
-    <Visitor
+    <Visitor 
       :visitorCount="visitorCount"
       :todayVisitorCount="todayVisitorCount"
       :monthlyVisitorCount="monthlyVisitorCount"
       :yearlyVisitorCount="yearlyVisitorCount"
     />
-
     <Footer />
   </div>
 </template>
 
 <script>
 import Navbar from '@/Components/Navbar.vue';
-import VideoSection from '@/Components/VideoSection.vue';
-import ProfileSection from '@/Components/ProfileSection.vue';
+import Video from '@/Components/VideoSection.vue'; // Import Video.vue
 import Visitor from "@/Components/Visitor.vue";
 import Footer from "@/Components/Footer.vue";
 import Berita from "@/Components/Berita.vue";
@@ -38,13 +27,11 @@ import Layanan from "@/Components/Layanan.vue";
 import VideoGallery from "@/Components/VideoGallery.vue";
 import Popup from "@/Components/Popup.vue";
 import Media from '@/Components/Media.vue';
-import videoSource from '../../../../public/vid/VideoBeranda.mp4';
 
 export default {
   components: {
     Navbar,
-    VideoSection,
-    ProfileSection,
+    Video, // Tambahkan Video.vue
     Visitor,
     Footer,
     Berita,
@@ -54,6 +41,7 @@ export default {
     Media,
   },
   props: {
+    latestVideo: String, // Tambahkan prop ini
     media: Array,
     visitorCount: Number,
     todayVisitorCount: Number,
@@ -65,15 +53,8 @@ export default {
   },
   data() {
     return {
-      videoSource,
       showPopup: true,
     };
   },
-  mounted() {
-    const script = document.createElement("script");
-    script.src = "https://website-widgets.pages.dev/dist/sienna.min.js";
-    script.defer = true;
-    document.body.appendChild(script);
-  }
 };
 </script>
