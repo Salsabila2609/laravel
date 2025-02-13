@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import Navbar from '@/Components/Navbar.vue';
 import Background from '@/Components/Background.vue';
-import AddButton from '@/Components/AddButton.vue'; 
+import AddButton from '@/Components/UI/AddButton.vue'; 
 import Card from '@/Components/Card.vue'; 
 import { Link } from '@inertiajs/vue3'; 
 
