@@ -12,7 +12,7 @@ class VideoController extends Controller
     public function index()
     {
         $videos = Video::latest()->get();
-        return Inertia::render('Admin/Video/VideoUpload', [
+        return Inertia::render('Admin/Video/Video', [
             'videos' => $videos
         ]);
     }
