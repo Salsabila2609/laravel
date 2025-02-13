@@ -65,7 +65,7 @@
 
 <script>
 import CountUp from 'vue-countup-v3';
-import peopleImage from "../../../public/img/people.png";
+import peopleImage from "../../../../public/img/people.png";
 
 export default {
   components: {
