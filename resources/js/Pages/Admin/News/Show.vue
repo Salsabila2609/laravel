@@ -85,14 +85,11 @@ export default {
   <Navbar />
 
   <div class="min-h-screen bg-[#396C6D]">
-    <!-- Navbar -->
-    <nav class="bg-[#396C6D] text-white shadow">
-      <div class="container mx-auto px-4 py-2 flex justify-between items-center">
-        <Link href="/dashboard" class="text-xl font-bold hover:underline">
-          Back to Dashboard
-        </Link>
-      </div>
-    </nav>
+    <div class="text-sm text-[#99cbc0] font-bold p-5">
+  <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda > </Link>
+  <Link href="/news" class="text-[#D4A017] no-underline">Berita</Link> > 
+  Detail Berita
+</div>
 
     <main class="container mx-auto mt-10 p-4 md:p-6 bg-white shadow rounded flex flex-col md:flex-row gap-6">
       <!-- Konten Utama (Kiri) -->

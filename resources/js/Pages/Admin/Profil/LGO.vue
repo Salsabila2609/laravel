@@ -2,7 +2,7 @@
   <div>
     <Background />
     <div class="text-sm text-[#99cbc0] font-bold p-5">
-      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Local Government Organization
+      <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda</Link> > Local Government Organization
     </div>
 
     <div class="content relative z-10 p-5 text-gray-800">
