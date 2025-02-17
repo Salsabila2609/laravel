@@ -18,7 +18,7 @@ class DocumentController extends Controller
     public function uploadPage()
     {
         $documents = Document::all(); // Mengambil semua dokumen
-        return inertia('Admin/InformasiPublik/UploadDocument', ['documents' => $documents]);
+        return inertia('Admin/PublicInformation/Document', ['documents' => $documents]);
     }
     
     // Menyimpan dokumen dengan kategori

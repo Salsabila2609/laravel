@@ -13,7 +13,7 @@ class PopupController extends Controller
     public function index()
     {
         $popups = Popup::all();
-        return Inertia::render('Admin/Popup/PopupUpload', [
+        return Inertia::render('Admin/Popup/Popup', [
             'popups' => $popups
         ]);
     }

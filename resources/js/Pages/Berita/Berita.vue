@@ -2,7 +2,8 @@
 import { ref, onMounted, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import NewsButton from '@/Components/NewsButton.vue';
-import Navbar from '@/Components/Navbar.vue';
+import Navbar from '@/Components/Layout/Navbar.vue';
+import Footer from '@/Components/Layout/Footer.vue';
 import PaginationComponent from '@/Components/Pagination.vue';
 
 
@@ -352,5 +353,6 @@ onMounted(() => {
     :on-page-change="changePage"
   />
   </div>
+  <Footer />
 </div>
 </template>

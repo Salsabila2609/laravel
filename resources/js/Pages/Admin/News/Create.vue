@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
-import MyEditor from '@/Components/MyEditor.vue'; // Pastikan MyEditor di-import
+import MyEditor from '@/Components/Layout/Berita/MyEditor.vue'; // Pastikan MyEditor di-import
 
 // Form setup with default values
 const form = useForm({

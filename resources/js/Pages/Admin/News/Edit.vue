@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
-import MyEditor from '@/Components/MyEditor.vue';
+import MyEditor from '@/Components/Layout/Berita/MyEditor.vue';
 
 const props = defineProps({
   news: {
