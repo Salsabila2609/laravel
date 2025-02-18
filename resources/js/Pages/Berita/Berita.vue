@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
-import NewsButton from '@/Components/NewsButton.vue';
+import NewsButton from '@/Components/UI/NewsButton.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue';
 
-import PaginationComponent from '@/Components/Pagination.vue';
+import PaginationComponent from '@/Components/UI/Pagination.vue';
 
 
 // Get news data from props

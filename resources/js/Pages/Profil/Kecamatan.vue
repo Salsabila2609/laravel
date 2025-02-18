@@ -57,8 +57,8 @@
 
 <script>
 // Import komponen Background dan Card dari folder Components
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue';
 import { Link } from '@inertiajs/vue3';
 
