@@ -189,7 +189,7 @@ export default {
       }
 
       try {
-        await this.$inertia.post('/upload-document', formData);
+        await this.$inertia.post('/document', formData);
         this.closeModal();
       } catch (error) {
         alert('Upload failed. Please try again.');
