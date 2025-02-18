@@ -11,7 +11,7 @@
     data() {
       return {
         // Memanggil gambar latar belakang hijau dari folder 'public/image'
-        greenBgUrl: '/image/bgn.png',
+        greenBgUrl: '/images/bgn.png',
       };
     },
   };

@@ -92,7 +92,7 @@ export default {
   },
   data() {
     return {
-      greenBgUrl: '/image/bgn.png',
+      greenBgUrl: '/images/bgn.png',
     };
   },
 };

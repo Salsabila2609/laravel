@@ -81,7 +81,7 @@
                 </td>
                 <td class="py-2 sm:py-3 px-2 sm:px-4 border-t border-b text-xs sm:text-sm">
                   <div class="flex items-center">
-                    <img src="image/File.png" alt="File Icon" class="w-6 h-6 sm:w-10 sm:h-10 mr-2">
+                    <img src="images/File.png" alt="File Icon" class="w-6 h-6 sm:w-10 sm:h-10 mr-2">
                     <span class="break-words">{{ doc.document_name }}</span>
                   </div>
                 </td>
