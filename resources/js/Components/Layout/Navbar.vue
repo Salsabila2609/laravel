@@ -5,7 +5,7 @@
       <div class="flex justify-between items-center py-4">
         <!-- Logo -->
         <a href="/" class="block">
-          <img src="/img/Logo.png" alt="Logo" class="h-12 w-auto">
+          <img src="/images/Logo.png" alt="Logo" class="h-12 w-auto">
         </a>
         <!-- Hamburger Menu -->
         <div class="lg:hidden flex items-center">

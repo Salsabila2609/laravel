@@ -12,7 +12,7 @@
       <!-- New section for the image and yellow lines -->
       <div class="flex items-center justify-center mt-3 w-full px-4">
         <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
-        <img src="../../../../public/image/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-8 sm:h-10 w-auto">
+        <img src="../../../../public/images/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-8 sm:h-10 w-auto">
         <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
       </div>
 
@@ -21,11 +21,11 @@
       </p>
 
       <!-- Card that holds content -->
-      <Card style="background-image: url('image/background.png');">
+      <Card style="background-image: url('images/background.png');">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6">
           <!-- Kolom kiri -->
           <div class="flex justify-center items-center">
-            <img src="../../../../public/image/logo.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] sm:max-w-[50%] h-auto">
+            <img src="../../../../public/images/logodaerah.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] sm:max-w-[50%] h-auto">
           </div>
 
           <!-- Kolom kanan -->

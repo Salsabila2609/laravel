@@ -65,7 +65,7 @@
 
 <script>
 import CountUp from 'vue-countup-v3';
-import peopleImage from "../../../../../public/img/people.png";
+import peopleImage from "../../../../../public/images/people.png";
 
 export default {
   components: {
@@ -136,7 +136,7 @@ export default {
 <style scoped>
 .visitor-card {
   background-color: #064e3b;
-  background-image: url('/img/Visitor.png');
+  background-image: url('/images/Visitor.png');
   background-size: cover;
   background-position: center;
   width: 90%;

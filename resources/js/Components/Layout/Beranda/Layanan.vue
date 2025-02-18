@@ -4,7 +4,7 @@
     <h2 class="text-4xl font-bold text-center text-[#396C6D]">Layanan Masyarakat</h2>
     <div class="flex items-center justify-center my-2 mb-5">
       <div class="w-24 h-1 bg-[#D4A017] rounded"></div>
-      <img src="/image/madiun_silat.png" alt="Silat Icon" class="w-12 h-12 mx-2">
+      <img src="/images/madiun_silat.png" alt="Silat Icon" class="w-12 h-12 mx-2">
       <div class="w-24 h-1 bg-[#D4A017] rounded"></div>
     </div>
 
