@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
-import Navbar from '@/Components/Navbar.vue';
 import Background from '@/Components/Background.vue';
 import AddButton from '@/Components/UI/AddButton.vue'; 
 import Card from '@/Components/Card.vue'; 
@@ -85,7 +84,6 @@ const getForm = () => {
 
 <template>
   <div>
-    <Navbar />
     <Background />  
     <div class="text-sm text-[#99cbc0] font-bold py-2 sm:py-4 px-4 sm:px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Upload Media
