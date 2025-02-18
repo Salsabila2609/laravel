@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,23 +8,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('media', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('image'); // Path gambar
-            $table->string('url');   // Link tujuan
-            $table->timestamps();
+        Schema::table('popups', function (Blueprint $table) {
+            $table->string('title')->after('id'); // Menambahkan kolom title setelah id
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('media');
+        Schema::table('popups', function (Blueprint $table) {
+            $table->dropColumn('title');
+        });
     }
 };
