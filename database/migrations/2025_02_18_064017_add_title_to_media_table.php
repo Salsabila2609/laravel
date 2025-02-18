@@ -11,21 +11,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('media', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('image'); // Path gambar
-            $table->string('url');   // Link tujuan
-            $table->timestamps();
+        Schema::table('media', function (Blueprint $table) {
+            $table->string('title')->after('id'); // Menambahkan kolom title setelah id
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('media');
+        Schema::table('media', function (Blueprint $table) {
+            $table->dropColumn('title'); // Menghapus kolom title jika rollback
+        });
     }
 };

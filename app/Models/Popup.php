@@ -13,5 +13,5 @@ class Popup extends Model
     protected $table = 'Popups';
 
     // Kolom yang bisa diisi
-    protected $fillable = ['image_popup'];
+    protected $fillable = ['title', 'image_popup'];
 }

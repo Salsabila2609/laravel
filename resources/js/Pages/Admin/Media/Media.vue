@@ -9,12 +9,14 @@ import { Link } from '@inertiajs/vue3';
 defineProps({ media: Array });
 
 const form = ref({
+  title: '', // Menambahkan title
   image: null,
   url: '',
 });
 
 const editForm = ref({
   id: null,
+  title: '', // Menambahkan title untuk edit
   image: null,
   url: '',
 });
@@ -28,19 +30,20 @@ const openModal = (isEdit, item = null) => {
   if (isEdit && item) {
     editForm.value = { ...item };
   } else {
-    form.value = { image: null, url: '' };
+    form.value = { title: '', image: null, url: '' };
   }
 };
 
 const closeModal = () => {
   isModalOpen.value = false;
   isEditMode.value = false;
-  editForm.value = { id: null, image: null, url: '' };
-  form.value = { image: null, url: '' };
+  editForm.value = { id: null, title: '', image: null, url: '' };
+  form.value = { title: '', image: null, url: '' };
 };
 
 const uploadMedia = () => {
   const formData = new FormData();
+  formData.append('title', form.value.title); // Menambahkan title ke form data
   formData.append('image', form.value.image);
   formData.append('url', form.value.url);
 
@@ -54,6 +57,7 @@ const uploadMedia = () => {
 
 const updateMedia = () => {
   const formData = new FormData();
+  formData.append('title', editForm.value.title); // Menambahkan title untuk update
   formData.append('url', editForm.value.url);
   if (editForm.value.image) {
     formData.append('image', editForm.value.image);
@@ -102,6 +106,7 @@ const getForm = () => {
           <table class="w-full mx-auto table-auto border-collapse">
             <thead>
               <tr>
+                <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">Title</th>
                 <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">Media Image</th>
                 <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">URL</th>
                 <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">Actions</th>
@@ -109,6 +114,9 @@ const getForm = () => {
             </thead>
             <tbody>
               <tr v-for="item in media" :key="item.id">
+                <td class="py-2 px-2 sm:px-4 border-t border-b text-center">
+                  {{ item.title }} <!-- Menampilkan title -->
+                </td>
                 <td class="py-2 px-2 sm:px-4 border-t border-b text-center">
                   <img :src="`/storage/${item.image}`" alt="Media Image" class="w-24 h-24 sm:w-32 sm:h-32 object-cover mx-auto max-w-full" />
                 </td>
@@ -146,6 +154,19 @@ const getForm = () => {
         </h2>
 
         <form @submit.prevent="isEditMode ? updateMedia() : uploadMedia()">
+          <div class="mb-4">
+            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+            <input
+              type="text"
+              :value="getForm().title"
+              @input="getForm().title = $event.target.value"
+              id="title"
+              class="mt-2 w-full text-sm border rounded-md p-2"
+              placeholder="Masukkan Title"
+              required
+            />
+          </div>
+
           <div class="mb-4">
             <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
             <input
