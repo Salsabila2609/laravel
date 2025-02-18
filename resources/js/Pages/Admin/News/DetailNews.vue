@@ -2,7 +2,7 @@
 import { usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import Navbar from '@/Components/Navbar.vue';
+import Navbar from '@/Components/Layout/Navbar.vue';
 
 
 // Ambil props dari Inertia
