@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
-import NewsButton from '@/Components/NewsButton.vue';
+import NewsButton from '@/Components/UI/NewsButton.vue';
 
 // Get news data from props
 const { props } = usePage();

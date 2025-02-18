@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import Card from '@/Components/Card.vue';
+import Card from '@/Components/UI/Card.vue';
 import { Link } from '@inertiajs/vue3';
 import MasterLayout from '@/Layouts/MasterLayout.vue';
 

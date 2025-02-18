@@ -120,10 +120,10 @@
 
 <script>
 import MasterLayout from '@/Layouts/MasterLayout.vue';
-import NewsButton from '@/Components/NewsButton.vue';
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
-import PaginationComponent from '@/Components/Pagination.vue';
+import NewsButton from '@/Components/UI/NewsButton.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
+import PaginationComponent from '@/Components/UI/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
