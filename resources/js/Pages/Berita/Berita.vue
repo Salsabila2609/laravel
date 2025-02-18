@@ -2,8 +2,8 @@
 import { ref, onMounted, computed } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
 import NewsButton from '@/Components/NewsButton.vue';
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 import PaginationComponent from '@/Components/Pagination.vue';
 
 
@@ -130,8 +130,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar />
-  <div class="min-h-screen white">
+<MasterLayout>
+ <div class="min-h-screen white">
     <div class="container mx-auto px-6 py-8">
       <div class="flex justify-between items-center mb-2 relative">
         <h1 class="text-2xl md:text-4xl font-bold text-[#D4A017] w-full text-center">
@@ -353,6 +353,7 @@ onMounted(() => {
     :on-page-change="changePage"
   />
   </div>
-  <Footer />
 </div>
+</MasterLayout>
+ 
 </template>
