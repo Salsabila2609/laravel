@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+<MasterLayout>
   <div class="min-h-screen flex flex-col">
     <div class="flex-grow">
         <!-- Background Hijau dengan Breadcrumb -->
@@ -75,20 +75,20 @@
         </div>
       </div>
     </div>
-    <Footer />
+</MasterLayout>
+  
+
   
 </template>
 
 <script>
 import { Link } from '@inertiajs/vue3';
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
 export default {
   name: 'Background',
   components: {
     Link,
-    Navbar,
-    Footer,
+    MasterLayout,
   },
   data() {
     return {

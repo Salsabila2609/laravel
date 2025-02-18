@@ -2,8 +2,8 @@
 import { usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 
 
 // Ambil props dari Inertia
@@ -83,9 +83,9 @@ export default {
 
 
 <template>
-  <div class="min-h-screen bg-[#396C6D]">
-    <Navbar />
 
+    <div class="min-h-screen bg-[#396C6D]">
+  <MasterLayout>
     <main class="container mx-auto mt-10 p-4 md:p-6 bg-white shadow rounded flex flex-col md:flex-row gap-6">
       <!-- Konten Utama (Kiri) -->
       <div class="flex-1 flex flex-col">
@@ -243,8 +243,10 @@ export default {
         </div>
       </aside>
     </main>
-    <Footer />
+      </MasterLayout>
   </div>
+
+  
 </template>
 
 <style>
