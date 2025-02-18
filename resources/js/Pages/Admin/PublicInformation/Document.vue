@@ -198,7 +198,7 @@ export default {
 
     async updateDocument() {
       try {
-        await this.$inertia.put(`/upload-document/${this.document.id}`, {
+        await this.$inertia.put(`/document/${this.document.id}`, {
           document_name: this.document.document_name,
           category: this.document.category,
           year: this.document.year,
@@ -213,7 +213,7 @@ export default {
       const confirmed = confirm('Are you sure you want to delete this document?');
       if (confirmed) {
         try {
-          await this.$inertia.delete(`/upload-document/${id}`);
+          await this.$inertia.delete(`/document/${id}`);
         } catch (error) {
           alert('Delete failed. Please try again.');
         }

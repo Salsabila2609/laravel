@@ -117,7 +117,7 @@ export default {
   methods: {
     async deletePejabat(id) {
       if (confirm("Apakah Anda yakin ingin menghapus pejabat ini?")) {
-        await this.$inertia.delete(`/local_official/${id}`);
+        await this.$inertia.delete(`/local-official/${id}`);
       }
     },
     openAddModal() {
@@ -138,10 +138,10 @@ export default {
     async handleSubmit() {
       if (this.formType === 'add') {
         // Handle adding new pejabat
-        await this.$inertia.post('/local_official', this.formData);
+        await this.$inertia.post('/local-official', this.formData);
       } else {
         // Handle editing existing pejabat
-        await this.$inertia.put(`/local_official/${this.selectedPejabat.id}`, this.formData);
+        await this.$inertia.put(`/local-official/${this.selectedPejabat.id}`, this.formData);
       }
       this.closeModal();
     },
