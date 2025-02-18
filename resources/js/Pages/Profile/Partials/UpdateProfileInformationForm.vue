@@ -3,9 +3,10 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
-defineProps({
+const props = defineProps({
     mustVerifyEmail: {
         type: Boolean,
     },
@@ -20,6 +21,14 @@ const form = useForm({
     name: user.name,
     email: user.email,
 });
+
+const updateProfile = () => {
+    form.patch('/profile');  // Direct URL instead of route()
+};
+
+const sendVerification = () => {
+    form.post('/email/verification-notification');  // Direct URL instead of route()
+};
 </script>
 
 <template>
@@ -35,7 +44,7 @@ const form = useForm({
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="updateProfile"
             class="mt-6 space-y-6"
         >
             <div>
@@ -72,14 +81,12 @@ const form = useForm({
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 text-sm text-gray-800">
                     Your email address is unverified.
-                    <Link
-                        :href="route('verification.send')"
-                        method="post"
-                        as="button"
+                    <button
+                        @click.prevent="sendVerification"
                         class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                         Click here to re-send the verification email.
-                    </Link>
+                    </button>
                 </p>
 
                 <div
