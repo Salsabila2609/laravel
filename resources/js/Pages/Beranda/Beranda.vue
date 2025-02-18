@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Navbar />
+    <MasterLayout>
+
     <Video :videoSource="latestVideo" /> <!-- Tambahkan ini -->
     <Media :media="media" />
     <Berita :mainNews="mainNews" :newsCards="newsCards" />
@@ -13,13 +14,15 @@
       :monthlyVisitorCount="monthlyVisitorCount"
       :yearlyVisitorCount="yearlyVisitorCount"
     />
-    <Footer />
+
+    </MasterLayout>
+   
   </div>
 </template>
 
 <script>
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from "@/Components/Layout/Footer.vue";
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 import Video from '@/Components/Layout/Beranda/VideoSection.vue'; // Import Video.vue
 import Visitor from "@/Components/Layout/Beranda/Visitor.vue";
 import Berita from "@/Components/Layout/Beranda/Berita.vue";
@@ -30,10 +33,11 @@ import Media from '@/Components/Layout/Beranda/Media.vue';
 
 export default {
   components: {
-    Navbar,
+
     Video, // Tambahkan Video.vue
     Visitor,
-    Footer,
+    MasterLayout,
+
     Berita,
     Layanan,
     VideoGallery,

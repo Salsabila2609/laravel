@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Navbar/>
-    <Background />
+  <MasterLayout>
+     <Background />
 
     <!-- Breadcrumb -->
     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
@@ -39,21 +39,22 @@
         </div>
       </Card>
     </div>
-    <Footer/>
+  </MasterLayout>
+   
+
   </div>
 </template>
 
 <script>
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 import Background from '@/Components/Background.vue';
 import Card from '@/Components/Card.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
   components: {
-    Navbar,
-    Footer,
+    MasterLayout,
     Background, // Daftarkan komponen Background
     Card, // Daftarkan komponen Card
     Link,

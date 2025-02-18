@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Navbar />
-    <Background />
+    <MasterLayout>
+       <Background />
 
     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link>
@@ -104,14 +104,14 @@
         />
       </div>
     </div>
+    </MasterLayout>
+   
 
-    <Footer />
   </div>
 </template>
 
 <script>
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
 import NewsButton from '@/Components/NewsButton.vue';
 import Background from '@/Components/Background.vue';
 import Card from '@/Components/Card.vue';
@@ -120,8 +120,7 @@ import { Link } from '@inertiajs/vue3';
 
 export default {
   components: {
-    Navbar,
-    Footer,
+    MasterLayout,
     Background,
     Card,
     Link,
