@@ -107,7 +107,7 @@ class NewsController extends Controller
             // Tambahkan jumlah total berita
             $totalNewsCount = News::count();
     
-            return inertia('Admin/News/Index', [
+            return inertia('Admin/News/News', [
                 'newsItems' => $news,
                 'categoriesWithCount' => $categoriesWithCount,
                 'totalNewsCount' => $totalNewsCount,

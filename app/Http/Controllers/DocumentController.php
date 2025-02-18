@@ -64,18 +64,37 @@ class DocumentController extends Controller
     {
         $request->validate([
             'document_name' => 'required|string|max:255',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx',
+            'category' => 'required|string|max:100',
+            'year' => 'nullable|integer|min:2000|max:' . date('Y'),
         ]);
     
         $document = Document::findOrFail($id);
+    
+        // Cek jika ada file baru
+        if ($request->hasFile('file')) {
+            // Hapus file lama jika ada
+            if ($document->file_path) {
+                Storage::disk('public')->delete($document->file_path);
+            }
+    
+            // Simpan file baru
+            $path = $request->file('file')->store('documents', 'public');
+            $document->file_path = $path;
+        }
+    
+        // Update data dokumen
         $document->update([
             'document_name' => $request->document_name,
+            'category' => $request->category,
+            'year' => str_contains(strtolower($request->category), 'laporan keuangan') ? $request->year : null,
+            'file_path' => $document->file_path, // Simpan file_path yang baru jika ada
         ]);
     
-        // Redirect ke halaman upload-document setelah berhasil mengupdate
         return redirect()->route('documents.upload')->with('success', 'Document updated successfully!');
     }
+    
 
-    // Menghapus dokumen
     public function destroy($id)
     {
         $document = Document::findOrFail($id);

@@ -41,83 +41,85 @@
     </div>
 
     <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-center text-2xl font-bold text-yellow-500 mb-4">
-          {{ isEditMode ? 'Edit Document' : 'Upload Document' }}
-        </h2>
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-center text-2xl font-bold text-yellow-500 mb-4">
+        {{ isEditMode ? 'Edit Document' : 'Upload Document' }}
+      </h2>
 
-        <form @submit.prevent="handleSubmit">
-          <div class="mb-4">
-            <label for="document_name" class="block text-sm font-medium text-gray-700">Document Name</label>
-            <input 
-              v-model="document.document_name" 
-              type="text" 
-              id="document_name" 
-              class="w-full mt-2 p-2 border rounded-md" 
-              placeholder="Enter Document Name" 
-              required 
-            />
-          </div>
+      <form @submit.prevent="handleSubmit">
+        <div class="mb-4">
+          <label for="document_name" class="block text-sm font-medium text-gray-700">Document Name</label>
+          <input 
+            v-model="document.document_name" 
+            type="text" 
+            id="document_name" 
+            class="w-full mt-2 p-2 border rounded-md" 
+            placeholder="Enter Document Name" 
+            required 
+          />
+        </div>
 
-          <div class="mb-4">
-            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-            <select 
-              v-model="document.category" 
-              id="category" 
-              class="w-full mt-2 p-2 border rounded-md" 
-              required
-            >
-              <option value="">Pilih Kategori</option>
-              <option value="Laporan Keuangan">Laporan Keuangan</option>
-              <option value="Peraturan Bupati">Peraturan Bupati</option>
-              <option value="Data Statistik">Data Statistik</option>
-            </select>
-          </div>
+        <div class="mb-4">
+          <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+          <select 
+            v-model="document.category" 
+            id="category" 
+            class="w-full mt-2 p-2 border rounded-md" 
+            required
+          >
+            <option value="">Pilih Kategori</option>
+            <option value="Laporan Keuangan">Laporan Keuangan</option>
+            <option value="Peraturan Bupati">Peraturan Bupati</option>
+            <option value="Data Statistik">Data Statistik</option>
+          </select>
+        </div>
 
-          <!-- Input Tahun Muncul Jika Kategori Laporan Keuangan -->
-          <div class="mb-4" v-if="document.category === 'Laporan Keuangan'">
-            <label for="year" class="block text-sm font-medium text-gray-700">Year</label>
-            <input 
-              v-model="document.year" 
-              type="number" 
-              id="year" 
-              class="w-full mt-2 p-2 border rounded-md" 
-              placeholder="Enter Year" 
-              min="2000"
-              max="2030"
-              required 
-            />
-          </div>
+        <!-- Input Tahun Muncul Jika Kategori Laporan Keuangan -->
+        <div class="mb-4" v-if="document.category === 'Laporan Keuangan'">
+          <label for="year" class="block text-sm font-medium text-gray-700">Year</label>
+          <input 
+            v-model="document.year" 
+            type="number" 
+            id="year" 
+            class="w-full mt-2 p-2 border rounded-md" 
+            placeholder="Enter Year" 
+            min="2000"
+            max="2030"
+            required 
+          />
+        </div>
 
-          <div class="mb-4" v-if="!isEditMode">
-            <label for="file" class="block text-sm font-medium text-gray-700">Choose File</label>
-            <input 
-              type="file" 
-              ref="file" 
-              id="file" 
-              class="mt-2 w-full text-sm border rounded-md"
-              required 
-            />
-          </div>
+        <!-- Input File -->
+        <div class="mb-4">
+          <label for="file" class="block text-sm font-medium text-gray-700">{{ isEditMode ? 'Replace File (Optional)' : 'Choose File' }}</label>
+          <input 
+            type="file" 
+            ref="file" 
+            id="file" 
+            class="mt-2 w-full text-sm border rounded-md"
+            :required="!isEditMode"
+          />
+          <p v-if="isEditMode && document.file_path" class="text-sm text-gray-500 mt-1">Current file: {{ document.file_path.split('/').pop() }}</p>
+        </div>
 
-          <div class="flex justify-end gap-4">
-            <button 
-              type="button" 
-              @click="closeModal" 
-              class="bg-gray-300 text-black py-2 px-4 rounded"
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit" 
-              class="w-full py-2 px-4 text-white font-bold bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-150 ease-in-out"
-            >
-              {{ isEditMode ? 'Save' : 'Upload' }}
-            </button>
-          </div>
-        </form>
-      </div>
+        <div class="flex justify-end gap-4">
+          <button 
+            type="button" 
+            @click="closeModal" 
+            class="bg-gray-300 text-black py-2 px-4 rounded"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="w-full py-2 px-4 text-white font-bold bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-150 ease-in-out"
+          >
+            {{ isEditMode ? 'Save' : 'Upload' }}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 
   </div>
 </template>
@@ -147,6 +149,7 @@ export default {
         document_name: '',
         category: '',
         year: null,
+        file_path: '',
       },
     };
   },
@@ -157,7 +160,7 @@ export default {
       if (isEditMode && document) {
         this.document = { ...document };
       } else {
-        this.document = { document_name: '', category: '', year: null, id: null };
+        this.document = { document_name: '', category: '', year: null, file_path: '', id: null };
       }
     },
 
@@ -197,11 +200,22 @@ export default {
     },
 
     async updateDocument() {
+      const formData = new FormData();
+      formData.append('document_name', this.document.document_name);
+      formData.append('category', this.document.category);
+      if (this.document.category === 'Laporan Keuangan') {
+        formData.append('year', this.document.year);
+      }
+
+      // Tambahkan file hanya jika ada yang baru diunggah
+      if (this.$refs.file.files[0]) {
+        formData.append('file', this.$refs.file.files[0]);
+      }
+
       try {
-        await this.$inertia.put(`/document/${this.document.id}`, {
-          document_name: this.document.document_name,
-          category: this.document.category,
-          year: this.document.year,
+        await this.$inertia.post(`/document/${this.document.id}`, formData, {
+          method: 'post',
+          headers: { 'X-HTTP-Method-Override': 'PUT' },
         });
         this.closeModal();
       } catch (error) {
