@@ -48,7 +48,7 @@ class NewsController extends Controller
         // Tambahkan jumlah total berita
         $totalNewsCount = News::count();
     
-        return inertia('Admin/News/Index', [
+        return inertia('Admin/News/News', [
             'newsItems' => $news,
             'categoriesWithCount' => $categoriesWithCount,
             'totalNewsCount' => $totalNewsCount,
@@ -107,7 +107,7 @@ class NewsController extends Controller
             // Tambahkan jumlah total berita
             $totalNewsCount = News::count();
     
-            return inertia('Admin/News/Index', [
+            return inertia('Admin/News/News', [
                 'newsItems' => $news,
                 'categoriesWithCount' => $categoriesWithCount,
                 'totalNewsCount' => $totalNewsCount,
@@ -142,12 +142,10 @@ class NewsController extends Controller
         
     }
 
-    public function store(Request $request)
+      public function store(Request $request)
     {
-     
-        $config = HTMLPurifier_Config::createDefault();
-
         // Mengizinkan tag iframe dan img dengan atribut src, width, height, frameborder, allowfullscreen, alt, title
+        $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.Allowed', 'p, b, i, u, a[href|target], iframe[src|width|height|frameborder|allowfullscreen], img[src|alt|title|width|height]');
         
         // Mengaktifkan konfigurasi HTML.Trusted untuk memperbolehkan atribut tambahan
@@ -169,23 +167,26 @@ class NewsController extends Controller
             'gambar_utama_keterangan' => 'nullable|string|max:255',
             'gambar_lampiran_keterangan.*' => 'nullable|string|max:255',
         ]);
-    
+        
+        // Ambil kategori dari request
         $kategori = is_array($request->kategori) ? $request->kategori : json_decode($request->kategori, true);
-    
+        
+        // Membuat objek News baru
         $news = new News();
         $news->penulis = $request->penulis;
         $news->judul = $request->judul;
         $news->isi_berita = $cleanContent;
         $news->kategori = json_encode($kategori);
-    
+        
         // Proses upload gambar utama
         if ($request->hasFile('gambar_utama') && $request->file('gambar_utama')->isValid()) {
             $path = $request->file('gambar_utama')->store('images');
             $news->gambar_utama = $path;
         }
-    
+        
+        // Menyimpan keterangan gambar utama
         $news->gambar_utama_keterangan = $request->gambar_utama_keterangan;
-    
+        
         // Proses upload multiple gambar lampiran
         $gambarLampiranPaths = [];
         $gambarLampiranKeterangan = [];
@@ -198,13 +199,18 @@ class NewsController extends Controller
                 }
             }
         }
-    
-        // Ekstraksi gambar dari isi berita
+        
+        // Ekstraksi gambar dan alt text dari isi berita
         $isiBerita = $request->input('isi_berita');
-        preg_match_all('/<img[^>]+src=["\'](.*?)["\']/i', $isiBerita, $matches);
-        $imagePaths = [];
+        preg_match_all('/<img[^>]+src=["\'](.*?)["\'][^>]*alt=["\'](.*?)["\']/i', $isiBerita, $matches);
     
-        foreach ($matches[1] as $imageUrl) {
+        $imagePaths = [];
+        $gambarLampiranKeterangan = [];
+    
+        // Menyimpan URL gambar dan alt text
+        foreach ($matches[1] as $index => $imageUrl) {
+            $altText = $matches[2][$index]; // Ambil alt text untuk gambar ini
+    
             if (strpos($imageUrl, 'data:image') === false) {
                 $relativePath = str_replace(asset('storage') . '/', '', $imageUrl);
                 $imagePaths[] = $relativePath;
@@ -215,18 +221,26 @@ class NewsController extends Controller
                 Storage::put('public/' . $imagePath, $imageData);
                 $imagePaths[] = $imagePath;
             }
+    
+            // Simpan alt text ke dalam array gambar lampiran keterangan
+            $gambarLampiranKeterangan[] = $altText;
         }
     
+        // Gabungkan gambar lampiran dengan gambar yang ada di isi berita
         $allImagePaths = array_merge($gambarLampiranPaths, $imagePaths);
     
+        // Menyimpan path gambar dan keterangan
         $news->gambar_lampiran = json_encode($allImagePaths);
         $news->gambar_lampiran_keterangan = json_encode($gambarLampiranKeterangan);
     
+        // Simpan data berita ke database
         $news->save();
-    
+        
+        // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('news.index')->with('success', 'News created successfully!');
     }
-
+    
+    
     public function show($id)
     {
         $news = News::findOrFail($id);
@@ -287,7 +301,7 @@ class NewsController extends Controller
             ->values();
     
         // Kirim data ke frontend
-        return Inertia::render('Admin/News/Show', [
+        return Inertia::render('Admin/News/DetailNews', [
             'news' => $news,
             'related' => $relatedNews,
             'categoriesWithCount' => $uniqueCategoriesWithCount,
@@ -319,6 +333,7 @@ class NewsController extends Controller
         ]);
     }
     
+   
     public function update(Request $request, $id)
     {
         $config = HTMLPurifier_Config::createDefault();
@@ -326,10 +341,8 @@ class NewsController extends Controller
         $config->set('HTML.Trusted', true);
         $purifier = new HTMLPurifier($config);
         
-        // Purify the news content
         $cleanContent = $purifier->purify($request->input('isi_berita'));
     
-        // Validate input
         $request->validate([
             'penulis' => 'required|string',
             'judul' => 'required|string',
@@ -341,67 +354,66 @@ class NewsController extends Controller
         ]);
     
         $news = News::findOrFail($id);
-        
         $news->penulis = $request->penulis;
         $news->judul = $request->judul;
         $news->isi_berita = $cleanContent;
-        
+    
         $kategori = is_array($request->kategori) ? $request->kategori : json_decode($request->kategori, true);
         $news->kategori = json_encode($kategori);
     
-        // Handle main image update
         if ($request->hasFile('gambar_utama') && $request->file('gambar_utama')->isValid()) {
             if ($news->gambar_utama) {
                 Storage::delete($news->gambar_utama);
             }
             $news->gambar_utama = $request->file('gambar_utama')->store('images');
         }
-        
         $news->gambar_utama_keterangan = $request->gambar_utama_keterangan;
     
-        // Handle attachment images
+        preg_match_all('/<img[^>]+src=["\'](.*?)["\'][^>]*alt=["\'](.*?)["\']/i', $cleanContent, $matches);
+        $gambarDariEditor = array_map(function ($url) {
+            return str_replace(asset('storage') . '/', '', $url);
+        }, $matches[1] ?? []);
+        
         $existingAttachments = json_decode($news->gambar_lampiran, true) ?? [];
         $existingCaptions = json_decode($news->gambar_lampiran_keterangan, true) ?? [];
     
-        // Handle deleted attachments
         $keptAttachments = $request->input('kept_attachments', []);
+        $keptCaptions = $request->input('kept_attachments_keterangan', []);
+    
         $filteredAttachments = [];
         $filteredCaptions = [];
     
         foreach ($existingAttachments as $index => $path) {
-            if (in_array($path, $keptAttachments)) {
+            if (in_array($path, $gambarDariEditor)) {
                 $filteredAttachments[] = $path;
                 $filteredCaptions[] = $existingCaptions[$index] ?? '';
+            } elseif (($key = array_search($path, $keptAttachments)) !== false) {
+                $filteredAttachments[] = $path;
+                $filteredCaptions[] = $keptCaptions[$key] ?? $existingCaptions[$index] ?? '';
             } else {
                 Storage::delete($path);
             }
         }
     
-        // Add new attachments
         if ($request->hasFile('gambar_lampiran')) {
             foreach ($request->file('gambar_lampiran') as $index => $lampiran) {
                 if ($lampiran->isValid()) {
                     $path = $lampiran->store('images');
-                    $filteredAttachments[] = $path;
-                    $filteredCaptions[] = $request->input('gambar_lampiran_keterangan.' . $index);
+                    if (!empty($path)) {
+                        $filteredAttachments[] = $path;
+                        $filteredCaptions[] = $request->input("gambar_lampiran_keterangan.$index", '');
+                    }
                 }
             }
         }
     
-        // Extract images from isi_berita
-        preg_match_all('/<img[^>]+src=["\'](.*?)["\']/i', $cleanContent, $matches);
-        foreach ($matches[1] as $imageUrl) {
-            if (strpos($imageUrl, 'data:image') === false) {
-                $relativePath = str_replace(asset('storage') . '/', '', $imageUrl);
-                if (!in_array($relativePath, $filteredAttachments)) {
-                    $filteredAttachments[] = $relativePath;
-                }
+        foreach ($gambarDariEditor as $index => $path) {
+            $altText = $matches[2][$index] ?? '';
+            if (($key = array_search($path, $filteredAttachments)) !== false) {
+                $filteredCaptions[$key] = $altText;
             } else {
-                $imageData = base64_decode(preg_replace('/^data:image\/\w+;base64,/', '', $imageUrl));
-                $imageName = uniqid() . '.png';
-                $imagePath = 'images/' . $imageName;
-                Storage::put('public/' . $imagePath, $imageData);
-                $filteredAttachments[] = $imagePath;
+                $filteredAttachments[] = $path;
+                $filteredCaptions[] = $altText;
             }
         }
     

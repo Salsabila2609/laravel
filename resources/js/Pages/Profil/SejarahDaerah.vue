@@ -1,12 +1,10 @@
 <template>
-   <Navbar />
-  <div>
-    <!-- Gunakan komponen Background di sini -->
+ <MasterLayout>
+   <div>
     <Background />
-
     <!-- Breadcrumb -->
-    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6" style="margin-left: 75px;">
-      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Sejarah Kabupaten Madiun
+    <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
+      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Sejarah Daerah
     </div>
 
     <div class="relative z-10 px-5 py-10 text-gray-800">
@@ -21,18 +19,18 @@
         </div>
 
         <!-- Card Cream -->
-        <Card customClass="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
-          <div class="flex gap-14">
+        <Card customClass="bg-[#F9F6EE] rounded-lg p-2 border-none shadow-none">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Kolom Kiri (2/10) -->
-            <div class="w-3/10 ml-5">
+            <div class="col-span-1 ml-5">
               <!-- Card Hijau -->
-              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(1518 – 1568)</p>
               </Card>
             </div>
             <!-- Kolom Kanan (8/10) -->
-            <div class="w-7/10 mr-10">
+            <div class="col-span-3 mr-10">
               <h3 class="text-xl font-bold mb-4">Masa Kesultanan Demak</h3>
               <ul>
                 <li>Pada masa ini, Pangeran Surya Patiunus, putra mahkota Demak, menikah dengan Raden Ayu Retno Lembah, putri Pangeran Adipati Gugur yang berkuasa di Ngurawan, Dolopo.</li>
@@ -44,18 +42,18 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card customClass="bg-white rounded-lg p-[0.2rem] border-none shadow-none">
-          <div class="flex gap-14">
+        <Card customClass="bg-white rounded-lg p-2 border-none shadow-none">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Kolom Kiri (2/10) -->
-            <div class="w-3/10 ml-5">
+            <div class="col-span-1 ml-5">
               <!-- Card Hijau -->
-              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(18 Juli 1568)</p>
               </Card>
             </div>
             <!-- Kolom Kanan (8/10) -->
-            <div class="w-7/10 mr-10">
+            <div class="col-span-3 mr-10">
               <h3 class="text-xl font-bold mb-4">Berdirinya Kabupaten Purabaya</h3>
               <ul>
                 <li>Pada tanggal 18 Juli 1568, Pangeran Timoer dilantik sebagai Bupati di Purabaya dengan pusat pemerintahan di Desa Sogaten.</li>
@@ -66,18 +64,18 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card customClass="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
-          <div class="flex gap-14">
+        <Card customClass="bg-[#F9F6EE] rounded-lg p-2 border-none shadow-none">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Kolom Kiri (2/10) -->
-            <div class="w-3/10 ml-5">
+            <div class="col-span-1 ml-5">
               <!-- Card Hijau -->
-              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(1575 – 1590)</p>
               </Card>
             </div>
             <!-- Kolom Kanan (8/10) -->
-            <div class="w-7/10 mr-10">
+            <div class="col-span-3 mr-10">
               <h3 class="text-xl font-bold mb-4">Pindahnya Pusat Pemerintahan ke Wonorejo</h3>
               <ul>
                 <li>Pada tahun 1575, pusat pemerintahan dipindahkan dari Desa Sogaten ke Desa Wonorejo (sekarang Kuncen, Kota Madiun).</li>
@@ -88,18 +86,18 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card customClass="bg-white rounded-lg p-[0.2rem] border-none shadow-none">
-          <div class="flex gap-14">
+        <Card customClass="bg-white rounded-lg p-2 border-none shadow-none">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Kolom Kiri (2/10) -->
-            <div class="w-3/10 ml-5">
+            <div class="col-span-1 ml-5">
               <!-- Card Hijau -->
-              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-16</p>
                 <p class="text-white font-semibold">(1590)</p>
               </Card>
             </div>
             <!-- Kolom Kanan (8/10) -->
-            <div class="w-7/10 mr-10">
+            <div class="col-span-3 mr-10">
               <h3 class="text-xl font-bold mb-4">Serangan Mataram dan Penggantian Nama Madiun</h3>
               <ul>
                 <li>Pada tahun 1590, Mataram berpura-pura menyerah kepada Purabaya, kemudian melakukan serangan ke pusat pemerintahan Purabaya di Wonorejo.</li>
@@ -111,18 +109,18 @@
         </Card>
 
         <!-- Card Cream -->
-        <Card customClass="bg-[#F9F6EE] rounded-lg p-[0.2rem] border-none shadow-none">
-          <div class="flex gap-14">
+        <Card customClass="bg-[#F9F6EE] rounded-lg p-2 border-none shadow-none">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Kolom Kiri (2/10) -->
-            <div class="w-3/10 ml-5">
+            <div class="col-span-1 ml-5">
               <!-- Card Hijau -->
-              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center mx-5 my-0 py-5 shadow-none card-hijau">
+              <Card customClass="bg-[#2A9683] rounded-lg text-white text-center py-5 shadow-none card-hijau">
                 <p class="text-white font-semibold">Abad ke-17</p>
                 <p class="text-white font-semibold">(1686)</p>
               </Card>
             </div>
             <!-- Kolom Kanan (8/10) -->
-            <div class="w-7/10 mr-10">
+            <div class="col-span-3 mr-10">
               <h3 class="text-xl font-bold mb-4">Kepemimpinan Raden Ayu Retno Dumilah</h3>
               <ul>
                 <li>Pada tahun 1686, Bupati Pangeran Timoer menyerahkan kekuasaan kepada putrinya, Raden Ayu Retno Dumilah.</li>
@@ -135,21 +133,22 @@
       </Card>
     </div>
   </div>
-  <Footer />
+ </MasterLayout>
+ 
+
 </template>
 
 <script>
 import { Link } from '@inertiajs/vue3';
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
-import Navbar from '@/Components/Navbar.vue';
-import Footer from '@/Components/Footer.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 export default {
   props: ['opds'],
   components: {
     Background,
-    Navbar,
-    Footer,
+    MasterLayout,
     Card,
     Link
   }
@@ -169,4 +168,5 @@ export default {
 .card-hijau p {
   margin: 0;
 }
+
 </style>

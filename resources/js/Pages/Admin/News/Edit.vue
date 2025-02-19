@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
-import MyEditor from '@/Components/MyEditor.vue';
+import MyEditor from '@/Components/Layout/Berita/MyEditor.vue';
 
 const props = defineProps({
   news: {
@@ -92,18 +92,16 @@ const previewImage = (file) => {
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <nav class="bg-green-700 text-white shadow">
-      <div class="container mx-auto px-4 py-2 flex justify-between items-center">
-        <Link href="/news" class="text-xl font-bold hover:underline">
-          Back to News
-        </Link>
-      </div>
-    </nav>
+    <div class="text-sm text-[#99cbc0] font-bold p-5">
+  <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda > </Link>
+  <Link href="/news" class="text-[#D4A017] no-underline">Berita</Link> > 
+  Edit Berita
+</div>
 
     <div class="container mx-auto p-3">
       <div class="bg-white shadow-lg rounded-lg p-6">
         <h1 class="text-2xl font-bold text-[#D4A017]">Edit News</h1>
-        <div class="h-1 bg-[#D4A017] w-2/8 mt-1"></div>
+        <div class="h-1 bg-[#D4A017] w-2/8 mt-1 rounded"></div>
 
         <form @submit.prevent="submit" enctype="multipart/form-data" class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
           <!-- Kolom Kiri (2/3) -->

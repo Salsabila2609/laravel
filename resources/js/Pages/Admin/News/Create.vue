@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
-import MyEditor from '@/Components/MyEditor.vue'; // Pastikan MyEditor di-import
+import MyEditor from '@/Components/Layout/Berita/MyEditor.vue'; // Pastikan MyEditor di-import
 
 // Form setup with default values
 const form = useForm({
@@ -82,11 +82,12 @@ const previewImage = (file) => {
 <template>
   <div class="min-h-screen bg-gray-100">
     <!-- Navbar -->
-    <nav class="bg-green-700 text-white shadow">
-      <div class="container mx-auto px-7 py-4 flex justify-between items-center">
-        <Link href="/dashboard" class="text-1xl font-bold hover:underline">Back to Dashboard</Link>
-      </div>
-    </nav>
+    <div class="text-sm text-[#99cbc0] font-bold p-5">
+  <Link href="/dashboard" class="text-[#D4A017] no-underline">Beranda > </Link>
+  <Link href="/news" class="text-[#D4A017] no-underline">Berita</Link> > 
+  Tambah Berita
+</div>
+
 
     <div class="container mx-auto p-3">
       <!-- Form dalam satu card -->
@@ -94,7 +95,7 @@ const previewImage = (file) => {
         <!-- Header dalam card dengan desain seperti gambar -->
         <div class="mb-8">
           <h1 class="text-2xl font-bold text-[#D4A017]">Create News</h1>
-          <div class="h-1 bg-[#D4A017] w-2/8 mt-1"></div>
+          <div class="h-1 bg-[#D4A017] w-2/8 mt-1 rounded"></div>
         </div>
 
         <form @submit.prevent="submit" enctype="multipart/form-data">

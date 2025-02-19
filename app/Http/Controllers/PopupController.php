@@ -7,36 +7,36 @@ use App\Models\Popup;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-
 class PopupController extends Controller
 {
     public function index()
     {
         $popups = Popup::all();
-        return Inertia::render('Admin/Popup/PopupUpload', [
+        return Inertia::render('Admin/Popup/Popup', [
             'popups' => $popups
         ]);
     }
 
     public function store(Request $request)
     {
-        // Validasi gambar
+        // Validasi gambar dan title
         $request->validate([
+            'title' => 'required|string|max:255',
             'image_popup' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // Simpan gambar ke storage
         $imagePath = $request->file('image_popup')->store('popups', 'public');
 
-        // Simpan path gambar ke database
+        // Simpan data ke database
         $popup = Popup::create([
+            'title' => $request->title,
             'image_popup' => $imagePath,
         ]);
 
         return redirect()->route('popup.index');
     }
 
-    // Di AppServiceProvider atau layout controller
     public function handle($request, Closure $next)
     {
         $popups = Popup::latest()->get();
@@ -51,9 +51,10 @@ class PopupController extends Controller
     {
         $popup = Popup::findOrFail($id);
         
-        // Validasi gambar baru
+        // Validasi input
         $request->validate([
-            'image_popup' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => 'required|string|max:255',
+            'image_popup' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     
         try {
@@ -66,10 +67,13 @@ class PopupController extends Controller
                 // Simpan gambar baru
                 $imagePath = $request->file('image_popup')->store('popups', 'public');
                 $popup->image_popup = $imagePath;
-                $popup->save();
-                
-                return redirect()->route('popup.index')->with('success', 'Popup updated successfully');
             }
+            
+            // Update title
+            $popup->title = $request->title;
+            $popup->save();
+            
+            return redirect()->route('popup.index')->with('success', 'Popup updated successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to update popup: ' . $e->getMessage());
         }

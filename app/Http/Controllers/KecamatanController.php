@@ -11,7 +11,7 @@ class KecamatanController extends Controller
     public function index()
     {
         $kecamatans = Kecamatan::all();
-        return Inertia::render('Profil/KecamatanSekabupaten', [
+        return Inertia::render('Profil/Kecamatan', [
             'kecamatans' => $kecamatans,
         ]);
     }

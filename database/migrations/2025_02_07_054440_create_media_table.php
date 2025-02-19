@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->string('image'); // Path gambar
             $table->string('url');   // Link tujuan
             $table->timestamps();
