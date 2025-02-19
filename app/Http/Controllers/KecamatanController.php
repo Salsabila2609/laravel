@@ -8,6 +8,7 @@ use App\Models\Kecamatan;
 
 class KecamatanController extends Controller
 {
+    // Menampilkan semua data kecamatan
     public function index()
     {
         $kecamatans = Kecamatan::all();
@@ -16,37 +17,37 @@ class KecamatanController extends Controller
         ]);
     }
 
+    // Menampilkan halaman admin untuk daftar kecamatan
     public function subdistrict()
     {
-        $kecamatans = Kecamatan::all(); // Pastikan kecamatan adalah model yang benar
+        $kecamatans = Kecamatan::all();
         return Inertia::render('Admin/Profil/Subdistrict', [
             'kecamatans' => $kecamatans,
         ]);
     }
 
-        // Show the form to create a new kecamatan
+    // Menampilkan form untuk menambahkan kecamatan baru
     public function create()
     {
         return Inertia::render('Admin/Profil/AddSubdistrict');
     }
 
-    // Store the newly created kecamatan data
+    // Menyimpan data kecamatan baru
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'contact' => 'required|string|max:255',
-            'link' => 'nullable|url', // Validasi link sebagai URL
+            'link' => 'nullable|url', // Validasi URL untuk link opsional
         ]);
-    
-        $kecamatan = Kecamatan::create($validatedData);
 
-        return redirect()->back()->with('success', 'Kecamatan berhasil ditambahkan');
+        Kecamatan::create($validatedData);
+
+        return redirect()->back()->with('success', 'Kecamatan berhasil ditambahkan.');
     }
-    
 
-    // Show the form to edit an existing Kecamatan
+    // Menampilkan form untuk mengedit data kecamatan
     public function edit($id)
     {
         $kecamatan = Kecamatan::findOrFail($id);
@@ -55,31 +56,28 @@ class KecamatanController extends Controller
         ]);
     }
 
-    // Update an existing kecamatan
+    // Memperbarui data kecamatan yang sudah ada
     public function update(Request $request, $id)
     {
-        // Validate and update the kecamatan data
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string',
-            'contact' => 'required|string',
+            'address' => 'required|string|max:255',
+            'contact' => 'required|string|max:255',
             'link' => 'nullable|url',
         ]);
 
         $kecamatan = Kecamatan::findOrFail($id);
-        $kecamatan->update($request->all());
+        $kecamatan->update($validatedData);
 
-        // Redirect back to the kecamatan list page after successful update
-        return redirect()->route('kecamatan.subdistrict')->with('success', 'Kecamatan berhasil diperbarui!');
+        return redirect()->route('kecamatan.subdistrict')->with('success', 'Kecamatan berhasil diperbarui.');
     }
 
-    // Delete an kecamatan record
+    // Menghapus data kecamatan
     public function destroy($id)
     {
         $kecamatan = Kecamatan::findOrFail($id);
         $kecamatan->delete();
 
-        // Redirect back to the kecamatan list page after deletion
-        return redirect()->route('kecamatan.subdistrict')->with('success', 'Kecamatan berhasil dihapus!');
+        return redirect()->route('kecamatan.subdistrict')->with('success', 'Kecamatan berhasil dihapus.');
     }
 }

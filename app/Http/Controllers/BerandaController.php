@@ -5,44 +5,46 @@ use App\Models\Visitor;
 use App\Models\Layanan;
 use App\Models\Popup;
 use App\Models\Media;
-use App\Models\Video; // ✅ Tambahkan model Video
+use App\Models\Video;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use App\Http\Controllers\NewsHomeController;
+use Illuminate\Support\Facades\Log;
 
 class BerandaController extends Controller
 {
     public function index()
     {
-        // Simpan data pengunjung
-        Visitor::create([
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]);
+        try {
+            // Simpan data pengunjung
+            Visitor::create([
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ]);
 
-        // Hitung jumlah pengunjung
-        $visitorCount = Visitor::count();
-        $todayVisitorCount = Visitor::whereDate('created_at', Carbon::today())->count();
-        $monthlyVisitorCount = Visitor::whereMonth('created_at', Carbon::now()->month)
-                                      ->whereYear('created_at', Carbon::now()->year)
-                                      ->count();
-        $yearlyVisitorCount = Visitor::whereYear('created_at', Carbon::now()->year)->count();
+            // Hitung jumlah pengunjung
+            $visitorCount = Visitor::count();
+            $todayVisitorCount = Visitor::whereDate('created_at', Carbon::today())->count();
+            $monthlyVisitorCount = Visitor::whereMonth('created_at', Carbon::now()->month)
+                                          ->whereYear('created_at', Carbon::now()->year)
+                                          ->count();
+            $yearlyVisitorCount = Visitor::whereYear('created_at', Carbon::now()->year)->count();
 
-        // Ambil data berita dari NewsController
-        $newsHomeController = new NewsHomeController();
-        $data = $newsHomeController->getBerita();
+            // Ambil data berita dari NewsController
+            $newsHomeController = new NewsHomeController();
+            $data = $newsHomeController->getBerita();
 
-        // Ambil semua gambar popup
-        $popup = [
-            'image_popup' => Popup::pluck('image_popup')->toArray()
-        ];   
+            // Ambil semua gambar popup
+            $popup = [
+                'image_popup' => Popup::pluck('image_popup')->toArray()
+            ];   
 
-        // Ambil data media
-        $media = Media::latest()->get();
+            // Ambil data media
+            $media = Media::latest()->get();
 
-        // ✅ Ambil video terbaru dari database
-        $latestVideo = Video::latest()->first();
-        $videoPath = $latestVideo ? asset('storage/' . $latestVideo->video_path) : null;
+            // Ambil video terbaru dari database
+            $latestVideo = Video::latest()->first();
+            $videoPath = $latestVideo ? asset('storage/' . $latestVideo->video_path) : null;
 
                 // Kirim data ke halaman Beranda melalui Inertia
                 return Inertia::render('Beranda/Beranda', [
@@ -59,11 +61,14 @@ class BerandaController extends Controller
 
                 ]);  
                 
-                $layanans = Layanan::all(); // Ambil semua data layanan
-
-                return Inertia::render('Beranda', [
-                    'layanans' => $layanans
+            } catch (\Exception $e) {
+                // Log the error and return a response if an exception occurs
+                Log::error('Error in BerandaController: ' . $e->getMessage());
+    
+                // Optionally, return an error page or a default response
+                return Inertia::render('Error', [
+                    'message' => 'Something went wrong. Please try again later.',
                 ]);
-
             }
         }
+    }
