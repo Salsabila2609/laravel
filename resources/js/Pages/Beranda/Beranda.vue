@@ -2,13 +2,22 @@
   <div>
     <MasterLayout>
 
-    <Video :videoSource="latestVideo" /> <!-- Tambahkan ini -->
+    <!-- Video Section -->
+    <VideoSection :videoSource="videoSource" />
+    <!-- Media Section -->
     <Media :media="media" />
-    <Berita :mainNews="mainNews" :newsCards="newsCards" />
+    <!-- Berita Section -->
+    <Berita
+      :mainNews="mainNews"
+      :newsCards="newsCards"
+    />
+    <!-- Popup Section -->
     <Popup v-if="showPopup" :popup="popup" />
-    <Layanan />
+
+    <!-- Visitor Section -->
+    <Layanan :layanans="layanans" />
     <VideoGallery />
-    <Visitor 
+    <Visitor
       :visitorCount="visitorCount"
       :todayVisitorCount="todayVisitorCount"
       :monthlyVisitorCount="monthlyVisitorCount"
@@ -54,6 +63,7 @@ export default {
     mainNews: Object,
     newsCards: Array,
     popup: Object,
+    layanans: Array,
   },
   data() {
     return {
