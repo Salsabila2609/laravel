@@ -74,7 +74,7 @@ class AuthenticatedSessionController extends Controller
         // Logging keberhasilan login
         Log::info('User logged in', ['email' => $request->email, 'ip' => $request->ip()]);
 
-        return redirect()->intended('/Admin/Dashboard/Dashboard');
+        return Inertia::location(route('dashboard'));
     }
 
     /**
