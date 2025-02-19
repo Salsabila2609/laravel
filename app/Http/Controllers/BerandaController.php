@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Visitor;
+use App\Models\Layanan;
 use App\Models\Popup;
 use App\Models\Media;
 use App\Models\Video;
@@ -45,22 +46,29 @@ class BerandaController extends Controller
             $latestVideo = Video::latest()->first();
             $videoPath = $latestVideo ? asset('storage/' . $latestVideo->video_path) : null;
 
-            // Kirim data ke halaman Beranda melalui Inertia
-            return Inertia::render('Beranda/Beranda', [
-                'visitorCount' => $visitorCount,
-                'todayVisitorCount' => $todayVisitorCount,
-                'monthlyVisitorCount' => $monthlyVisitorCount,
-                'yearlyVisitorCount' => $yearlyVisitorCount,
-                'mainNews' => $data['mainNews'],
-                'newsCards' => $data['newsCards'],
-                'popup' => $popup,
-                'media' => $media,
-                'latestVideo' => $videoPath,
-            ]);
-        } catch (\Exception $e) {
-            // Catat kesalahan dan kembalikan halaman error
-            Log::error('Error in BerandaController: ' . $e->getMessage());
-            return Inertia::render('Error', ['message' => 'An error occurred.']);
+                // Kirim data ke halaman Beranda melalui Inertia
+                return Inertia::render('Beranda/Beranda', [
+                    'layanans' => Layanan::all(), // Kirim data layanan ke Vue
+                    'visitorCount' => $visitorCount,
+                    'todayVisitorCount' => $todayVisitorCount,
+                    'monthlyVisitorCount' => $monthlyVisitorCount,
+                    'yearlyVisitorCount' => $yearlyVisitorCount,
+                    'mainNews' => $data['mainNews'],
+                    'newsCards' => $data['newsCards'],
+                    'popup' => $popup, // Data popup
+                    'media' => $media, 
+                    'latestVideo' => $videoPath, // ✅ Kirim video terbaru ke frontend
+
+                ]);  
+                
+            } catch (\Exception $e) {
+                // Log the error and return a response if an exception occurs
+                Log::error('Error in BerandaController: ' . $e->getMessage());
+    
+                // Optionally, return an error page or a default response
+                return Inertia::render('Error', [
+                    'message' => 'Something went wrong. Please try again later.',
+                ]);
+            }
         }
     }
-}
