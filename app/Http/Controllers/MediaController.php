@@ -19,14 +19,15 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'title' => 'required|string|max:255', // Validasi title
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120',
             'url' => 'nullable|url',
         ]);
         
-
         $path = $request->file('image')->store('uploads', 'public');
 
         Media::create([
+            'title' => $request->title, // Menambahkan title
             'image' => $path,
             'url' => $request->url,
         ]);
@@ -38,6 +39,7 @@ class MediaController extends Controller
     public function update(Request $request, Media $media)
     {
         $request->validate([
+            'title' => 'required|string|max:255', // Validasi title
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120',
             'url' => 'nullable|url',
         ]);
@@ -49,14 +51,14 @@ class MediaController extends Controller
             $path = $request->file('image')->store('uploads', 'public'); // Simpan gambar baru
             $media->image = $path;
         }
-    
-        // Update URL
+
+        // Update title dan URL
+        $media->title = $request->title; // Update title
         $media->url = $request->url;
         $media->save();
-    
+
         return redirect()->back()->with('success', 'Media berhasil diperbarui!');
     }
-    
 
     // DELETE: Hapus media
     public function destroy(Media $media)

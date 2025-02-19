@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar/>
+<MasterLayout>
     <Background />
 
     <!-- Breadcrumb -->
@@ -33,22 +33,22 @@
         </div>
       </Card>
     </div>
-    <Footer/>
+
+</MasterLayout>
+  
   </div>
 </template>
 
 <script>
 // Import komponen Background dan Card dari folder Components
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
   components: {
-    Navbar,
-    Footer,
+    MasterLayout,
     Background, // Daftarkan komponen Background
     Card, // Daftarkan komponen Card
     Link,

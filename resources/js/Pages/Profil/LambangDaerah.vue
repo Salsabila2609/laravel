@@ -1,6 +1,5 @@
 <template>
-  <Navbar />
-      <!-- Breadcrumb -->
+<MasterLayout>
     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Lambang Daerah
     </div>
@@ -13,7 +12,7 @@
       <!-- New section for the image and yellow lines -->
       <div class="flex items-center justify-center mt-3 w-full px-4">
         <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
-        <img src="../../../../public/image/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-8 sm:h-10 w-auto">
+        <img src="../../../../public/images/madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-8 sm:h-10 w-auto">
         <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
       </div>
 
@@ -22,11 +21,11 @@
       </p>
 
       <!-- Card that holds content -->
-      <Card style="background-image: url('image/background.png');">
+      <Card style="background-image: url('images/background.png');">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6">
           <!-- Kolom kiri -->
           <div class="flex justify-center items-center">
-            <img src="../../../../public/image/logo.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] sm:max-w-[50%] h-auto">
+            <img src="../../../../public/images/logodaerah.png" alt="Gambar Lambang Daerah" class="w-full max-w-[60%] sm:max-w-[50%] h-auto">
           </div>
 
           <!-- Kolom kanan -->
@@ -51,22 +50,22 @@
       </Card>
     </div>
   </div>
-  <Footer />
+</MasterLayout>
+  
+
 </template>
 
 <script>
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
   components: {
     Background,
     Card,
-    Navbar,
-    Footer,
+    MasterLayout,
     Link,
   },
 };

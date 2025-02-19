@@ -1,14 +1,15 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import Checkbox from '@/Components/UI/Checkbox.vue';
+import InputError from '@/Components/UI/InputError.vue';
+import InputLabel from '@/Components/UI/InputLabel.vue';
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue';
+import TextInput from '@/Components/UI/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps({
     canResetPassword: {
         type: Boolean,
+        default: true, // Set default ke true agar link selalu muncul
     },
     status: {
         type: String,
@@ -80,12 +81,11 @@ const submit = () => {
                     <div class="mt-4 flex items-center justify-end">
                         <Link
                             v-if="canResetPassword"
-                            href="/forgot-password"
+                            :href="'/forgot-password'"
                             class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Forgot your password?
                         </Link>
-
                         <PrimaryButton
                             class="ms-4"
                             :class="{ 'opacity-25': form.processing }"

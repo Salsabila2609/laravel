@@ -1,6 +1,6 @@
 <script>
-import Background from "@/Components/Background.vue";
-import Card from "@/Components/Card.vue";
+import Background from "@/Components/UI/Background.vue";
+import Card from "@/Components/UI/Card.vue";
 import { Link } from "@inertiajs/vue3";
 import AddButton from "@/Components/UI/AddButton.vue";
 
@@ -20,6 +20,7 @@ export default {
       isEditMode: false,
       popup: {
         id: null,
+        title: '',
         image_popup: null,
       },
     };
@@ -31,7 +32,7 @@ export default {
       if (isEditMode && popup) {
         this.popup = { ...popup };
       } else {
-        this.popup = { image_popup: '', id: null };
+        this.popup = { title: '',image_popup: '', id: null };
       }
       console.log('openModal:', this.popup);  // Log popup object
     },
@@ -54,6 +55,7 @@ export default {
     async uploadPopup() {
       console.log('Uploading Popup Image...');
       const formData = new FormData();
+      formData.append('title', this.popup.title);
       formData.append('image_popup', this.$refs.file.files[0]);
 
       if (!formData.get('image_popup')) {
@@ -61,7 +63,6 @@ export default {
         return;
       }
 
-      console.log('Form data prepared for upload:', formData); // Log form data before sending
       try {
         await this.$inertia.post('/popup', formData);
         console.log('Image upload successful');
@@ -75,6 +76,8 @@ export default {
     async updatePopup() {
       console.log('Updating Popup Image...');
       const formData = new FormData();
+      formData.append('title', this.popup.title);
+      
       
       if (this.$refs.file.files[0]) {
           formData.append('image_popup', this.$refs.file.files[0]);
@@ -135,12 +138,15 @@ export default {
           <table class="w-full mx-auto table-auto border-collapse">
             <thead>
               <tr>
+                <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">Title</th>
                 <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">Popup Image</th>
                 <th class="py-2 px-2 sm:px-4 border-b text-center text-sm sm:text-base">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="popup in popups" :key="popup.id">
+                <td class="py-2 px-2 sm:px-4 border-t border-b text-center">{{ popup.title }}</td>
+                
                 <td class="py-2 px-2 sm:px-4 border-t border-b text-center">
                   <img :src="'/storage/' + popup.image_popup" alt="Popup Image" class="w-24 h-24 sm:w-32 sm:h-32 object-cover mx-auto max-w-full" />
                 </td>
@@ -175,6 +181,17 @@ export default {
         </h2>
 
         <form @submit.prevent="handleSubmit">
+          <div class="mb-4">
+    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+    <input 
+      type="text" 
+      id="title" 
+      v-model="popup.title" 
+      class="mt-2 w-full text-sm border rounded-md px-2 py-1"
+      required 
+    />
+  </div>
+          
           <div class="mb-4">
             <label for="image_popup" class="block text-sm font-medium text-gray-700">Image</label>
             <input 

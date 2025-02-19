@@ -1,6 +1,6 @@
 <template>
-  <Navbar />
-  <div>
+ <MasterLayout>
+   <div>
     <Background />
     <!-- Breadcrumb -->
     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
@@ -133,21 +133,22 @@
       </Card>
     </div>
   </div>
-  <Footer />
+ </MasterLayout>
+ 
+
 </template>
 
 <script>
 import { Link } from '@inertiajs/vue3';
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 export default {
   props: ['opds'],
   components: {
     Background,
-    Navbar,
-    Footer,
+    MasterLayout,
     Card,
     Link
   }

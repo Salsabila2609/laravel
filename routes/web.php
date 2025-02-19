@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
     //Popup
     Route::get('/popup', [PopupController::class, 'index'])->name('popup.index');
     Route::post('/popup', [PopupController::class, 'store'])->name('popup.store');

@@ -1,6 +1,6 @@
 <template>
-  <Navbar />
-      <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
+  <MasterLayout>
+     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
       <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Kontak Kami
     </div>
   <div class="w-full min-h-screen bg-white relative flex flex-col justify-center items-center text-white">
@@ -11,7 +11,7 @@
       <!-- New section for the image and yellow lines -->
       <div class="flex items-center justify-center mt-3 w-full px-4">
         <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
-        <img src="..\..\..\..\public\image\madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-14 w-auto max-w-full">
+        <img src="..\..\..\..\public\images\madiun_silat.png" alt="Gambar Lambang Daerah" class="mx-4 h-14 w-auto max-w-full">
         <div class="h-[2px] bg-[#D4A017] flex-1 rounded"></div>
       </div>
 
@@ -20,12 +20,12 @@
       </p>
 
       <!-- Card with background image -->
-      <Card class="p-6 mt-0 text-white relative bg-cover bg-center bg-no-repeat" style="background-image: url('/image/background.png');">
+      <Card class="p-6 mt-0 text-white relative bg-cover bg-center bg-no-repeat" style="background-image: url('/images/background.png');">
         <div class="p-6">
           <!-- Bagian atas dengan dua gambar yang berada di tengah -->
           <div class="flex justify-center items-center mb-4 lg:gap-20 md:gap-10 gap-5">
-            <img src="..\..\..\..\public\image\bupati.png" alt="Gambar Lambang 1" class="w-36 h-auto max-w-full">
-            <img src="..\..\..\..\public\image\bupati.png" alt="Gambar Lambang 2" class="w-36 h-auto max-w-full">
+            <img src="..\..\..\..\public\images\bupati.png" alt="Gambar Lambang 1" class="w-36 h-auto max-w-full">
+            <img src="..\..\..\..\public\images\bupati.png" alt="Gambar Lambang 2" class="w-36 h-auto max-w-full">
           </div>
 
           <!-- Tabel di bawah foto -->
@@ -59,19 +59,20 @@
       </Card>
     </div>
   </div>
-  <Footer />
+  </MasterLayout>
+     
+
 </template>
 
 <script>
-import Card from '@/Components/Card.vue';
+import Card from '@/Components/UI/Card.vue';
 import { Link } from '@inertiajs/vue3';
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+
 export default {
   components: {
     Card,
-    Navbar,
-    Footer,
+    MasterLayout,
     Link,
   },
 };

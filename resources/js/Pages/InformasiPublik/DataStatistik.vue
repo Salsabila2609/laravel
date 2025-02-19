@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Navbar />
-    <Background />
+    <MasterLayout>
+  <Background />
 
 
     <div class="text-sm text-[#99CBC0] font-bold py-4 px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
@@ -81,7 +81,7 @@
                 </td>
                 <td class="py-2 sm:py-3 px-2 sm:px-4 border-t border-b text-xs sm:text-sm">
                   <div class="flex items-center">
-                    <img src="image/File.png" alt="File Icon" class="w-6 h-6 sm:w-10 sm:h-10 mr-2">
+                    <img src="images/File.png" alt="File Icon" class="w-6 h-6 sm:w-10 sm:h-10 mr-2">
                     <span class="break-words">{{ doc.document_name }}</span>
                   </div>
                 </td>
@@ -116,27 +116,27 @@
       </div>
 
     </div>
+    </MasterLayout>
+  
 
-    <Footer />
   </div>
 </template>
 
 <script>
-import Navbar from '@/Components/Layout/Navbar.vue';
-import Footer from '@/Components/Layout/Footer.vue';
-import NewsButton from '@/Components/NewsButton.vue';
-import Background from '@/Components/Background.vue';
-import Card from '@/Components/Card.vue';
-import PaginationComponent from '@/Components/Pagination.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
+import NewsButton from '@/Components/UI/NewsButton.vue';
+import Background from '@/Components/UI/Background.vue';
+import Card from '@/Components/UI/Card.vue';
+import PaginationComponent from '@/Components/UI/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
   components: {
-    Navbar,
-    Footer,
+
     Background,
     Card,
     Link,
+    MasterLayout,
     NewsButton,
     PaginationComponent,
   },

@@ -144,10 +144,8 @@ class NewsController extends Controller
 
     public function store(Request $request)
     {
-     
-        $config = HTMLPurifier_Config::createDefault();
-
         // Mengizinkan tag iframe dan img dengan atribut src, width, height, frameborder, allowfullscreen, alt, title
+        $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.Allowed', 'p, b, i, u, a[href|target], iframe[src|width|height|frameborder|allowfullscreen], img[src|alt|title|width|height]');
         
         // Mengaktifkan konfigurasi HTML.Trusted untuk memperbolehkan atribut tambahan
@@ -169,23 +167,26 @@ class NewsController extends Controller
             'gambar_utama_keterangan' => 'nullable|string|max:255',
             'gambar_lampiran_keterangan.*' => 'nullable|string|max:255',
         ]);
-    
+        
+        // Ambil kategori dari request
         $kategori = is_array($request->kategori) ? $request->kategori : json_decode($request->kategori, true);
-    
+        
+        // Membuat objek News baru
         $news = new News();
         $news->penulis = $request->penulis;
         $news->judul = $request->judul;
         $news->isi_berita = $cleanContent;
         $news->kategori = json_encode($kategori);
-    
+        
         // Proses upload gambar utama
         if ($request->hasFile('gambar_utama') && $request->file('gambar_utama')->isValid()) {
             $path = $request->file('gambar_utama')->store('images');
             $news->gambar_utama = $path;
         }
-    
+        
+        // Menyimpan keterangan gambar utama
         $news->gambar_utama_keterangan = $request->gambar_utama_keterangan;
-    
+        
         // Proses upload multiple gambar lampiran
         $gambarLampiranPaths = [];
         $gambarLampiranKeterangan = [];
@@ -198,13 +199,18 @@ class NewsController extends Controller
                 }
             }
         }
-    
-        // Ekstraksi gambar dari isi berita
+        
+        // Ekstraksi gambar dan alt text dari isi berita
         $isiBerita = $request->input('isi_berita');
-        preg_match_all('/<img[^>]+src=["\'](.*?)["\']/i', $isiBerita, $matches);
-        $imagePaths = [];
+        preg_match_all('/<img[^>]+src=["\'](.*?)["\'][^>]*alt=["\'](.*?)["\']/i', $isiBerita, $matches);
     
-        foreach ($matches[1] as $imageUrl) {
+        $imagePaths = [];
+        $gambarLampiranKeterangan = [];
+    
+        // Menyimpan URL gambar dan alt text
+        foreach ($matches[1] as $index => $imageUrl) {
+            $altText = $matches[2][$index]; // Ambil alt text untuk gambar ini
+    
             if (strpos($imageUrl, 'data:image') === false) {
                 $relativePath = str_replace(asset('storage') . '/', '', $imageUrl);
                 $imagePaths[] = $relativePath;
@@ -215,18 +221,25 @@ class NewsController extends Controller
                 Storage::put('public/' . $imagePath, $imageData);
                 $imagePaths[] = $imagePath;
             }
+    
+            // Simpan alt text ke dalam array gambar lampiran keterangan
+            $gambarLampiranKeterangan[] = $altText;
         }
     
+        // Gabungkan gambar lampiran dengan gambar yang ada di isi berita
         $allImagePaths = array_merge($gambarLampiranPaths, $imagePaths);
     
+        // Menyimpan path gambar dan keterangan
         $news->gambar_lampiran = json_encode($allImagePaths);
         $news->gambar_lampiran_keterangan = json_encode($gambarLampiranKeterangan);
     
+        // Simpan data berita ke database
         $news->save();
-    
+        
+        // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('news.index')->with('success', 'News created successfully!');
     }
-
+    
     public function show($id)
     {
         $news = News::findOrFail($id);
