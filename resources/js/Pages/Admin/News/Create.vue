@@ -34,28 +34,47 @@ const submit = () => {
   const formData = new FormData();
 
   // Append form data to FormData object
-  formData.append('penulis', form.penulis);
-  formData.append('judul', form.judul);
-  formData.append('isi_berita', form.isi_berita);
-  formData.append('kategori', form.kategori);
-  formData.append('gambar_utama_keterangan', form.gambar_utama_keterangan); // Menambahkan keterangan gambar utama
+  formData.append("penulis", form.penulis);
+  formData.append("judul", form.judul);
+  formData.append("isi_berita", form.isi_berita);
+  formData.append("kategori", form.kategori);
+  formData.append("gambar_utama_keterangan", form.gambar_utama_keterangan);
 
   // If gambar utama is selected, append it to FormData object
   if (form.gambar_utama) {
-    formData.append('gambar_utama', form.gambar_utama);
+    formData.append("gambar_utama", form.gambar_utama);
   }
 
   // Append all images in gambar_lampiran array and their corresponding keterangan
   form.gambar_lampiran.forEach((file, index) => {
-    formData.append(`gambar_lampiran[${index}]`, file); // Fixed string interpolation
-    formData.append(`gambar_lampiran_keterangan[${index}]`, form.gambar_lampiran_keterangan[index]); // Fixed string interpolation
+    formData.append(`gambar_lampiran[${index}]`, file);
+    formData.append(`gambar_lampiran_keterangan[${index}]`, form.gambar_lampiran_keterangan[index]);
+  });
+
+  // Debugging: Log data before sending
+  console.log("=== Data yang dikirim ke server ===");
+  console.log("Penulis:", form.penulis);
+  console.log("Judul:", form.judul);
+  console.log("Isi Berita:", form.isi_berita);
+  console.log("Kategori:", form.kategori);
+  console.log("Gambar Utama Keterangan:", form.gambar_utama_keterangan);
+  console.log("Gambar Utama:", form.gambar_utama ? form.gambar_utama.name : "Tidak ada");
+
+  console.log("Gambar Lampiran:");
+  form.gambar_lampiran.forEach((file, index) => {
+    console.log(`  - ${index}: ${file.name}`);
+  });
+
+  console.log("Keterangan Gambar Lampiran:");
+  form.gambar_lampiran_keterangan.forEach((desc, index) => {
+    console.log(`  - ${index}: ${desc}`);
   });
 
   // Submit the form data to the Laravel backend
-  form.post('/news', {
+  form.post("/news", {
     data: formData,
     headers: {
-      'Content-Type': 'multipart/form-data', // Important for file upload
+      "Content-Type": "multipart/form-data",
     },
   });
 };
