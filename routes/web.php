@@ -85,6 +85,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/subdistrict/edit/{id}', [KecamatanController::class, 'edit'])->name('kecamatan.edit');
     Route::put('/subdistrict/{id}', [KecamatanController::class, 'update'])->name('kecamatan.update');
     Route::delete('/subdistrict/{id}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
+    // Layanan
+    Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
+    Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
+    Route::put('/layanan/{layanan}', [LayananController::class, 'update'])->name('layanan.update');
+    Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
 });
 
