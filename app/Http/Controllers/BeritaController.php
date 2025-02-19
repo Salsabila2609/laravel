@@ -57,67 +57,59 @@ class BeritaController extends Controller
 
     public function showByCategory($kategori)
     {
-        // Cek apakah pengguna sudah login
-        if (auth()->check()) {
-            // Decode kategori jika diperlukan
-            $kategori = urldecode($kategori); // Decode URL-encoded string
+        // Decode kategori jika diperlukan
+        $kategori = urldecode($kategori);
     
-            // Debug: Log kategori yang diterima
-            \Log::info('Kategori yang diterima:', ['kategori' => $kategori]);
+        // Debug: Log kategori yang diterima
+        \Log::info('Kategori yang diterima:', ['kategori' => $kategori]);
     
-            // Ambil berita berdasarkan kategori
-            $news = News::whereJsonContains('kategori', $kategori)->get()->map(function ($item) {
-                // Proses kategori jika diperlukan (misalnya kategori disimpan dalam format JSON)
-                if (!is_array($item->kategori)) {
-                    $decodedKategori = json_decode($item->kategori, true);
-                    if (is_string($decodedKategori)) {
-                        $decodedKategori = json_decode($decodedKategori, true);
-                    }
-                    $item->kategori = $decodedKategori;
+        // Ambil berita berdasarkan kategori
+        $news = News::whereJsonContains('kategori', $kategori)->get()->map(function ($item) {
+            // Proses kategori jika diperlukan
+            if (!is_array($item->kategori)) {
+                $decodedKategori = json_decode($item->kategori, true);
+                if (is_string($decodedKategori)) {
+                    $decodedKategori = json_decode($decodedKategori, true);
                 }
+                $item->kategori = $decodedKategori;
+            }
     
-                // Format tanggal
-                $item->tanggal_terbit = $item->created_at->format('d M Y');
-                // Periksa dan decode gambar_lampiran jika ada
-                $item->gambar_lampiran = is_string($item->gambar_lampiran)
-                    ? json_decode($item->gambar_lampiran, true)
-                    : $item->gambar_lampiran;
+            // Format tanggal
+            $item->tanggal_terbit = $item->created_at->format('d M Y');
+            // Periksa dan decode gambar_lampiran jika ada
+            $item->gambar_lampiran = is_string($item->gambar_lampiran)
+                ? json_decode($item->gambar_lampiran, true)
+                : $item->gambar_lampiran;
     
-                return $item;
-            });
+            return $item;
+        });
     
-            // Debug: Log berita yang ditemukan
-            \Log::info('Berita yang ditemukan:', ['news' => $news]);
+        // Hitung jumlah berita per kategori
+        $categoriesWithCount = News::all()
+            ->flatMap(function ($news) {
+                $kategori = json_decode($news->kategori, true);
+                return is_array($kategori) ? $kategori : [];
+            })
+            ->countBy()
+            ->map(function ($count, $category) {
+                return [
+                    'category' => $category,
+                    'count' => $count,
+                ];
+            })
+            ->values();
     
-            // Hitung jumlah berita per kategori
-            $categoriesWithCount = News::all()
-                ->flatMap(function ($news) {
-                    $kategori = json_decode($news->kategori, true);
-                    return is_array($kategori) ? $kategori : [];
-                })
-                ->countBy()
-                ->map(function ($count, $category) {
-                    return [
-                        'category' => $category,
-                        'count' => $count,
-                    ];
-                })
-                ->values();
+        // Tambahkan jumlah total berita
+        $totalNewsCount = News::count();
     
-            // Tambahkan jumlah total berita
-            $totalNewsCount = News::count();
+        return inertia('Berita/Berita', [
+            'newsItems' => $news,
+            'categoriesWithCount' => $categoriesWithCount,
+            'totalNewsCount' => $totalNewsCount,
+            'activeCategory' => $kategori,
+        ]);
+    }
     
-            return inertia('Berita/Berita', [
-                'newsItems' => $news,
-                'categoriesWithCount' => $categoriesWithCount,
-                'totalNewsCount' => $totalNewsCount,
-                'activeCategory' => $kategori, // Tambahkan kategori aktif
-            ]);
-        } else {
-            // Jika pengguna tidak login, redirect ke halaman login
-            return redirect()->route('login');
-        }
-    } 
     public function show($id)
     {
         $news = News::findOrFail($id);
