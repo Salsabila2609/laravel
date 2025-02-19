@@ -5,66 +5,83 @@ use Illuminate\Http\Request;
 use App\Models\Media;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class MediaController extends Controller
 {
-    // READ: Menampilkan semua media
     public function index()
     {
         $media = Media::latest()->get();
         return Inertia::render('Admin/Media/Media', ['media' => $media]);
     }
 
-    // CREATE: Upload media baru
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255', // Validasi title
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120',
+            'title' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120', // (2) Kurangi ukuran max dari 5MB ke 2MB
             'url' => 'nullable|url',
         ]);
-        
-        $path = $request->file('image')->store('uploads', 'public');
 
-        Media::create([
-            'title' => $request->title, // Menambahkan title
+        // (3) Cek MIME Type agar tidak ada shell upload
+        $mimeType = $request->file('image')->getMimeType();
+        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!in_array($mimeType, $allowedMimeTypes)) {
+            return redirect()->back()->withErrors(['image' => 'Format file tidak didukung!']);
+        }
+
+        // (4) Simpan dengan nama acak agar tidak bisa ditebak
+        $filename = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+        $path = $request->file('image')->storeAs('uploads', $filename, 'public');
+
+        $media = Media::create([
+            'title' => htmlspecialchars($request->title), // (5) Mencegah XSS dengan htmlentities
             'image' => $path,
             'url' => $request->url,
         ]);
 
+        Log::info('Media uploaded', ['user_id' => auth()->id(), 'media_id' => $media->id]); // (6) Logging aktivitas user
+
         return redirect()->back()->with('success', 'Media berhasil diunggah!');
     }
 
-    // UPDATE: Edit media
     public function update(Request $request, Media $media)
     {
         $request->validate([
-            'title' => 'required|string|max:255', // Validasi title
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:5120',
+            'title' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,webp|max:2048', // (2) Kurangi ukuran max
             'url' => 'nullable|url',
         ]);
-        
-    
-        // Jika ada gambar baru, hapus gambar lama dan simpan yang baru
+
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($media->image); // Hapus gambar lama
-            $path = $request->file('image')->store('uploads', 'public'); // Simpan gambar baru
+            Storage::disk('public')->delete($media->image);
+            
+            // (3) Cek MIME Type lagi
+            $mimeType = $request->file('image')->getMimeType();
+            if (!in_array($mimeType, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+                return redirect()->back()->withErrors(['image' => 'Format file tidak didukung!']);
+            }
+
+            $filename = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $path = $request->file('image')->storeAs('uploads', $filename, 'public');
             $media->image = $path;
         }
 
-        // Update title dan URL
-        $media->title = $request->title; // Update title
+        $media->title = htmlspecialchars($request->title);
         $media->url = $request->url;
         $media->save();
+
+        Log::info('Media updated', ['user_id' => auth()->id(), 'media_id' => $media->id]); // (6) Logging update
 
         return redirect()->back()->with('success', 'Media berhasil diperbarui!');
     }
 
-    // DELETE: Hapus media
     public function destroy(Media $media)
     {
         Storage::disk('public')->delete($media->image);
         $media->delete();
+
+        Log::info('Media deleted', ['user_id' => auth()->id(), 'media_id' => $media->id]); // (6) Logging delete
 
         return redirect()->back()->with('success', 'Media berhasil dihapus!');
     }
