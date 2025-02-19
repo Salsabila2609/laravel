@@ -5,38 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pejabat;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PejabatController extends Controller
 {
     public function index()
     {
-        // Ambil data pejabat dari database
-        $pejabats = Pejabat::select('id', 'name', 'position')->get();
-
-        // Kirim data ke halaman Inertia
-        return Inertia::render('Profil/PejabatDaerah', [
-            'pejabats' => $pejabats,
-        ]);
+        try {
+            $pejabats = Pejabat::select('id', 'name', 'position')->get();
+            return Inertia::render('Profil/PejabatDaerah', ['pejabats' => $pejabats]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching pejabat: ' . $e->getMessage());
+            return abort(500, 'Terjadi kesalahan saat mengambil data pejabat.');
+        }
     }
 
     public function localOfficial()
     {
-        // Ambil data pejabat yang sama untuk halaman kedua
-        $pejabats = Pejabat::select('id', 'name', 'position')->get();
-
-        // Kirim data ke halaman kedua Inertia
-        return Inertia::render('Admin/Profil/LocalOfficial', [
-            'pejabats' => $pejabats,
-        ]);
+        try {
+            $pejabats = Pejabat::select('id', 'name', 'position')->get();
+            return Inertia::render('Admin/Profil/LocalOfficial', ['pejabats' => $pejabats]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching pejabat (admin): ' . $e->getMessage());
+            return abort(500, 'Terjadi kesalahan saat mengambil data pejabat.');
+        }
     }
 
-    // Halaman tambah pejabat
     public function create()
     {
         return Inertia::render('Admin/Profil/AddLocalOfficial');
     }
 
-    // Menyimpan data pejabat baru
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -44,49 +45,55 @@ class PejabatController extends Controller
             'position' => 'required|string|max:255',
         ]);
 
-        Pejabat::create($validated);
-
-        return redirect()->route('pejabat.localOfficial')->with('success', 'Pejabat berhasil ditambahkan!');
+        try {
+            Pejabat::create($validated);
+            return redirect()->route('pejabat.localOfficial')->with('success', 'Pejabat berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            Log::error('Error storing pejabat: ' . $e->getMessage());
+            return abort(500, 'Terjadi kesalahan saat menambahkan pejabat.');
+        }
     }
 
     public function edit($id)
-{
-    // Ambil data pejabat berdasarkan ID
-    $pejabat = Pejabat::findOrFail($id);
+    {
+        try {
+            $pejabat = Pejabat::findOrFail($id);
+            return Inertia::render('Admin/Profil/EditLocalOfficial', ['pejabat' => $pejabat]);
+        } catch (ModelNotFoundException $e) {
+            return abort(404, 'Pejabat tidak ditemukan.');
+        }
+    }
 
-    // Kirim data ke halaman EditLocalOfficial
-    return Inertia::render('Admin/Profil/EditLocalOfficial', [
-        'pejabat' => $pejabat
-    ]);
-}
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+        ]);
 
-public function update(Request $request, $id)
-{
-    // Validasi input
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'position' => 'required|string|max:255',
-    ]);
+        try {
+            $pejabat = Pejabat::findOrFail($id);
+            $pejabat->update($validated);
+            return redirect()->route('pejabat.localOfficial')->with('success', 'Pejabat berhasil diperbarui!');
+        } catch (ModelNotFoundException $e) {
+            return abort(404, 'Pejabat tidak ditemukan.');
+        } catch (\Exception $e) {
+            Log::error('Error updating pejabat: ' . $e->getMessage());
+            return abort(500, 'Terjadi kesalahan saat memperbarui pejabat.');
+        }
+    }
 
-    // Cari pejabat berdasarkan ID
-    $pejabat = Pejabat::findOrFail($id);
-
-    // Perbarui data pejabat
-    $pejabat->update($validated);
-
-    // Redirect ke halaman daftar pejabat
-    return redirect()->route('pejabat.localOfficial')->with('success', 'Pejabat berhasil diperbarui!');
-}
-
-public function destroy($id)
-{
-    // Cari pejabat berdasarkan ID dan hapus
-    $pejabat = Pejabat::findOrFail($id);
-    $pejabat->delete();
-
-    // Redirect kembali ke daftar pejabat dengan pesan sukses
-    return redirect()->route('pejabat.localOfficial')->with('success', 'Pejabat berhasil dihapus!');
-}
-
-
+    public function destroy($id)
+    {
+        try {
+            $pejabat = Pejabat::findOrFail($id);
+            $pejabat->delete();
+            return redirect()->route('pejabat.localOfficial')->with('success', 'Pejabat berhasil dihapus!');
+        } catch (ModelNotFoundException $e) {
+            return abort(404, 'Pejabat tidak ditemukan.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting pejabat: ' . $e->getMessage());
+            return abort(500, 'Terjadi kesalahan saat menghapus pejabat.');
+        }
+    }
 }

@@ -21,41 +21,50 @@ class OPDController extends Controller
         return inertia('Admin/Profil/LGO', ['opds' => $opds]);
     }
 
-    // Menampilkan halaman form untuk membuat OPD baru
     // Menyimpan OPD baru
     public function store(Request $request)
     {
-        // Validasi dan menyimpan data OPD
+        // Validasi input data
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
             'contact' => 'required|string',
             'link' => 'nullable|url', 
+            'file' => 'nullable|file|mimes:jpg,png,pdf|max:2048' // Validasi file upload
         ]);
 
-        OPD::create($request->all());
+        $data = $request->only(['name', 'address', 'contact', 'link']);
 
-        // Redirect ke halaman daftar OPD setelah berhasil ditambahkan
+        if ($request->hasFile('file')) {
+            $data['file_path'] = $request->file('file')->store('uploads/opd', 'public');
+        }
+
+        OPD::create($data);
+
         return redirect()->route('opd.lgo')->with('success', 'OPD berhasil ditambahkan!');
     }
-
-    // Menampilkan halaman form untuk mengedit OPD
 
     // Mengupdate data OPD yang ada
     public function update(Request $request, $id)
     {
-        // Validasi dan memperbarui data OPD
+        // Validasi input data
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
             'contact' => 'required|string',
             'link' => 'nullable|url',
+            'file' => 'nullable|file|mimes:jpg,png,pdf|max:5120' // Validasi file upload
         ]);
 
         $opd = OPD::findOrFail($id);
-        $opd->update($request->all());
+        $data = $request->only(['name', 'address', 'contact', 'link']);
 
-        // Redirect ke halaman daftar OPD setelah berhasil diperbarui
+        if ($request->hasFile('file')) {
+            $data['file_path'] = $request->file('file')->store('uploads/opd', 'public');
+        }
+
+        $opd->update($data);
+
         return redirect()->route('opd.lgo')->with('success', 'OPD berhasil diperbarui!');
     }
 
