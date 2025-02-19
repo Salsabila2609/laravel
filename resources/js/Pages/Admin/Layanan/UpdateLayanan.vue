@@ -66,10 +66,10 @@
 </template>
 
 <script>
-import Background from "@/Components/Background.vue";
-import Card from "@/Components/Card.vue";
+import Background from "@/Components/UI/Background.vue";
+import Card from "@/Components/UI/Card.vue";
 import { Link } from "@inertiajs/vue3";
-import AddButton from "@/Components/AddButton.vue";
+import AddButton from "@/Components/UI/AddButton.vue";
 
 export default {
   components: {

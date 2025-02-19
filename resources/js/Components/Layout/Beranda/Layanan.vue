@@ -3,9 +3,9 @@
     <!-- Judul dan Garis dengan Icon di Tengah -->
     <h2 class="text-4xl font-bold text-center text-[#396C6D]">Layanan Masyarakat</h2>
     <div class="flex items-center justify-center my-3">
-      <div class="w-32 h-1 bg-[#D4A017]"></div>
+      <div class="w-32 h-1 bg-[#D4A017] rounded"></div>
       <img src="/images/madiun_silat.png" alt="Silat Icon" class="w-14 h-14 mx-1">
-      <div class="w-32 h-1 bg-[#D4A017]"></div>
+      <div class="w-32 h-1 bg-[#D4A017] rounded"></div>
     </div>
 
     <!-- Kontainer Card -->

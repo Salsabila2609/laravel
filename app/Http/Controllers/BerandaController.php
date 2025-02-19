@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Visitor;
+use App\Models\Layanan;
 use App\Models\Popup;
 use App\Models\Media;
 use App\Models\Video; // ✅ Tambahkan model Video
@@ -43,17 +44,26 @@ class BerandaController extends Controller
         $latestVideo = Video::latest()->first();
         $videoPath = $latestVideo ? asset('storage/' . $latestVideo->video_path) : null;
 
-        // Kirim data ke halaman Beranda melalui Inertia
-        return Inertia::render('Beranda/Beranda', [
-            'visitorCount' => $visitorCount,
-            'todayVisitorCount' => $todayVisitorCount,
-            'monthlyVisitorCount' => $monthlyVisitorCount,
-            'yearlyVisitorCount' => $yearlyVisitorCount,
-            'mainNews' => $data['mainNews'],
-            'newsCards' => $data['newsCards'],
-            'popup' => $popup,
-            'media' => $media,
-            'latestVideo' => $videoPath, // ✅ Kirim video terbaru ke frontend
-        ]);        
-    }
-}
+                // Kirim data ke halaman Beranda melalui Inertia
+                return Inertia::render('Beranda/Beranda', [
+                    'layanans' => Layanan::all(), // Kirim data layanan ke Vue
+                    'visitorCount' => $visitorCount,
+                    'todayVisitorCount' => $todayVisitorCount,
+                    'monthlyVisitorCount' => $monthlyVisitorCount,
+                    'yearlyVisitorCount' => $yearlyVisitorCount,
+                    'mainNews' => $data['mainNews'],
+                    'newsCards' => $data['newsCards'],
+                    'popup' => $popup, // Data popup
+                    'media' => $media, 
+                    'latestVideo' => $videoPath, // ✅ Kirim video terbaru ke frontend
+
+                ]);  
+                
+                $layanans = Layanan::all(); // Ambil semua data layanan
+
+                return Inertia::render('Beranda', [
+                    'layanans' => $layanans
+                ]);
+
+            }
+        }

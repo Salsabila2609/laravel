@@ -329,7 +329,7 @@ onMounted(() => {
                 <div class="flex items-center gap-2 mb-2">
                   <span class="bg-[#EBE3D8] px-2 py-1 rounded-full text-black text-sm lg:text-s flex items-center gap-2 overflow-hidden md:overflow-visible whitespace-nowrap md:whitespace-normal text-ellipsis max-w-[200px] md:max-w-none w-full md:w-auto">
                     <span class="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-500 rounded-full flex-shrink-0"></span>
-                    <span class="truncate md:whitespace-normal md:overflow-visible w-full">{{ news.kategori.join(', ') }}</span>
+                    <span class="truncate md:whitespace-normal md:overflow-visible w-full">{{ Array.isArray(news.kategori) ? news.kategori.join(', ') : news.kategori }}</span>
                   </span>
                 </div>
               </div>
