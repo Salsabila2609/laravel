@@ -139,7 +139,7 @@ onMounted(() => {
         </h1>
       </div>
       <p class="text-lg md:text-xl text-center text-black mb-4 max-w-[85%] mx-auto">Temukan informasi menarik seputar pemerintah kabupaten madiun</p>
-      <div class="h-[3px] bg-[#268B79] w-9/10 mx-auto"></div>
+      <div class="h-[3px] bg-[#268B79] w-9/10 mx-auto rounded"></div>
     </div>
 
 
