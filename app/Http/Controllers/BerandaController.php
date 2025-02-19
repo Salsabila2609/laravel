@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Visitor;
+use App\Models\Layanan;
 use App\Models\Popup; // Tambahkan model Popup
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -41,6 +42,7 @@ class BerandaController extends Controller
 
                 // Kirim data ke halaman Beranda melalui Inertia
                 return Inertia::render('Beranda/Beranda', [
+                    'layanans' => Layanan::all(), // Kirim data layanan ke Vue
                     'visitorCount' => $visitorCount,
                     'todayVisitorCount' => $todayVisitorCount,
                     'monthlyVisitorCount' => $monthlyVisitorCount,
@@ -49,6 +51,13 @@ class BerandaController extends Controller
                     'newsCards' => $data['newsCards'],
                     'popup' => $popup, // Data popup
                     'media' => $media, 
-                ]);        
+                ]);  
+                
+                $layanans = Layanan::all(); // Ambil semua data layanan
+
+                return Inertia::render('Beranda', [
+                    'layanans' => $layanans
+                ]);
+
             }
         }

@@ -14,7 +14,7 @@
     <Popup v-if="showPopup" :popup="popup" />
 
     <!-- Visitor Section -->
-    <Layanan />
+    <Layanan :layanans="layanans" />
     <VideoGallery />
     <Visitor
       :visitorCount="visitorCount"
@@ -62,6 +62,7 @@ export default {
     mainNews: Object,
     newsCards: Array,
     popup: Object,
+    layanans: Array,
   },
   data() {
     return {

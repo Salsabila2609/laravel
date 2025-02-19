@@ -147,6 +147,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 10,
       pageSizeOptions: [10, 20, 25, 50, 100],
+
     };
   },
   computed: {
@@ -172,8 +173,10 @@ export default {
       }
     },
     handlePageSizeChange() {
+
       this.currentPage = 1;
     },
   },
 };
 </script>
+

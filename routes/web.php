@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\EnsureAdmin;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\LayananController; 
 use Inertia\Inertia;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SejarahController;
@@ -32,6 +33,10 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
+    Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
+    Route::put('/layanan/{layanan}', [LayananController::class, 'update'])->name('layanan.update');
+    Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
     Route::get('/media', [MediaController::class, 'index'])->name('media.index');
     Route::post('/media', [MediaController::class, 'store'])->name('media.store');
     Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');

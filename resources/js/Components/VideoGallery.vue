@@ -1,5 +1,5 @@
 <template>
-<div class="p-4">
+<div class="p-4 mb-5">
   <div class="flex items-center space-x-2">
     <h1 class="text-2xl font-bold text-teal-700 ml-5 whitespace-nowrap">Berita Video</h1>
       <div class="flex-grow">
@@ -73,7 +73,7 @@
           :disabled="currentPage === maxPage"
           @click="nextPage"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke-width="2" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -107,7 +107,7 @@
   
       // Fungsi untuk mengambil video terbaru dan statistik
       const fetchVideos = async () => {
-        const apiKey = "";
+        const apiKey = "AIzaSyD8bOo02onNGciV1K50Vpr5cWDgIf3Hr7Q";
         const channelId = "UCv2HWvm0mF1gHJ327SMhn1Q";
         const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&order=date&part=snippet&type=video&maxResults=6`;
   
