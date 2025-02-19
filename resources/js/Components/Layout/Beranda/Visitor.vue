@@ -1,6 +1,5 @@
 <template>
   <div class="visitor-card flex flex-col md:flex-row items-center justify-between text-white rounded-full p-4 md:p-6 lg:p-8 mx-auto relative mb-10">
-    <!-- Navigation Buttons -->
     <div class="flex md:flex-col items-center md:items-start justify-center space-x-2 md:space-x-0 md:space-y-3 w-full md:w-1/5 mb-4 md:mb-0 ml-5 mr-3">
       <button
         v-for="view in views"
@@ -17,48 +16,30 @@
       </button>
     </div>
 
-    <!-- Main Content -->
     <div class="text-center flex-2 px-2 md:px-4 md:ml-4" ref="countContainer">
       <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold">
         Jumlah Pengunjung
       </h2>
       <p class="text-xs sm:text-sm lg:text-base mt-2 mb-3 text-gray-200">
-        {{ getFormattedPeriod }}
+        {{ sanitizedPeriod }}
       </p>
-
-      <!-- Visitor Counts -->
+      
       <transition name="fade" mode="out-in">
-        <p
-          v-if="currentView === 'harian' && isVisible"
-          class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#D4A017]"
-          key="daily"
-        >
-          <count-up :end-val="todayVisitorCount" :duration="2.5"></count-up>
+        <p v-if="currentView === 'harian' && isVisible" class="visitor-count" key="daily">
+          <count-up :end-val="safeNumber(todayVisitorCount)" :duration="2.5"></count-up>
         </p>
-        <p
-          v-else-if="currentView === 'bulanan' && isVisible"
-          class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#D4A017]"
-          key="monthly"
-        >
-          <count-up :end-val="monthlyVisitorCount" :duration="2.5"></count-up>
+        <p v-else-if="currentView === 'bulanan' && isVisible" class="visitor-count" key="monthly">
+          <count-up :end-val="safeNumber(monthlyVisitorCount)" :duration="2.5"></count-up>
         </p>
-        <p
-          v-else-if="currentView === 'tahunan' && isVisible"
-          class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#D4A017]"
-          key="yearly"
-        >
-          <count-up :end-val="yearlyVisitorCount" :duration="2.5"></count-up>
+        <p v-else-if="currentView === 'tahunan' && isVisible" class="visitor-count" key="yearly">
+          <count-up :end-val="safeNumber(yearlyVisitorCount)" :duration="2.5"></count-up>
         </p>
       </transition>
     </div>
 
-    <!-- Image -->
     <div class="w-24 sm:w-28 md:w-32 lg:w-36 xl:w-40 flex-shrink-0 md:ml-4 mr-3">
-      <img 
-        :src="peopleImage" 
-        alt="Illustration" 
-        class="w-full h-auto object-contain"
-      />
+      <img v-if="isValidImage(peopleImage)" :src="peopleImage" alt="Illustration" class="w-full h-auto object-contain" />
+      <p v-else class="text-red-500">Invalid image format</p>
     </div>
   </div>
 </template>
@@ -72,9 +53,21 @@ export default {
     CountUp,
   },
   props: {
-    todayVisitorCount: Number,
-    monthlyVisitorCount: Number,
-    yearlyVisitorCount: Number,
+    todayVisitorCount: {
+      type: Number,
+      default: 0,
+      validator: (value) => value >= 0
+    },
+    monthlyVisitorCount: {
+      type: Number,
+      default: 0,
+      validator: (value) => value >= 0
+    },
+    yearlyVisitorCount: {
+      type: Number,
+      default: 0,
+      validator: (value) => value >= 0
+    },
   },
   data() {
     return {
@@ -89,49 +82,48 @@ export default {
     };
   },
   computed: {
-    getFormattedPeriod() {
+    sanitizedPeriod() {
       const date = new Date();
-      if (this.currentView === 'harian') {
-        return date.toLocaleDateString("id-ID", {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        });
-      } else if (this.currentView === 'bulanan') {
-        return date.toLocaleDateString("id-ID", {
-          month: "long",
-          year: "numeric",
-        });
-      } else {
-        return date.toLocaleDateString("id-ID", {
-          year: "numeric",
-        });
-      }
+      const options = {
+        weekday: "long", day: "numeric", month: "long", year: "numeric"
+      };
+      return date.toLocaleDateString("id-ID", options).replace(/[^a-zA-Z0-9 ]/g, "");
     }
   },
   mounted() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.isVisible = true;
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.isVisible = true;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
     observer.observe(this.$refs.countContainer);
   },
   methods: {
     changeView(view) {
-      this.currentView = view;
+      if (["harian", "bulanan", "tahunan"].includes(view)) {
+        this.currentView = view;
+      }
     },
-  },
+    safeNumber(value) {
+      return isNaN(value) ? 0 : Math.max(0, value);
+    },
+    isValidImage(imagePath) {
+      return /\.(jpg|jpeg|png|webp|svg)$/i.test(imagePath);
+    }
+  }
 };
 </script>
+
+<style scoped>
+.visitor-count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #D4A017;
+}
+</style>
 
 <style scoped>
 .visitor-card {
