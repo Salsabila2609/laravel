@@ -136,6 +136,7 @@
 <script>
 import { Inertia } from '@inertiajs/inertia';
 import { router } from '@inertiajs/vue3';
+import DOMPurify from 'dompurify';
 
 export default {
   props: {
@@ -159,14 +160,15 @@ export default {
   },
   methods: {
     goToNewsDetail(newsId) {
-    console.log("Navigating to berita with ID:", newsId);
-    if (!newsId) return;
-    router.visit(`/berita/${newsId}`); // Menggunakan router dari @inertiajs/vue3
+  if (!newsId || typeof newsId !== 'number') return;
+  console.log("Navigating to berita with ID:", newsId);
+  router.visit(`/berita/${newsId}`); //Ini mencegah input yang tidak diinginkan (misalnya, injeksi JavaScript dalam ID).
+},
+      getShortDescription(isiBerita) {
+    const maxLength = 550;
+    let cleanText = DOMPurify.sanitize(isiBerita); // Membersihkan input sebelum ditampilkan
+    return cleanText.length > maxLength ? cleanText.substring(0, maxLength) + '...' : cleanText;
   },
-    getShortDescription(isiBerita) {
-      const maxLength = 550; // Jumlah karakter yang akan ditampilkan
-      return isiBerita.length > maxLength ? isiBerita.substring(0, maxLength) + '...' : isiBerita;
-    },
     prevSlide() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
