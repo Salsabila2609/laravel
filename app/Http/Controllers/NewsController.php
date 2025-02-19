@@ -339,10 +339,8 @@ class NewsController extends Controller
         $config->set('HTML.Trusted', true);
         $purifier = new HTMLPurifier($config);
         
-        // Purify the news content
         $cleanContent = $purifier->purify($request->input('isi_berita'));
     
-        // Validate input
         $request->validate([
             'penulis' => 'required|string',
             'judul' => 'required|string',
@@ -354,67 +352,66 @@ class NewsController extends Controller
         ]);
     
         $news = News::findOrFail($id);
-        
         $news->penulis = $request->penulis;
         $news->judul = $request->judul;
         $news->isi_berita = $cleanContent;
-        
+    
         $kategori = is_array($request->kategori) ? $request->kategori : json_decode($request->kategori, true);
         $news->kategori = json_encode($kategori);
     
-        // Handle main image update
         if ($request->hasFile('gambar_utama') && $request->file('gambar_utama')->isValid()) {
             if ($news->gambar_utama) {
                 Storage::delete($news->gambar_utama);
             }
             $news->gambar_utama = $request->file('gambar_utama')->store('images');
         }
-        
         $news->gambar_utama_keterangan = $request->gambar_utama_keterangan;
     
-        // Handle attachment images
+        preg_match_all('/<img[^>]+src=["\'](.*?)["\'][^>]*alt=["\'](.*?)["\']/i', $cleanContent, $matches);
+        $gambarDariEditor = array_map(function ($url) {
+            return str_replace(asset('storage') . '/', '', $url);
+        }, $matches[1] ?? []);
+        
         $existingAttachments = json_decode($news->gambar_lampiran, true) ?? [];
         $existingCaptions = json_decode($news->gambar_lampiran_keterangan, true) ?? [];
     
-        // Handle deleted attachments
         $keptAttachments = $request->input('kept_attachments', []);
+        $keptCaptions = $request->input('kept_attachments_keterangan', []);
+    
         $filteredAttachments = [];
         $filteredCaptions = [];
     
         foreach ($existingAttachments as $index => $path) {
-            if (in_array($path, $keptAttachments)) {
+            if (in_array($path, $gambarDariEditor)) {
                 $filteredAttachments[] = $path;
                 $filteredCaptions[] = $existingCaptions[$index] ?? '';
+            } elseif (($key = array_search($path, $keptAttachments)) !== false) {
+                $filteredAttachments[] = $path;
+                $filteredCaptions[] = $keptCaptions[$key] ?? $existingCaptions[$index] ?? '';
             } else {
                 Storage::delete($path);
             }
         }
     
-        // Add new attachments
         if ($request->hasFile('gambar_lampiran')) {
             foreach ($request->file('gambar_lampiran') as $index => $lampiran) {
                 if ($lampiran->isValid()) {
                     $path = $lampiran->store('images');
-                    $filteredAttachments[] = $path;
-                    $filteredCaptions[] = $request->input('gambar_lampiran_keterangan.' . $index);
+                    if (!empty($path)) {
+                        $filteredAttachments[] = $path;
+                        $filteredCaptions[] = $request->input("gambar_lampiran_keterangan.$index", '');
+                    }
                 }
             }
         }
     
-        // Extract images from isi_berita
-        preg_match_all('/<img[^>]+src=["\'](.*?)["\']/i', $cleanContent, $matches);
-        foreach ($matches[1] as $imageUrl) {
-            if (strpos($imageUrl, 'data:image') === false) {
-                $relativePath = str_replace(asset('storage') . '/', '', $imageUrl);
-                if (!in_array($relativePath, $filteredAttachments)) {
-                    $filteredAttachments[] = $relativePath;
-                }
+        foreach ($gambarDariEditor as $index => $path) {
+            $altText = $matches[2][$index] ?? '';
+            if (($key = array_search($path, $filteredAttachments)) !== false) {
+                $filteredCaptions[$key] = $altText;
             } else {
-                $imageData = base64_decode(preg_replace('/^data:image\/\w+;base64,/', '', $imageUrl));
-                $imageName = uniqid() . '.png';
-                $imagePath = 'images/' . $imageName;
-                Storage::put('public/' . $imagePath, $imageData);
-                $filteredAttachments[] = $imagePath;
+                $filteredAttachments[] = $path;
+                $filteredCaptions[] = $altText;
             }
         }
     
