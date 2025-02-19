@@ -34,6 +34,8 @@ const form = useForm({
 });
 
 const submit = () => {
+  console.log('Form Data Before Submit:', form); // Log form data
+
   const formKategori = JSON.stringify(form.kategori);
   
   const formData = new FormData();
@@ -60,6 +62,8 @@ const submit = () => {
     }
   });
 
+  console.log('FormData:', formData); // Log formData before sending
+
   form.post(`/news/${props.news.id}`, {
     forceFormData: true,
     onSuccess: () => {},
@@ -73,16 +77,19 @@ const addImage = (event) => {
     form.gambar_lampiran.push(files[0]);
     form.gambar_lampiran_keterangan.push('');
   }
+  console.log('Added image:', files[0]); // Log image added
 };
 
 const removeExistingImage = (index) => {
   form.kept_attachments.splice(index, 1);
   form.kept_attachments_keterangan.splice(index, 1);
+  console.log('Removed existing image at index:', index); // Log removed image index
 };
 
 const removeNewImage = (index) => {
   form.gambar_lampiran.splice(index, 1);
   form.gambar_lampiran_keterangan.splice(index, 1);
+  console.log('Removed new image at index:', index); // Log removed new image index
 };
 
 const previewImage = (file) => {
@@ -145,8 +152,13 @@ const previewImage = (file) => {
               <button @click="removeExistingImage(index)" class="text-red-600 hover:text-red-800">Hapus</button>
               <input v-model="form.kept_attachments_keterangan[index]" type="text" placeholder="Keterangan gambar" class="w-full mt-2 p-2 border rounded-md" />
             </div>
+            <!-- Menambahkan gambar lampiran baru dan keterangan -->
             <input type="file" accept="image/*" @change="addImage" class="w-full border rounded-md p-2" />
-          </div>
+            <div v-for="(file, index) in form.gambar_lampiran" :key="index" class="flex items-center space-x-2 mt-2">
+              <img :src="previewImage(file)" class="w-16 h-16 rounded-md" />
+              <input v-model="form.gambar_lampiran_keterangan[index]" type="text" placeholder="Keterangan gambar" class="w-full p-2 border rounded-md" />
+              <button @click="removeNewImage(index)" class="text-red-600 hover:text-red-800">Hapus</button>
+            </div></div>
         </form>
       </div>
     </div>

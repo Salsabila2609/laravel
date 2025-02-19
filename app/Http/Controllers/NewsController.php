@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 
+
 class NewsController extends Controller
 {
     public function index()
@@ -86,9 +87,7 @@ class NewsController extends Controller
                 return $item;
             });
     
-            // Debug: Log berita yang ditemukan
-            \Log::info('Berita yang ditemukan:', ['news' => $news]);
-    
+       
             // Hitung jumlah berita per kategori
             $categoriesWithCount = News::all()
                 ->flatMap(function ($news) {
@@ -333,7 +332,6 @@ class NewsController extends Controller
         ]);
     }
     
-   
     public function update(Request $request, $id)
     {
         $config = HTMLPurifier_Config::createDefault();
@@ -424,6 +422,9 @@ class NewsController extends Controller
     
         return redirect()->route('news.show', $news->id)->with('success', 'News updated successfully!');
     }
+    
+    
+    
 
     public function destroy($id)
     {
