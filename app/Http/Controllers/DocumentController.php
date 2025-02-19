@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Document;
@@ -12,137 +13,147 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = Document::all(); // Mengambil semua dokumen
-        return inertia('DocumentsList', ['documents' => $documents]);
+        return Inertia::render('DocumentsList', ['documents' => $documents]);
     }
 
+    // Menampilkan halaman unggah dokumen
     public function uploadPage()
     {
         $documents = Document::all(); // Mengambil semua dokumen
-        return inertia('Admin/PublicInformation/Document', ['documents' => $documents]);
+        return Inertia::render('Admin/PublicInformation/Document', ['documents' => $documents]);
     }
-    
-    // Menyimpan dokumen dengan kategori
+
+    // Validasi request untuk menyimpan atau mengupdate dokumen
+    private function validateDocumentRequest(Request $request, $isUpdate = false)
+    {
+        $rules = [
+            'document_name' => 'required|string|max:255',
+            'file' => $isUpdate ? 'nullable|file|mimes:pdf,doc,docx,xls,xlsx' : 'required|file|mimes:pdf,doc,docx,xls,xlsx',
+            'category' => 'required|string|max:100',
+            'year' => 'nullable|integer|min:2000|max:' . date('Y'), // Validasi tahun jika ada
+        ];
+
+        return $request->validate($rules);
+    }
+
+    // Menyimpan dokumen baru
     public function store(Request $request)
     {
-        $request->validate([
-            'document_name' => 'required|string|max:255',
-            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx',
-            'category' => 'required|string|max:100',
-            'year' => 'nullable|integer|min:2000|max:' . date('Y'), // Validasi tahun hanya jika ada
-        ]);
-    
+        $this->validateDocumentRequest($request); // Validasi request
+
         $path = $request->file('file')->store('documents', 'public');
-    
+
         Document::create([
             'document_name' => $request->document_name,
             'file_path' => $path,
             'upload_date' => now(),
             'category' => $request->category,
-            'year' => str_contains(strtolower($request->category), 'laporan keuangan') ? $request->year : null, // Isi year hanya jika kategori laporan keuangan
+            'year' => $this->determineYear($request->category, $request->year),
         ]);
-    
+
         return redirect()->route('documents.upload')->with('success', 'Document uploaded successfully!');
     }
-    
-    
-    
+
     // Mengunduh dokumen dan meningkatkan jumlah unduhan
     public function download($id)
     {
         $document = Document::findOrFail($id);
 
-        // Meningkatkan jumlah unduhan
-        $document->download_count += 1;
-        $document->save();
+        $document->increment('download_count'); // Meningkatkan jumlah unduhan
 
-        // Mengembalikan file untuk diunduh
         return response()->download(storage_path('app/public/' . $document->file_path));
     }
 
-    // Mengupdate dokumen
+    // Mengupdate dokumen yang sudah ada
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'document_name' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx',
-            'category' => 'required|string|max:100',
-            'year' => 'nullable|integer|min:2000|max:' . date('Y'),
-        ]);
-    
+        $this->validateDocumentRequest($request, true); // Validasi request
+
         $document = Document::findOrFail($id);
-    
-        // Cek jika ada file baru
+
         if ($request->hasFile('file')) {
-            // Hapus file lama jika ada
-            if ($document->file_path) {
-                Storage::disk('public')->delete($document->file_path);
-            }
-    
-            // Simpan file baru
-            $path = $request->file('file')->store('documents', 'public');
-            $document->file_path = $path;
+            // Menghapus file lama jika ada dan menyimpan file baru
+            $this->replaceFile($document, $request->file('file'));
         }
-    
+
         // Update data dokumen
         $document->update([
             'document_name' => $request->document_name,
             'category' => $request->category,
-            'year' => str_contains(strtolower($request->category), 'laporan keuangan') ? $request->year : null,
-            'file_path' => $document->file_path, // Simpan file_path yang baru jika ada
+            'year' => $this->determineYear($request->category, $request->year),
         ]);
-    
+
         return redirect()->route('documents.upload')->with('success', 'Document updated successfully!');
     }
-    
 
+    // Menghapus dokumen
     public function destroy($id)
     {
         $document = Document::findOrFail($id);
-    
-        // Hapus file dari storage jika ada
-        if (Storage::exists($document->file_path)) {
-            Storage::delete($document->file_path);
-        }
-    
-        // Hapus data dokumen dari database
+        $this->deleteFile($document);
+
         $document->delete();
-    
-        // Redirect ke halaman upload-document setelah berhasil menghapus
+
         return redirect()->route('documents.upload')->with('success', 'Document deleted successfully!');
     }
 
+    // Menampilkan dokumen berdasarkan kategori 'Data Statistik'
     public function DataStatistik()
     {
-        $documents = Document::where('category', 'Data Statistik')->get();
-        return Inertia::render('InformasiPublik/DataStatistik', [
-            'documents' => $documents
-        ]);
+        return $this->renderDocumentsByCategory('Data Statistik', 'InformasiPublik/DataStatistik');
     }
 
+    // Menampilkan dokumen berdasarkan kategori 'Peraturan Bupati'
     public function PeraturanBupati()
     {
-        $documents = Document::where('category', 'Peraturan Bupati')->get();
-        return Inertia::render('InformasiPublik/PeraturanBupati', [
-            'documents' => $documents
-        ]);
+        return $this->renderDocumentsByCategory('Peraturan Bupati', 'InformasiPublik/PeraturanBupati');
     }
 
+    // Menampilkan dokumen berdasarkan kategori 'Laporan Keuangan'
     public function LaporanKeuangan($year = null)
     {
         $query = Document::where('category', 'like', 'Laporan Keuangan%');
-    
+
         if ($year) {
             $query->where('year', $year);
         }
-    
+
         $documents = $query->orderBy('year', 'desc')->get();
-    
+
         return Inertia::render('InformasiPublik/LaporanKeuangan', [
             'documents' => $documents,
-            'selectedYear' => $year, // Kirim tahun yang dipilih ke frontend
+            'selectedYear' => $year,
         ]);
     }
-    
 
+    // Fungsi tambahan untuk menentukan tahun pada kategori laporan keuangan
+    private function determineYear($category, $year)
+    {
+        return str_contains(strtolower($category), 'laporan keuangan') ? $year : null;
+    }
+
+    // Fungsi tambahan untuk menggantikan file lama dengan file baru
+    private function replaceFile(Document $document, $newFile)
+    {
+        if ($document->file_path) {
+            Storage::disk('public')->delete($document->file_path);
+        }
+
+        $document->file_path = $newFile->store('documents', 'public');
+    }
+
+    // Fungsi tambahan untuk menghapus file dari storage
+    private function deleteFile(Document $document)
+    {
+        if ($document->file_path && Storage::exists($document->file_path)) {
+            Storage::delete($document->file_path);
+        }
+    }
+
+    // Fungsi tambahan untuk merender dokumen berdasarkan kategori tertentu
+    private function renderDocumentsByCategory($category, $view)
+    {
+        $documents = Document::where('category', $category)->get();
+        return Inertia::render($view, ['documents' => $documents]);
+    }
 }
-
