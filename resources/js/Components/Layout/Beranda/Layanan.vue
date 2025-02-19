@@ -2,17 +2,10 @@
   <div class="w-full py-8 bg-gray-100">
     <!-- Judul dan Garis dengan Icon di Tengah -->
     <h2 class="text-4xl font-bold text-center text-[#396C6D]">Layanan Masyarakat</h2>
-<<<<<<< HEAD:resources/js/Components/Layanan.vue
     <div class="flex items-center justify-center my-3">
-      <div class="w-32 h-1 bg-[#D4A017]"></div>
+      <div class="w-32 h-1 bg-[#D4A017] rounded"></div>
       <img src="/image/madiun_silat.png" alt="Silat Icon" class="w-14 h-14 mx-1">
-      <div class="w-32 h-1 bg-[#D4A017]"></div>
-=======
-    <div class="flex items-center justify-center my-2 mb-5">
-      <div class="w-24 h-1 bg-[#D4A017] rounded"></div>
-      <img src="/images/madiun_silat.png" alt="Silat Icon" class="w-12 h-12 mx-2">
-      <div class="w-24 h-1 bg-[#D4A017] rounded"></div>
->>>>>>> 13f2c3816b9a573ca3b1e074f09b86e35df3445a:resources/js/Components/Layout/Beranda/Layanan.vue
+      <div class="w-32 h-1 bg-[#D4A017] rounded"></div>
     </div>
 
     <!-- Kontainer Card -->
