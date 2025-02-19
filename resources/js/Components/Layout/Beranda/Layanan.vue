@@ -4,7 +4,7 @@
     <h2 class="text-4xl font-bold text-center text-[#396C6D]">Layanan Masyarakat</h2>
     <div class="flex items-center justify-center my-3">
       <div class="w-32 h-1 bg-[#D4A017] rounded"></div>
-      <img src="/images/madiun_silat.png" alt="Silat Icon" class="w-14 h-14 mx-1">
+      <img src="/images/madiun_silat.png" alt="Silat Icon" class="w-14 h-14 mx-1" loading="lazy">
       <div class="w-32 h-1 bg-[#D4A017] rounded"></div>
     </div>
 
@@ -13,14 +13,19 @@
       <a
         v-for="layanan in layanans"
         :key="layanan.id"
-        :href="layanan.url"
+        v-bind:href="safeUrl(layanan.url)"
         target="_blank"
         rel="noopener noreferrer"
         class="bg-white shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-105 flex flex-col items-center text-center rounded-lg overflow-hidden relative w-full h-96 p-6">
         
         <!-- Logo dengan latar putih -->
         <div class="bg-gray-100 p-6 w-full h-64 flex justify-center items-center">
-          <img :src="`/storage/${layanan.icon}`" :alt="layanan.title" class="object-contain w-54 h-44" />
+          <img
+            v-bind:src="safeImageUrl(layanan.icon)"
+            :alt="layanan.title"
+            class="object-contain w-54 h-44"
+            loading="lazy"
+          />
         </div>
 
         <!-- Judul dengan latar hijau full kanan-kiri & bawah -->
@@ -36,4 +41,33 @@
 import { defineProps } from "vue";
 
 defineProps({ layanans: Array });
+
+/**
+ * Validasi URL untuk mencegah XSS & exploit URL yang berbahaya
+ */
+const safeUrl = (url) => {
+  try {
+    const parsedUrl = new URL(url, window.location.origin);
+    return parsedUrl.href.startsWith(window.location.origin) || parsedUrl.protocol === "https:" ? parsedUrl.href : "#";
+  } catch {
+    return "#";
+  }
+};
+
+/**
+ * Validasi & sanitasi path gambar untuk menghindari directory traversal
+ */
+const safeImageUrl = (path) => {
+  if (typeof path !== "string") return "/images/default.png";
+
+  // Cegah karakter ".." atau "//" yang bisa menyebabkan traversal direktori
+  const sanitizedPath = path.replace(/(\.\.\/|\/\/)/g, "");
+
+  // Hanya izinkan format gambar tertentu
+  if (!/\.(jpg|jpeg|png|webp|svg)$/i.test(sanitizedPath)) {
+    return "/images/default.png";
+  }
+
+  return `/storage/${sanitizedPath}`;
+};
 </script>
