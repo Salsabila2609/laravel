@@ -3,7 +3,7 @@
     <MasterLayout>
 
     <!-- Video Section -->
-    <VideoSection :videoSource="videoSource" />
+    <Video :videoSource="latestVideo" /> 
     <!-- Media Section -->
     <Media :media="media" />
     <!-- Berita Section -->
