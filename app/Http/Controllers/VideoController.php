@@ -29,7 +29,7 @@ class VideoController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'video' => 'required|file|mimetypes:video/mp4,video/mov,video/avi,video/wmv|max:50000',
+            'video' => 'required|file|mimetypes:video/mp4,video/mov,video/avi,video/wmv|max:100000',
         ]);
 
         if ($request->hasFile('video')) {
@@ -61,7 +61,7 @@ class VideoController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'video' => 'nullable|file|mimetypes:video/mp4,video/mov,video/avi,video/wmv|max:50000',
+            'video' => 'nullable|file|mimetypes:video/mp4,video/mov,video/avi,video/wmv|max:100000',
         ]);
 
         if ($request->hasFile('video')) {
