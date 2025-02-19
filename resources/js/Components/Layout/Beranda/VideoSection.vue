@@ -2,12 +2,12 @@
   <section class="relative w-full h-screen overflow-hidden">
     <!-- Video Background -->
     <video
-      v-if="videoSource"
+      v-if="isValidVideoSource"
       autoplay
       muted
       loop
       id="myVideo"
-      :src="videoSource"
+      :src="sanitizedVideoSource"
       class="absolute top-0 left-0 w-full h-full object-cover"
     ></video>
 
@@ -26,6 +26,14 @@ export default {
       type: String,
       required: false,
       default: null
+    }
+  },
+  computed: {
+    sanitizedVideoSource() {
+      return this.isValidVideoSource ? this.videoSource : null;
+    },
+    isValidVideoSource() {
+      return this.videoSource && /\.(mp4|mov|webm|ogg)$/i.test(this.videoSource);
     }
   }
 };
