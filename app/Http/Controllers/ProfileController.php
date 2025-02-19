@@ -10,12 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
+
     public function edit(Request $request): Response
     {
         return Inertia::render('Profile/Edit', [
@@ -25,23 +24,31 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update informasi profil pengguna dengan aman.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        
+        $key = 'update-profile:' . $user->id;
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            abort(429, 'Terlalu banyak percobaan. Silakan coba lagi nanti.');
+        }
+        RateLimiter::hit($key, 60);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.edit')->with('status', 'Profil berhasil diperbarui.');
     }
 
     /**
-     * Delete the user's account.
+     * Hapus akun pengguna dengan aman.
      */
     public function destroy(Request $request): RedirectResponse
     {
@@ -51,6 +58,16 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        $key = 'delete-account:' . $user->id;
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            abort(429, 'Terlalu banyak percobaan penghapusan akun.');
+        }
+        RateLimiter::hit($key, 600);
+
+        if (!Auth::validate(['email' => $user->email, 'password' => $request->password])) {
+            return Redirect::route('profile.edit')->withErrors(['password' => 'Password salah.']);
+        }
+
         Auth::logout();
 
         $user->delete();
@@ -58,6 +75,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->with('status', 'Akun Anda telah dihapus.');
     }
 }
