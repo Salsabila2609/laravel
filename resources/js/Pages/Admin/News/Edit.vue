@@ -108,7 +108,7 @@ const previewImage = (file) => {
     <div class="container mx-auto p-3">
       <div class="bg-white shadow-lg rounded-lg p-6">
         <h1 class="text-2xl font-bold text-[#D4A017]">Edit News</h1>
-        <div class="h-1 bg-[#D4A017] w-2/8 mt-1"></div>
+        <div class="h-1 bg-[#D4A017] w-2/8 mt-1 rounded"></div>
 
         <form @submit.prevent="submit" enctype="multipart/form-data" class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
           <!-- Kolom Kiri (2/3) -->

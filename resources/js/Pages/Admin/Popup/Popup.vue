@@ -121,9 +121,9 @@ export default {
 <template>
   <div>
     <Background />
-    <div class="text-sm text-[#99cbc0] font-bold py-2 sm:py-4 px-4 sm:px-6 lg:ml-20 md:ml-10 sm:ml-5 ml-2">
-      <Link href="/" class="text-[#D4A017] no-underline">Beranda</Link> > Upload Popup Images
-    </div>
+      <div class="text-sm text-[#99cbc0] font-bold p-5">
+        <Link href="/dashboard" class="text-yellow-500 no-underline">Beranda</Link> > Kecamatan Se-Kabupaten
+      </div>
 
     <div class="content relative z-10 p-4 sm:p-5 text-gray-800">
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-[#D4A017] mb-4 sm:mb-6">UPLOAD POPUP IMAGES</h1>

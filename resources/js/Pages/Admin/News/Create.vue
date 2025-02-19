@@ -114,7 +114,7 @@ const previewImage = (file) => {
         <!-- Header dalam card dengan desain seperti gambar -->
         <div class="mb-8">
           <h1 class="text-2xl font-bold text-[#D4A017]">Create News</h1>
-          <div class="h-1 bg-[#D4A017] w-2/8 mt-1"></div>
+          <div class="h-1 bg-[#D4A017] w-2/8 mt-1 rounded"></div>
         </div>
 
         <form @submit.prevent="submit" enctype="multipart/form-data">
