@@ -1,4 +1,4 @@
-# 🌐 Website Pemerintah Kabupaten Madiun 🏩
+# 🌐 Website Pemerintah Kabupaten Madiun 🌐
 
 **Website Pemerintah Kabupaten Madiun** adalah sebuah platform berbasis web yang dibangun menggunakan Laravel, Vue.js, MySQL, dan PHPMyAdmin, yang dijalankan dalam lingkungan Docker. Website ini bertujuan untuk menyediakan informasi dan layanan publik kepada masyarakat Kabupaten Madiun.
 
