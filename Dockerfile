@@ -21,11 +21,15 @@ WORKDIR /var/www
 # Copy semua file Laravel ke dalam container
 COPY . .
 
-# Install dependensi Laravel
-RUN composer install --no-dev --optimize-autoloader
-
 # Atur izin supaya Laravel bisa berjalan
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Jalankan PHP-FPM
+# Copy entrypoint script ke dalam container
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Gunakan entrypoint script
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+
+# Jalankan PHP-FPM setelah entrypoint selesai
 CMD ["php-fpm"]
