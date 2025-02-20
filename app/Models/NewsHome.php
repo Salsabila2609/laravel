@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class NewsHome extends Model
 {
     use HasFactory;
-    protected $table = 'News';
+    protected $table = 'news';
 
     protected $fillable = [
         'penulis',

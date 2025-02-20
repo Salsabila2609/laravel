@@ -83,6 +83,7 @@
         "@tiptap/vue-3": "^2.11.3",
         "@vueup/vue-quill": "^1.2.0",
         "aos": "^2.3.4",
+        "dompurify": "^3.2.4",
         "editorjs-html": "^4.0.5",
         "editorjs-to-html": "^1.0.4",
         "editorjs-youtube-embed": "^1.0.3",

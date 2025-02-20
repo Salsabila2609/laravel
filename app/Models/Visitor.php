@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Visitor extends Model
 {
     use HasFactory;
+    protected $table = 'visitors';
 
     // Menentukan field yang dapat diisi melalui mass assignment
     protected $fillable = [
