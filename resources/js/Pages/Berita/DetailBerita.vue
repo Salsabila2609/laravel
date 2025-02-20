@@ -205,7 +205,7 @@ export default {
         <div class="bg-white rounded shadow-md p-4">
           <h3 class="text-lg font-bold mb-4 text-gray-800">Berita Serupa:</h3>
           <div v-for="berita in relatedNews" :key="berita.id" class="bg-[#F9F6EE] rounded shadow-md overflow-hidden mb-4">
-            <Link :href="`/news/${berita.id}`" class="block">
+            <Link :href="`/news/${berita.slug}`" class="block">
               <img :src="`/storage/${berita.gambar_utama}`" alt="Berita Image" class="w-full h-32 object-cover" />
               <div class="p-4">
                 <div class="bg-[#EBE3D8] px-2 py-1 rounded-full text-black font-semibold flex items-center text-sm lg:text-s mb-2">

@@ -146,7 +146,7 @@ onMounted(() => {
     <!-- Carousel Section -->
     <div class="container mx-auto px-6 mb-12 relative">
       <div class="relative w-full h-[300px] md:h-[400px] rounded-xl overflow-hidden">
-        <div v-for="(news, index) in featuredNews" :key="news.id"
+        <div v-for="(news, index) in featuredNews" :key="news.uuid"
           class="absolute w-full h-full transition-transform duration-500 ease-in-out"
           :class="{ 'translate-x-0': index === currentSlide, 'translate-x-full': index > currentSlide, '-translate-x-full': index < currentSlide }">
           <div class="relative w-full h-full rounded-xl overflow-hidden">
@@ -178,7 +178,7 @@ onMounted(() => {
                     <span class="md:hidden">{{ truncateText(news.kategori[0], 10) }}</span>
                   </div>
                 </div>
-                <Link :href="`/berita/${news.id}`" 
+                <Link :href="`/berita/${news.slug}`" 
                       class="flex items-center gap-2 px-1 py-1 md:px-4 md:py-2 text-white rounded text-xs md:text-sm">
                   <span>Selengkapnya</span>
                   <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="#268B79" viewBox="0 0 20 20">
@@ -286,7 +286,7 @@ onMounted(() => {
         </span>
       </h3>
       <div class="space-y-6">
-        <div v-for="news in newsGroup" :key="news.id" class="bg-[#F9F6EE] rounded-lg overflow-hidden p-4">
+        <div v-for="news in newsGroup" :key="news.uuid" class="bg-[#F9F6EE] rounded-lg overflow-hidden p-4">
           <!-- Changed to flex container with items-stretch -->
           <div class="flex flex-col md:flex-row gap-6 h-full">
             <!-- Image container with self-center for vertical alignment -->
@@ -337,7 +337,7 @@ onMounted(() => {
               <!-- Action buttons container -->
               <div class="flex justify-end mt-auto">
                 <div class="flex items-center gap-3">
-                  <NewsButton :href="`/berita/${news.id}`">
+                  <NewsButton :href="`/berita/${news.slug}`">
                     Selengkapnya
                   </NewsButton>
                 </div>
