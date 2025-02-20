@@ -9,8 +9,7 @@
 2. [Instalasi](#-instalasi)
 3. [Cara Menjalankan](#-cara-menjalankan)
 4. [Import Tabel Users](#-import-tabel-users)
-5. [Kontribusi](#-kontribusi)
-6. [Kredit](#-kredit)
+5. [Kredit](#-kredit)
 
 ---
 
@@ -139,12 +138,6 @@ Untuk mengimpor tabel `users`, Anda dapat menggunakan salah satu dari dua cara b
 3. Pilih database `berita`.
 
 4. Import file `users.sql` secara manual.
-
----
-
-## 🤝 Kontribusi
-
-Kami sangat terbuka terhadap kontribusi! Silakan buat issue atau pull request jika Anda menemukan bug atau ingin menambahkan fitur baru.
 
 ---
 
