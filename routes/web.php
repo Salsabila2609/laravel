@@ -13,7 +13,6 @@ use Inertia\Inertia;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SejarahController;
 use App\Http\Controllers\VisiMisiController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\OPDController;
 use App\Http\Controllers\KecamatanController;
@@ -40,15 +39,16 @@ Route::middleware('auth')->group(function () {
     Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
     Route::delete('/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
     // News
-    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-    Route::get('/news/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
-    Route::put('/news/{id}', [NewsController::class, 'update'])->name('news.update');
-    Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
-    Route::get('/news/{id}', [NewsController::class, 'show'])->where('id', '[0-9]+')->name('news.show');
-    Route::post('/news', [NewsController::class, 'store'])->name('news.store');
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+    Route::get('/news/category/{kategori}', [NewsController::class, 'showByCategory']);
+    Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/edit/{slug}', [NewsController::class, 'edit'])->name('news.edit');
+    Route::put('/news/{slug}', [NewsController::class, 'update'])->name('news.update');
+    Route::delete('/news/{slug}', [NewsController::class, 'destroy'])->name('news.destroy');
+    Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+    Route::post('/news', [NewsController::class, 'store'])->name('news.store');
     Route::post('/upload-image', [NewsController::class, 'uploadImage']);
-    Route::get('/news/{kategori}', [NewsController::class, 'showByCategory']);
     //Auth
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -105,17 +105,13 @@ Route::get('/unduh/{id}', [DocumentController::class, 'download'])->name('Lapora
 Route::get('/PejabatDaerah', [PejabatController::class, 'index'])->name('PejabatDaerah.index');
 Route::get('/OPD', [OPDController::class, 'index'])->name('OPD.index');
 Route::get('/Kecamatan', [KecamatanController::class, 'index'])->name('Kecamatan.index');
-Route::get('/LambangDaerah', [PageController::class, 'LambangDaerah'])->name('LambangDaerah');
 Route::get('/VisiMisi', [VisiMisiController::class, 'index'])->name('VisiMisi');
 Route::get('/Sejarah', [SejarahController::class, 'index'])->name('Sejarah');
-Route::get('/BeritaPemerintah', [PageController::class, 'BeritaPemerintah'])->name('BeritaPemerintah');
-Route::get('/BeritaDaerah', [PageController::class, 'BeritaDaerah'])->name('BeritaDaerah');
 Route::get('/DataStatistik', [DocumentController::class, 'DataStatistik'])->name('DataStatistik');
 Route::get('/PeraturanBupati', [DocumentController::class, 'PeraturanBupati'])->name('PeraturanBupati');
-Route::get('/PPID', [PageController::class, 'PPID'])->name('PPID');
-Route::get('/Kontak', [PageController::class, 'Kontak'])->name('Kontak');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
-Route::get('/berita/{id}', [BeritaController::class, 'show'])->where('id', '[0-9]+')->name('berita.show');
+Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
+
 Route::get('/berita/kategori/{kategori}', [BeritaController::class, 'showByCategory'])->name('berita.category');
 
 require __DIR__.'/auth.php';

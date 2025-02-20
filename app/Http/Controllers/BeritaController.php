@@ -110,10 +110,10 @@ class BeritaController extends Controller
         ]);
     }
     
-    public function show($id)
-    {
-        $news = News::findOrFail($id);
-
+    public function show($slug)
+ {
+        $news = News::where('slug', $slug)->firstOrFail();
+    
         $news->increment('views');
     
         // Decode kategori berita utama
@@ -124,7 +124,7 @@ class BeritaController extends Controller
         $news->kategori = $decodedKategori;
         $news->tanggal_terbit = $news->created_at->format('d M Y');
     
-        // Decode gambar lampiran dan keterangan gambar lampiran menjadi array
+        // Decode gambar lampiran dan keterangan gambar lampiran
         if (is_string($news->gambar_lampiran)) {
             $news->gambar_lampiran = json_decode($news->gambar_lampiran, true);
         }
@@ -142,8 +142,8 @@ class BeritaController extends Controller
                     });
                 }
             })
-            ->where('id', '!=', $id) // Jangan tampilkan berita yang sedang dibuka
-            ->limit(5) // Batasi jumlah berita terkait
+            ->where('slug', '!=', $slug) // Jangan tampilkan berita yang sedang dibuka
+            ->limit(5)
             ->get()
             ->map(function ($related) {
                 $related->kategori = json_decode($related->kategori, true);
@@ -160,7 +160,7 @@ class BeritaController extends Controller
                 $kategori = json_decode($news->kategori, true);
                 return is_array($kategori) ? $kategori : [];
             })
-            ->countBy() // Hitung jumlah berita per kategori
+            ->countBy()
             ->map(function ($count, $category) {
                 return [
                     'category' => $category,
@@ -175,5 +175,6 @@ class BeritaController extends Controller
             'related' => $relatedNews,
             'categoriesWithCount' => $uniqueCategoriesWithCount,
         ]);
-    }   
+    }
+     
 }

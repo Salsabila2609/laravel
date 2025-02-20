@@ -64,7 +64,7 @@ const submit = () => {
 
   console.log('FormData:', formData); // Log formData before sending
 
-  form.post(`/news/${props.news.id}`, {
+  form.post(`/news/${props.news.slug}`, {
     forceFormData: true,
     onSuccess: () => {},
     preserveScroll: true,

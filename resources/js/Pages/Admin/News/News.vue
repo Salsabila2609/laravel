@@ -91,7 +91,10 @@ const startCarousel = () => {
 const filterByCategory = (category) => {
   activeCategory.value = category;
   newsItems.value = allNews.value.filter((news) =>
-    news.kategori.includes(category)
+  Array.isArray(news.kategori) 
+  ? news.kategori.includes(category) 
+  : JSON.parse(news.kategori || '[]').includes(category)
+
   );
 };
 
@@ -109,13 +112,13 @@ const searchNews = () => {
 };
 
 // Delete news method
-const deleteNews = async (id) => {
+const deleteNews = async (slug) => {
   if (confirm('Are you sure you want to delete this news?')) {
-    router.delete(`/news/${id}`, {
+    router.delete(`/news/${slug}`, {
       onSuccess: () => {
-        newsItems.value = newsItems.value.filter(news => news.id !== id);
-        allNews.value = allNews.value.filter(news => news.id !== id);
-      },
+        newsItems.value = newsItems.value.filter(news => news.slug !== slug);
+allNews.value = allNews.value.filter(news => news.slug !== slug);
+ },
     });
   }
 };
@@ -166,7 +169,7 @@ onMounted(() => {
     <!-- Carousel Section -->
     <div class="container mx-auto px-6 mb-12 relative">
       <div class="relative w-full h-[300px] md:h-[400px] rounded-xl overflow-hidden">
-        <div v-for="(news, index) in featuredNews" :key="news.id"
+        <div v-for="(news, index) in featuredNews" :key="news.uuid"
           class="absolute w-full h-full transition-transform duration-500 ease-in-out"
           :class="{ 'translate-x-0': index === currentSlide, 'translate-x-full': index > currentSlide, '-translate-x-full': index < currentSlide }">
           <div class="relative w-full h-full rounded-xl overflow-hidden">
@@ -198,7 +201,7 @@ onMounted(() => {
                     <span class="md:hidden">{{ truncateText(news.kategori[0], 10) }}</span>
                   </div>
                 </div>
-                <Link :href="`/news/${news.id}`" 
+                <Link :href="`/news/${news.slug}`" 
                       class="flex items-center gap-2 px-1 py-1 md:px-4 md:py-2 text-white rounded text-xs md:text-sm">
                   <span>Selengkapnya</span>
                   <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="#268B79" viewBox="0 0 20 20">
@@ -228,7 +231,7 @@ onMounted(() => {
         <NewsButton 
           v-for="category in props.categoriesWithCount"
           :key="category.category"
-          :href="`/news/${category.category}`"
+          :href="`/news/category/${category.category}`"
           :isActive="isActive(category.category)"
         >
           {{ category.category }} ({{ category.count }})
@@ -306,7 +309,7 @@ onMounted(() => {
         </span>
       </h3>
       <div class="space-y-6">
-        <div v-for="news in newsGroup" :key="news.id" class="bg-[#F9F6EE] rounded-lg overflow-hidden p-4">
+        <div v-for="news in newsGroup" :key="news.uuid" class="bg-[#F9F6EE] rounded-lg overflow-hidden p-4">
           <!-- Changed to flex container with items-stretch -->
           <div class="flex flex-col md:flex-row gap-6 h-full">
             <!-- Image container with self-center for vertical alignment -->
@@ -359,17 +362,17 @@ onMounted(() => {
               <!-- Action buttons container -->
               <div class="flex justify-end mt-auto">
                 <div class="flex items-center gap-3">
-                  <Link :href="`/news/edit/${news.id}`" class="px-1 py-2 rounded text-sm flex items-end gap-2">
+                  <Link :href="`/news/edit/${news.slug}`" class="px-1 py-2 rounded text-sm flex items-end gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" style="color: #396C6D;">
                       <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
                   </Link>
-                  <button @click="deleteNews(news.id)" class="px-3 py-2 rounded text-sm flex items-center gap-2">
+                  <button @click="deleteNews(news.slug)" class="px-3 py-2 rounded text-sm flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" style="color: #BD2222;">
                       <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.021-2.09 2.201v.916H16.34z" />
                     </svg>
                   </button>
-                  <NewsButton :href="`/news/${news.id}`">
+                  <NewsButton :href="`/news/${news.slug}`">
                     Selengkapnya
                   </NewsButton>
                 </div>
@@ -452,3 +455,4 @@ onMounted(() => {
   </div>
 </div>
 </template>
+
