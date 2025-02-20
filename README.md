@@ -52,7 +52,6 @@
 
 ### Domain
 - **Local**: `localhost`  
-- **Production**: Sesuaikan dengan domain Anda  
 
 ### Storage
 - **MySQL Data**: Volume Docker (`mysql_data`)  
