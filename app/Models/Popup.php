@@ -10,7 +10,7 @@ class Popup extends Model
 {
     use HasFactory;
 
-    protected $table = 'Popups';
+    protected $table = 'popups';
 
     // Kolom yang bisa diisi
     protected $fillable = ['title', 'image_popup'];
