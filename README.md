@@ -59,7 +59,7 @@
 - **MySQL User**: `kp` dengan password `kp`  
 ---
 
-## ⚙️ Instalasi
+## 🏗️ Instalasi
 
 1. **Clone Repository**  
    ```bash
