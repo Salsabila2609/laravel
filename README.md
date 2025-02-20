@@ -13,7 +13,7 @@
 
 ---
 
-## 🖥️ Persyaratan Sistem
+## 💻 Persyaratan Sistem
 
 ### Sistem Operasi
 - **OS**: Windows 10/11, macOS, atau Linux (Ubuntu/Debian/CentOS)  
@@ -59,7 +59,7 @@
 - **MySQL User**: `kp` dengan password `kp`  
 ---
 
-## 🛠️ Instalasi
+## ⚙️ Instalasi
 
 1. **Clone Repository**  
    ```bash
@@ -141,7 +141,7 @@ Untuk mengimpor tabel `users`, Anda dapat menggunakan salah satu dari dua cara b
 
 ---
 
-## 🎖️ Kredit
+## 🏅 Kredit
 
 Proyek ini dikembangkan oleh:
 
