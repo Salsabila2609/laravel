@@ -9,6 +9,9 @@ composer install --no-dev --prefer-dist --optimize-autoloader
 echo "📦 Installing additional packages..."
 composer require ezyang/htmlpurifier:^4.18 --no-interaction --ansi
 
+echo "🔧 Setting permissions for HTMLPurifier cache..."
+chmod -R 777 /var/www/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
+
 echo "📂 Linking storage..."
 php artisan storage:link
 
