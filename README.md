@@ -106,7 +106,7 @@
 
 ---
 
-## 👅 Import Tabel Users
+## 📥 Import Tabel Users
 
 Untuk mengimpor tabel `users`, Anda dapat menggunakan salah satu dari dua cara berikut:
 
