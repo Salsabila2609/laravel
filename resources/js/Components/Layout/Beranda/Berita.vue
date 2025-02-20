@@ -11,8 +11,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mx-4 sm:mx-15 my-4 sm:my-15">
       <div v-if="mainNews" class="bg-white p-4 rounded-lg shadow-md col-span-1 sm:col-span-2">
         <div>
-          <h3 v-if="mainNews?.id" class="text-xl font-semibold mb-2 cursor-pointer hover:underline" 
-          @click="goToNewsDetail(mainNews.id)">
+          <h3 v-if="mainNews?.slug" class="text-xl font-semibold mb-2 cursor-pointer hover:underline" 
+          @click="goToNewsDetail(mainNews.slug)">
   {{ mainNews.judul }}
 </h3>
 
@@ -50,7 +50,7 @@
                 v-if="mainNews.gambar_utama" 
                 :src="mainNews.gambar_utama" 
                 class="w-full h-60 object-cover rounded-md cursor-pointer" 
-                @click="goToNewsDetail(mainNews.id)"
+                @click="goToNewsDetail(mainNews.slug)"
                 alt="Gambar Berita Utama" 
               />
             </div>
@@ -63,7 +63,7 @@
           <div v-if="newsCards.length" class="mt-6 relative col-span-3">
             <div class="overflow-hidden">
               <div class="flex transition-transform duration-500" :style="carouselStyle">
-                <div v-for="news in newsCards" :key="news.id" class="bg-[#F9F6EE] rounded-lg shadow-md w-full sm:w-1/2 min-w-[49.4%] cursor-pointer mr-1.5 mb-1 overflow-hidden" @click="goToNewsDetail(news.id)">
+                <div v-for="news in newsCards" :key="news.uuid" class="bg-[#F9F6EE] rounded-lg shadow-md w-full sm:w-1/2 min-w-[49.4%] cursor-pointer mr-1.5 mb-1 overflow-hidden" @click="goToNewsDetail(news.slug)">
                   <img 
                     v-if="news.gambar_utama" 
                     :src="news.gambar_utama" 
@@ -159,11 +159,11 @@ export default {
     },
   },
   methods: {
-    goToNewsDetail(newsId) {
-  if (!newsId || typeof newsId !== 'number') return;
-  console.log("Navigating to berita with ID:", newsId);
-  router.visit(`/berita/${newsId}`); //Ini mencegah input yang tidak diinginkan (misalnya, injeksi JavaScript dalam ID).
-},
+    goToNewsDetail(slug) {
+    if (!slug || typeof slug !== 'string') return;
+    console.log("Navigating to berita with slug:", slug);
+    router.visit(`/berita/${slug}`); // Gunakan slug, bukan ID
+  },
       getShortDescription(isiBerita) {
     const maxLength = 550;
     let cleanText = DOMPurify.sanitize(isiBerita); // Membersihkan input sebelum ditampilkan
