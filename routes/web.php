@@ -111,7 +111,8 @@ Route::get('/DataStatistik', [DocumentController::class, 'DataStatistik'])->name
 Route::get('/PeraturanBupati', [DocumentController::class, 'PeraturanBupati'])->name('PeraturanBupati');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
-
 Route::get('/berita/kategori/{kategori}', [BeritaController::class, 'showByCategory'])->name('berita.category');
-
+Route::get('/Kontak', function () {
+    return Inertia::render('Kontak/Kontak'); // Render halaman Vue langsung
+})->name('Kontak');
 require __DIR__.'/auth.php';
