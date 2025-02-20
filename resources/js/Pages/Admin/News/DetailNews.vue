@@ -198,7 +198,7 @@ export default {
             <Link
               v-for="(category, index) in categoriesWithCount"
               :key="index"
-              :href="`/news/${category.category}`"
+              :href="`/news/category/${category.category}`"
               class="block text-sm text-white px-4 py-2 mb-2 rounded-md bg-[#396C6D] hover:bg-[#99CBC0] transition"
             >
               {{ category.category }} ({{ category.count }})
