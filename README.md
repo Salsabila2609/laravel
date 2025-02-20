@@ -57,12 +57,8 @@
 ### Storage
 - **MySQL Data**: Volume Docker (`mysql_data`)  
 
-### User Maksimal
+### User SQL
 - **MySQL User**: `kp` dengan password `kp`  
-
-### RPS (Requests Per Second)
-- **Target**: 100 RPS (dapat disesuaikan dengan kebutuhan)  
-
 ---
 
 ## 🛠️ Instalasi
