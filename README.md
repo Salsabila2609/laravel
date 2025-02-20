@@ -5,11 +5,11 @@
 ---
 
 ## 📁 Daftar Isi
-1. [Persyaratan Sistem](#-persyaratan-sistem)
-2. [Instalasi](#-instalasi)
-3. [Cara Menjalankan](#-cara-menjalankan)
-4. [Import Tabel Users](#-import-tabel-users)
-5. [Kredit](#-kredit)
+1. [Persyaratan Sistem](#persyaratan-sistem)
+2. [Instalasi](#instalasi)
+3. [Cara Menjalankan](#cara-menjalankan)
+4. [Import Tabel Users](#import-tabel-users)
+5. [Kredit](#kredit)
 
 ---
 
