@@ -7,24 +7,20 @@ use Illuminate\Http\Request;
 
 class OPDController extends Controller
 {
-    // Menampilkan semua OPD
     public function index()
     {
-        $opds = OPD::all(); // Mengambil semua data OPD
+        $opds = OPD::all(); 
         return inertia('Profil/OPD', ['opds' => $opds]);
     }
 
-    // Menampilkan halaman tambah OPD dan data yang ada
     public function lgo()
     {
-        $opds = OPD::all(); // Mengambil semua data OPD
+        $opds = OPD::all(); 
         return inertia('Admin/Profil/LGO', ['opds' => $opds]);
     }
 
-    // Menyimpan OPD baru
     public function store(Request $request)
     {
-        // Validasi input data
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
@@ -44,10 +40,8 @@ class OPDController extends Controller
         return redirect()->route('opd.lgo')->with('success', 'OPD berhasil ditambahkan!');
     }
 
-    // Mengupdate data OPD yang ada
     public function update(Request $request, $id)
     {
-        // Validasi input data
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
@@ -68,13 +62,10 @@ class OPDController extends Controller
         return redirect()->route('opd.lgo')->with('success', 'OPD berhasil diperbarui!');
     }
 
-    // Menghapus data OPD
     public function destroy($id)
     {
         $opd = OPD::findOrFail($id);
         $opd->delete();
-
-        // Redirect ke halaman daftar OPD setelah berhasil dihapus
         return redirect()->route('opd.lgo')->with('success', 'OPD berhasil dihapus!');
     }
 }

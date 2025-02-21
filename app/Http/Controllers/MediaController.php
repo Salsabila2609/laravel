@@ -23,14 +23,12 @@ class MediaController extends Controller
             'url' => 'nullable|url',
         ]);
 
-        // (3) Cek MIME Type agar tidak ada shell upload
         $mimeType = $request->file('image')->getMimeType();
         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (!in_array($mimeType, $allowedMimeTypes)) {
             return redirect()->back()->withErrors(['image' => 'Format file tidak didukung!']);
         }
 
-        // (4) Simpan dengan nama acak agar tidak bisa ditebak
         $filename = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
         $path = $request->file('image')->storeAs('uploads', $filename, 'public');
 
@@ -39,8 +37,6 @@ class MediaController extends Controller
             'image' => $path,
             'url' => $request->url,
         ]);
-
-        Log::info('Media uploaded', ['user_id' => auth()->id(), 'media_id' => $media->id]); // (6) Logging aktivitas user
 
         return redirect()->back()->with('success', 'Media berhasil diunggah!');
     }
@@ -56,7 +52,6 @@ class MediaController extends Controller
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($media->image);
             
-            // (3) Cek MIME Type lagi
             $mimeType = $request->file('image')->getMimeType();
             if (!in_array($mimeType, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
                 return redirect()->back()->withErrors(['image' => 'Format file tidak didukung!']);
@@ -71,8 +66,6 @@ class MediaController extends Controller
         $media->url = $request->url;
         $media->save();
 
-        Log::info('Media updated', ['user_id' => auth()->id(), 'media_id' => $media->id]); // (6) Logging update
-
         return redirect()->back()->with('success', 'Media berhasil diperbarui!');
     }
 
@@ -80,8 +73,6 @@ class MediaController extends Controller
     {
         Storage::disk('public')->delete($media->image);
         $media->delete();
-
-        Log::info('Media deleted', ['user_id' => auth()->id(), 'media_id' => $media->id]); // (6) Logging delete
 
         return redirect()->back()->with('success', 'Media berhasil dihapus!');
     }

@@ -23,9 +23,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update informasi profil pengguna dengan aman.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
@@ -47,9 +44,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'Profil berhasil diperbarui.');
     }
 
-    /**
-     * Hapus akun pengguna dengan aman.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([
