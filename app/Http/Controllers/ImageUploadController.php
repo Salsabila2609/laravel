@@ -8,19 +8,16 @@ class ImageUploadController extends Controller
 {
     public function upload(Request $request)
     {
-        // Validasi file
         $request->validate([
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Simpan file ke storage
         $file = $request->file('file');
-        $path = $file->store('images', 'public'); // Menyimpan di storage/app/public/images
+        $path = $file->store('images', 'public');
 
-        // Kembalikan URL file yang sudah disimpan
         return response()->json([
             'success' => true,
-            'url' => Storage::url($path), // URL file di storage publik
+            'url' => Storage::url($path),
         ]);
     }
 }

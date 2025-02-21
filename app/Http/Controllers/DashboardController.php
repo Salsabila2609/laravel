@@ -19,11 +19,7 @@ class DashboardController extends Controller
     public function index()
     {
         try {
-            // Mencatat akses ke halaman dashboard
-            Log::info('Dashboard accessed by user ID: ' . Auth::id());
-
-            // Mengambil data statistik dari berbagai model
-            $stats = [
+           $stats = [
                 [
                     'label' => 'Jumlah Berita', 
                     'value' => News::count(), 
@@ -71,7 +67,6 @@ class DashboardController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            // Log error jika terjadi masalah dalam mendapatkan data
             Log::error('Error accessing dashboard: ' . $e->getMessage());
             return back()->withErrors(['message' => 'There was an error loading the dashboard. Please try again later.']);
         }

@@ -29,8 +29,7 @@ class BeritaController extends Controller
     
             return $item;
         });
-    
-        // Hitung jumlah berita per kategori
+
         $categoriesWithCount = News::all()
             ->flatMap(function ($news) {
                 $kategori = json_decode($news->kategori, true);
@@ -45,7 +44,6 @@ class BeritaController extends Controller
             })
             ->values();
     
-        // Tambahkan jumlah total berita
         $totalNewsCount = News::count();
     
         return inertia('Berita/Berita', [
@@ -57,15 +55,8 @@ class BeritaController extends Controller
 
     public function showByCategory($kategori)
     {
-        // Decode kategori jika diperlukan
         $kategori = urldecode($kategori);
-    
-        // Debug: Log kategori yang diterima
-        \Log::info('Kategori yang diterima:', ['kategori' => $kategori]);
-    
-        // Ambil berita berdasarkan kategori
         $news = News::whereJsonContains('kategori', $kategori)->get()->map(function ($item) {
-            // Proses kategori jika diperlukan
             if (!is_array($item->kategori)) {
                 $decodedKategori = json_decode($item->kategori, true);
                 if (is_string($decodedKategori)) {
@@ -73,10 +64,7 @@ class BeritaController extends Controller
                 }
                 $item->kategori = $decodedKategori;
             }
-    
-            // Format tanggal
             $item->tanggal_terbit = $item->created_at->format('d M Y');
-            // Periksa dan decode gambar_lampiran jika ada
             $item->gambar_lampiran = is_string($item->gambar_lampiran)
                 ? json_decode($item->gambar_lampiran, true)
                 : $item->gambar_lampiran;
@@ -84,7 +72,6 @@ class BeritaController extends Controller
             return $item;
         });
     
-        // Hitung jumlah berita per kategori
         $categoriesWithCount = News::all()
             ->flatMap(function ($news) {
                 $kategori = json_decode($news->kategori, true);
@@ -99,7 +86,6 @@ class BeritaController extends Controller
             })
             ->values();
     
-        // Tambahkan jumlah total berita
         $totalNewsCount = News::count();
     
         return inertia('Berita/Berita', [
@@ -116,7 +102,6 @@ class BeritaController extends Controller
     
         $news->increment('views');
     
-        // Decode kategori berita utama
         $decodedKategori = json_decode($news->kategori, true);
         if (is_string($decodedKategori)) {
             $decodedKategori = json_decode($decodedKategori, true);
@@ -124,7 +109,6 @@ class BeritaController extends Controller
         $news->kategori = $decodedKategori;
         $news->tanggal_terbit = $news->created_at->format('d M Y');
     
-        // Decode gambar lampiran dan keterangan gambar lampiran
         if (is_string($news->gambar_lampiran)) {
             $news->gambar_lampiran = json_decode($news->gambar_lampiran, true);
         }
@@ -132,7 +116,6 @@ class BeritaController extends Controller
             $news->gambar_lampiran_keterangan = json_decode($news->gambar_lampiran_keterangan, true);
         }
     
-        // Ambil berita terkait berdasarkan kategori
         $relatedNews = News::where(function ($query) use ($decodedKategori) {
                 if (!empty($decodedKategori)) {
                     $query->where(function ($q) use ($decodedKategori) {
@@ -154,7 +137,6 @@ class BeritaController extends Controller
                 return $related;
             });
     
-        // Hitung jumlah berita per kategori
         $uniqueCategoriesWithCount = News::all()
             ->flatMap(function ($news) {
                 $kategori = json_decode($news->kategori, true);
@@ -169,7 +151,6 @@ class BeritaController extends Controller
             })
             ->values();
     
-        // Kirim data ke frontend
         return Inertia::render('Berita/DetailBerita', [
             'news' => $news,
             'related' => $relatedNews,

@@ -19,16 +19,13 @@ class PopupController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi gambar dan title
         $request->validate([
             'title' => 'required|string|max:255',
             'image_popup' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Simpan gambar ke storage
         $imagePath = $request->file('image_popup')->store('popups', 'public');
 
-        // Simpan data ke database
         $popup = Popup::create([
             'title' => $request->title,
             'image_popup' => $imagePath,
@@ -51,7 +48,6 @@ class PopupController extends Controller
     {
         $popup = Popup::findOrFail($id);
         
-        // Validasi input
         $request->validate([
             'title' => 'required|string|max:255',
             'image_popup' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -59,17 +55,12 @@ class PopupController extends Controller
     
         try {
             if ($request->hasFile('image_popup')) {
-                // Hapus gambar lama jika ada
                 if ($popup->image_popup && Storage::exists('public/' . $popup->image_popup)) {
                     Storage::delete('public/' . $popup->image_popup);
                 }
-                
-                // Simpan gambar baru
                 $imagePath = $request->file('image_popup')->store('popups', 'public');
                 $popup->image_popup = $imagePath;
             }
-            
-            // Update title
             $popup->title = $request->title;
             $popup->save();
             
@@ -84,8 +75,6 @@ class PopupController extends Controller
     public function destroy($id)
     {
         $popup = Popup::findOrFail($id);
-
-        // Hapus gambar dari storage
         Storage::delete('public/' . $popup->image_popup);
         $popup->delete();
 
